@@ -5,26 +5,33 @@ Go into anyfolder open a cmd/shell/git bash (I recommend using git bash)
 git clone https://github.com/FakeandrewA/StoryBookGenerator.git
 ```
 ```bash
-cd StoryBookGenerator```
+cd StoryBookGenerator
+```
 
 ## Creating Your feature branch to write your features
 first pull any latest changes(standard procedure to makesure you have the proper baseline)
 ```bash
-git checkout main```
+git checkout main
+```
 ```bash
-git pull origin main```
+git pull origin main
+```
 then, to create your feature branch
 ```bash
-git checkout -b feature/some-task-name```(follow this naming convention)
+git checkout -b feature/some-task-name
+```(follow this naming convention)
 now your are working on our branch any changes made will be saved to this branch
 this will make sure that our main branch is safe
 after some changes or even without changes
 ```bash
-git add --all```
+git add --all
+```
 ```bash
-git commit -m "your message"```
+git commit -m "your message"
+```
 ```bash
-git push origin feature/some-task-name```#(note: this should be your branch name)
+git push origin feature/some-task-name
+```#(note: this should be your branch name)
 now you can see your feature branch in the main repo
 
 ## Opening a pull Request
