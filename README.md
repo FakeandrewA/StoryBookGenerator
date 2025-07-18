@@ -1,21 +1,29 @@
 # To Get Started
 ## Clone the repo
 Go into anyfolder open a cmd/shell/git bash (I recommend using git bash)
-> git clone https://github.com/FakeandrewA/StoryBookGenerator.git
-> cd StoryBookGenerator
+```bash
+git clone https://github.com/FakeandrewA/StoryBookGenerator.git```
+```bash
+cd StoryBookGenerator```
 
 ## Creating Your feature branch to write your features
 first pull any latest changes(standard procedure to makesure you have the proper baseline)
-> git checkout main
-> git pull origin main
+```bash
+git checkout main```
+```bash
+git pull origin main```
 then, to create your feature branch
-> git checkout -b feature/some-task-name(follow this naming convention)
+```bash
+git checkout -b feature/some-task-name```(follow this naming convention)
 now your are working on our branch any changes made will be saved to this branch
 this will make sure that our main branch is safe
 after some changes or even without changes
-> git add --all
-> git commit -m "your message"
-> git push origin feature/some-task-name #(note: this should be your branch name)
+```bash
+git add --all```
+```bash
+git commit -m "your message"```
+```bash
+git push origin feature/some-task-name```#(note: this should be your branch name)
 now you can see your feature branch in the main repo
 
 ## Opening a pull Request
