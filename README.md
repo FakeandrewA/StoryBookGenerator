@@ -2,7 +2,8 @@
 ## Clone the repo
 Go into anyfolder open a cmd/shell/git bash (I recommend using git bash)
 ```bash
-git clone https://github.com/FakeandrewA/StoryBookGenerator.git```
+git clone https://github.com/FakeandrewA/StoryBookGenerator.git
+```
 ```bash
 cd StoryBookGenerator```
 
