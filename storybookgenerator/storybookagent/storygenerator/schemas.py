@@ -3,28 +3,24 @@ from typing import List
 
 ##models
 class GradeUserPrompt(BaseModel):
-    """You are an intelligent AI, Our company is a story generator so we take in the user's prompt and generate a story ,therefore 
-    you will see if a user's prompt is about generating a story or is it irrelevant about story generation, if yes the user's prompt is about story generation return yes else return no"""
+    """A Grade Parser Tool used for parsing the result."""
 
     isStory:str = Field(description="Is user's prompt about story generation, yes or no")
 
 class Story(BaseModel):
-    """You are an creative AI, Our company is a story generator so we take in the user's prompt and generate a story, therefore for a user's provided story description,
-    elaborate upon the prompt and create a story with 350-500 words maximum also generate the story's characters with detailed description from head to toe , then generate the story
-    also make sure to give the story a title.
-    """
+    """A Story Parser Tool used for parsing the story's title , the characters, the story, the style, the oneline and 
+    the number of scenes to change the story into picturebook"""
 
     title:str = Field(description="A Great and catchy Title for the story")
     characterDescription:str = Field(description="A detailed description of characters from the story you are about to create.")
-    story:str = Field(description="A story of 350-500 words with the characters you created.")
+    story:str = Field(description="A story of 500-1000 words with the characters you created.")
+    style:str = Field(description="The Whole Style of the story's setting")
+    oneline:str = Field(description="The one line of the story")
+    num_of_scenes:int = Field(description="The Number of scenes required to make this story as a picture book")
+    
 
 class Scenes(BaseModel):
-    """You are an AI director, You take a story and create a narrative, You excel at splitting a given story into 5 different Scene and respective VoiceOver narrative for the 5 scences
-    Make Sure:
-        - The Scenes that you create are well written because that text will be given to a image generating model to generate the scene as image. also make sure you dont over prompt as well because the model will find it hard to follow
-        - also generate the voiceovers that is relevant to the scene
-        - there are cost constrains so you are to only generate 5 scenes and 5 respective voiceovers 
-    """
+    """A Scenes and Voiceovers Parser Tool used for parsing the scenes and voiceovers as list of strings."""
 
-    scenes:List[str] = Field(description="Scene 1 - 5 of the story with atmost detail for the image generator, DO NOT MESS UP the order")
-    voiceovers:List[str] = Field(description="Narrative of the 1 - 5 scenes, DO NOT MESS UP the Order")
+    scenes:List[str] = Field(description="Scenes of the story with atmost detail for the image generator, DO NOT MESS UP the order")
+    voiceovers:List[str] = Field(description="Narratives of the scenes, DO NOT MESS UP the Order")
