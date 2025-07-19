@@ -4,7 +4,6 @@ from PIL import Image
 import os
 load_dotenv()
 
-
 client = Client("black-forest-labs/FLUX.1-Schnell",hf_token=os.getenv("HF_TOKEN"))
 
 def generateImage(prompt:str,filepath:str,filename:str,inference_steps:int=10):
