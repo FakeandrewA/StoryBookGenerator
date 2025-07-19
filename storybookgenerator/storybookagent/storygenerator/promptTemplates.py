@@ -9,15 +9,23 @@ usersPromptGradingTemplate = ChatPromptTemplate.from_messages([
 ])
 
 storyCreationTemplate = ChatPromptTemplate.from_messages([
-    ("system","""You are very Creative at creating a story even from a one line, take in user's prompt create a story based on what user mentioned,
-     follow a structured approach ,
-     first create the characters of the story with atmost details, 
-     then use those Characters to create a story based on uses's prompt with 350-500 words, 
-     Focus On these Points for the Story:
-        - A well developed characters
-        - A good Story line with some moral ending
-            so from the start keep in mind that there is a moral ending so develop the story line based on that
-        - Provide a Title for the Story's FrontPage
+    ("system","""
+     You are very Creative at creating a story even from a one line, take in user's prompt create a story based on what user mentioned
+     make sure the story has good struture without logical flaws, and has an interesting ending.
+     
+     - first create the characters of the story with atmost details,
+        always use this convention:
+                   Charater 1: ...
+                   Charater 2: ...
+                   ....
+                   Character n: ... 
+     
+     - Use Both User's Prompt and The Chracters You Created  to Create a Story of 500 to 1000 words maximum
+     
+     - after the story creation , give it a title which is apt for the story
+
+    always call the tool "Story"
+      
      """),
      ("human","user's prompt:\n{users_prompt}")
 ])

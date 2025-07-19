@@ -1,5 +1,5 @@
 from pydantic import BaseModel , Field
-
+from typing import List
 
 ##models
 class GradeUserPrompt(BaseModel):
@@ -23,19 +23,8 @@ class Scenes(BaseModel):
     Make Sure:
         - The Scenes that you create are well written because that text will be given to a image generating model to generate the scene as image. also make sure you dont over prompt as well because the model will find it hard to follow
         - also generate the voiceovers that is relevant to the scene
-        - there are cost constrains so you are to only generate 5 scenes and 5 respective voiceovers
+        - there are cost constrains so you are to only generate 5 scenes and 5 respective voiceovers 
     """
-    scene1:str = Field(description="Scene 1 of the story with atmost detail for image generator")
-    voiceover1:str = Field(description="Narrative for the Scene 1")
 
-    scene2:str = Field(description="Scene 2 of the story with atmost detail for image generator")
-    voiceover2:str = Field(description="Narrative for the Scene 2")
-
-    scene3:str = Field(description="Scene 3 of the story with atmost detail for image generator")
-    voiceover3:str = Field(description="Narrative for the Scene 3")
-
-    scene4:str = Field(description="Scene 4 of the story with atmost detail for image generator")
-    voiceover4:str = Field(description="Narrative for the Scene 4")
-
-    scene5:str = Field(description="Scene 5 of the story with atmost detail for image generator")
-    voiceover5:str = Field(description="Narrative for the Scene 5")
+    scenes:List[str] = Field(description="Scene 1 - 5 of the story with atmost detail for the image generator, DO NOT MESS UP the order")
+    voiceovers:List[str] = Field(description="Narrative of the 1 - 5 scenes, DO NOT MESS UP the Order")
