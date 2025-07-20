@@ -46,3 +46,43 @@ git push origin feature/some-task-name
 > we will pull and merge the code to test-main branch then do a integration test
   then do a final pull request to main branch , successfuly versioning our project to its next level
 
+
+# DO THIS
+> go to api.together.xyz and create a api key and copy paste it in the .env.example
+> then go to groq.com and create a api key and copy paste it in the .env.example
+> rename the .env.example -> .env
+> then activate the venv
+```bash
+source venv/Scripts/activate
+```
+```bash
+pip install -r requirements.txt
+```
+
+# How To Use This bookGenerator
+
+```python
+from .storybookagent.graph import bookGenerator
+book = bookGenerator.invoke({"userPrompt":"<prompt>","userId":request.user.id})
+```
+
+## returns:
+## a dictionary with these attributes
+##
+## book["userPrompt"] -> str
+## book["story"] -> Story object
+##                          \___>> book["story"].title -> str
+##                           \___>> book["story"].characterDescription -> str
+##                            \___>> book["story"].story -> str
+##                             \___>> book["story"].oneline -> str
+##                              \___>> book["story"].style -> str
+##                               \___>> book["story"].numOfScenes -> int
+## book["scenes"] -> Scenes object
+##                            \___>> book["scenes"].scenes -> list[str]
+##                             \___>> book["scenes"].voiceovers -> list[str]
+##
+## book["grade"] -> str
+## book["userId"] -> int 
+
+
+##### for more details go to storybookagent/schemas.py to read more , also checkout storybookagent
