@@ -17,7 +17,7 @@ class BookState(TypedDict):
     story: NotRequired[Story]
     scenes: NotRequired[Scenes]
     grade: NotRequired[str]
-    userId : NotRequired[int]
+    userId : int
 
 
 ## Nodes
