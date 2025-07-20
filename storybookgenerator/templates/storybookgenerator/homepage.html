@@ -66,31 +66,17 @@
 
         .logo-header {
             display: flex;
-            justify-content: space-between;
+            justify-content: flex-end;
             align-items: center;
             margin-bottom: 2rem;
             padding: 0 0.5rem;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            font-size: 1.75rem;
-            font-weight: 700;
-            opacity: 1;
-            transition: opacity 0.3s ease-in-out;
-        }
-        
-        .logo i {
-            color: var(--accent-purple);
         }
 
         .menu-toggle {
             cursor: pointer;
             color: var(--text-muted);
             font-size: 1.2rem;
-            transition: color 0.3s ease, transform 0.3s ease-in-out;
+            transition: color 0.3s ease;
         }
 
         .menu-toggle:hover {
@@ -163,10 +149,6 @@
             width: 90px;
         }
 
-        .left-sidebar.collapsed .menu-toggle {
-            transform: rotate(180deg);
-        }
-
         .left-sidebar.collapsed .sidebar-item span,
         .left-sidebar.collapsed .chat-history {
             display: none;
@@ -199,8 +181,15 @@
         }
 
         .page-title {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
             font-size: 1.5rem;
             font-weight: 600;
+        }
+
+        .page-title i {
+            color: var(--accent-purple);
         }
 
         .theme-switcher {
@@ -447,11 +436,8 @@
         <aside class="left-sidebar" id="leftSidebar">
             <div class="sidebar-top">
                 <div class="logo-header">
-                    <div class="logo">
-                        <i class="fa-solid fa-brain"></i>
-                    </div>
                     <div class="menu-toggle" id="menuToggle">
-                        <i class="fa-solid fa-chevron-left"></i>
+                        <i class="fa-solid fa-bars"></i>
                     </div>
                 </div>
                 <a href="#" class="sidebar-item active">
@@ -483,7 +469,10 @@
 
         <div class="main-content-wrapper">
             <header class="top-bar">
-                <h1 class="page-title">StoryGen</h1>
+                <div class="page-title">
+                    <i class="fa-solid fa-brain"></i>
+                    <span>StoryGen</span>
+                </div>
                 <div class="theme-switcher">
                     <i class="fa-solid fa-sun"></i>
                 </div>
