@@ -10,7 +10,7 @@ usersPromptGradingTemplate = ChatPromptTemplate.from_messages([
     always call the tool "GradeUserPrompt" to parse your results into attributes
 
      """),
-    ("human","user's prompt:\n{users_prompt}")
+    ("human","user's prompt:\n{userPrompt}")
 ])
 
 storyCreationTemplate = ChatPromptTemplate.from_messages([
@@ -27,7 +27,7 @@ storyCreationTemplate = ChatPromptTemplate.from_messages([
                    ....
                    Character n: ... 
      
-     - Use Both User's Prompt and The Chracters You Created to Create a Story of 1000 words minimum
+     - Use Both User's Prompt and The Chracters You Created to Create a Story of 500 words minimum
      
      - after the story creation , give it a title which is apt for the story
 
@@ -37,11 +37,12 @@ storyCreationTemplate = ChatPromptTemplate.from_messages([
      - also to help our image generators to create a title with a cover image , write a one line of the whole story
      
      - also to help our picture book scene creator , give us a estimate of num of scenes required to create your story into a picture book
+       the scene numbers cannot exceed 15 make sure that
 
     always call the tool "Story" to parse your story and other details into attributes
       
      """),
-     ("human","user's prompt:\n{users_prompt}")
+     ("human","user's prompt:\n{userPrompt}")
 ])
 
 scenesCreationTemplate = ChatPromptTemplate.from_messages([
@@ -62,5 +63,5 @@ scenesCreationTemplate = ChatPromptTemplate.from_messages([
      Always use the tool "Scenes" to parse your scenes and voiceovers into attributes
 
      """),
-     ("human","\n\nTitle:\n{title}\nCharacters:\n{character_description}\nStory:\n{story}")
+     ("human","\n\nTitle:\n{title}\nCharacters:\n{characterDescription}\nStory:\n{story}")
 ])

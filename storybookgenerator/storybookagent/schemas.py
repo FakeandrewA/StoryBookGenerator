@@ -13,10 +13,10 @@ class Story(BaseModel):
 
     title:str = Field(description="A Great and catchy Title for the story")
     characterDescription:str = Field(description="A detailed description of characters from the story you are about to create.")
-    story:str = Field(description="A story of 500-1000 words with the characters you created.")
+    story:str = Field(description="A story of 500 words with the characters you created.")
     style:str = Field(description="The Whole Style of the story's setting")
     oneline:str = Field(description="The one line of the story")
-    num_of_scenes:int = Field(description="The Number of scenes required to make this story as a picture book")
+    numOfScenes:int = Field(description="The Number of scenes required to make this story as a picture book")
     
 
 class Scenes(BaseModel):

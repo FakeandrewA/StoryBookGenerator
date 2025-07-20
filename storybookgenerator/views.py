@@ -1,40 +1,40 @@
-import re
 from django.shortcuts import render
-import os 
-from django.conf import settings
+from .storybookagent.graph import bookGenerator
 
-def natural_sort_key(filename):
-    # Extract numeric parts for natural sorting (e.g., scene2 before scene10)
-    return [int(text) if text.isdigit() else text.lower() for text in re.split('(\d+)', filename)]
+## DO THIS
+# go to api.together.xyz and create a api key and copy paste it in the .env.example
+# then go to groq.com and create a api key and copy paste it in the .env.example
+# rename the .env.example -> .env
+# then activate the venv
+# source venv/Scripts/activate
+# then
+# pip install -r requirements.txt
+#
+#now everything should work
 
+## How To Use This bookGenerator
+##
+## book = bookGenerator.invoke({"userPrompt":"<prompt>","userId":request.user.id})
+##
+## returns:
+## a dictionary with these attributes
+## book["userPrompt"] -> str
+## book["story"] -> Story object
+##                          \___>> book["story"].title -> str
+##                           \___>> book["story"].characterDescription -> str
+##                            \___>> book["story"].story -> str
+##                             \___>> book["story"].oneline -> str
+##                              \___>> book["story"].style -> str
+##                               \___>> book["story"].numOfScenes -> int
+## book["scenes"] -> Scenes object
+##                            \___>> book["scenes"].scenes -> list[str]
+##                             \___>> book["scenes"].voiceovers -> list[str]
+##
+## for more details go to storybookagent/schemas.py to read more , also checkout storybookagent
 
 # Create your views here.
 def homepage(request):
     return render(request,"storybookgenerator/homepage.html")
 
 def book_view(request):
-    print("BASE_DIR:", settings.BASE_DIR)
-
-    user_id = "1"
-    static_user_dir = os.path.join(settings.BASE_DIR, "storybookgenerator","static", "storybookgenerator", user_id)
-    scenes = []
-
-    # Get all image files
-    all_files = [f for f in os.listdir(static_user_dir) if f.lower().endswith(('.png', '.jpg', '.jpeg', '.webp'))]
-
-    # Put 'title.png' first if present
-    if 'title.png' in all_files:
-        all_files.remove('title.png')
-        ordered_files = ['title.png'] + sorted(all_files, key=natural_sort_key)
-    else:
-        ordered_files = sorted(all_files, key=natural_sort_key)
-
-    # Build the scenes list
-    for image in ordered_files:
-        image_path = os.path.join("storybookgenerator", user_id, image).replace("\\", "/")
-        scenes.append({
-            "img": image_path,
-            "text": f"Text for the {image}"
-        })
-
-    return render(request, "storybookgenerator/book_view.html",{"scenes":scenes})
+    return render(request, "storybookgenerator/book_view.html")
