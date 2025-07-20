@@ -36,7 +36,6 @@ def generateImage(prompt: str, filepath: str, filename: str, inference_steps: in
         steps=inference_steps,
         width=1024,
         height=768,
-        seed = 123456,
         response_format="url",
     )
 

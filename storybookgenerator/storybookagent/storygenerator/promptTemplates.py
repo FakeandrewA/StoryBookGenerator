@@ -19,6 +19,8 @@ storyCreationTemplate = ChatPromptTemplate.from_messages([
      make sure the story has good struture without logical flaws, and has an interesting ending.
      
      - first create the characters of the story with atmost details,
+        The Faces of the Characters are the most important thing, so explain their facial structure to the point were it seems like a obsession
+        Then other parts of theSir body , explain these like a tailor who takes measurement it need to be obsessively perfect, dont mention any wearables like clothes because they can be changed
         always use this convention:
                    Charater 1: ...
                    Charater 2: ...
@@ -46,8 +48,8 @@ scenesCreationTemplate = ChatPromptTemplate.from_messages([
     ("system","""
      You are an excellent AI director, Who splits a given story into {n} well written scenes and 
      respective {n} voiceovers for the scenes, Make sure to create the scenes with well format and structure 
-     because it will be given to a image generating model to generate the image for the scene also make 
-     sure to not over prompt as it will make the model confused
+     because it will be given to a image generating model to generate the image for the scene so describe the scene almost like you are describing the scene pixel by pixel , use upto 200 word to describe
+    
      
      Always Create Scenes and Voiceovers with prefix:
      scene n : ....
