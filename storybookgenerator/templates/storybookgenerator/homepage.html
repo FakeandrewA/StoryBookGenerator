@@ -60,19 +60,41 @@
             flex-direction: column;
             justify-content: space-between;
             border-right: 1px solid var(--glass-border);
+            transition: width 0.3s ease-in-out;
+            flex-shrink: 0;
         }
 
-        .sidebar-top .logo {
+        .logo-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding: 0 0.5rem;
+        }
+
+        .logo {
             display: flex;
             align-items: center;
             gap: 0.75rem;
             font-size: 1.75rem;
             font-weight: 700;
-            margin-bottom: 2rem;
+            opacity: 1;
+            transition: opacity 0.3s ease-in-out;
         }
-
+        
         .logo i {
             color: var(--accent-purple);
+        }
+
+        .menu-toggle {
+            cursor: pointer;
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            transition: color 0.3s ease, transform 0.3s ease-in-out;
+        }
+
+        .menu-toggle:hover {
+            color: var(--text-color);
         }
 
         .sidebar-item {
@@ -86,10 +108,12 @@
             font-weight: 500;
             margin-bottom: 0.5rem;
             transition: all 0.3s ease;
+            white-space: nowrap;
         }
 
         .sidebar-item i {
             font-size: 1.2rem;
+            flex-shrink: 0;
         }
 
         .sidebar-item:hover, .sidebar-item.active {
@@ -99,6 +123,8 @@
         
         .chat-history {
             margin-top: 1.5rem;
+            overflow: hidden;
+            transition: opacity 0.3s ease-in-out;
         }
         
         .chat-history h3 {
@@ -108,6 +134,7 @@
             letter-spacing: 1px;
             padding: 0 1rem;
             margin-bottom: 0.5rem;
+            white-space: nowrap;
         }
 
         .history-item {
@@ -129,6 +156,28 @@
 
         .sidebar-bottom .sidebar-item {
             margin-bottom: 0.25rem;
+        }
+
+        /* Collapsed State */
+        .left-sidebar.collapsed {
+            width: 90px;
+        }
+
+        .left-sidebar.collapsed .menu-toggle {
+            transform: rotate(180deg);
+        }
+
+        .left-sidebar.collapsed .sidebar-item span,
+        .left-sidebar.collapsed .chat-history {
+            display: none;
+        }
+
+        .left-sidebar.collapsed .sidebar-item {
+            justify-content: center;
+        }
+
+        .left-sidebar.collapsed .logo-header {
+            justify-content: center;
         }
 
         /* Main Content Wrapper */
@@ -395,19 +444,24 @@
 <body>
 
     <div class="app-container">
-        <aside class="left-sidebar">
+        <aside class="left-sidebar" id="leftSidebar">
             <div class="sidebar-top">
-                <div class="logo">
-                    <i class="fa-solid fa-brain"></i>
+                <div class="logo-header">
+                    <div class="logo">
+                        <i class="fa-solid fa-brain"></i>
+                    </div>
+                    <div class="menu-toggle" id="menuToggle">
+                        <i class="fa-solid fa-chevron-left"></i>
+                    </div>
                 </div>
                 <a href="#" class="sidebar-item active">
                     <i class="fa-solid fa-pen-to-square"></i>
                     <span>New Story</span>
                 </a>
-                <div class="sidebar-item">
+                <a href="#" class="sidebar-item">
                     <i class="fa-solid fa-search"></i>
                     <span>Search</span>
-                </div>
+                </a>
                 <div class="chat-history">
                     <h3>History</h3>
                     <a href="#" class="history-item">The Fox and The Forest</a>
@@ -497,6 +551,8 @@
             const generateBtn = document.getElementById('generateStoryBtn');
             const scenePreviewPanel = document.getElementById('scenePreviewPanel');
             const sceneCarousel = document.getElementById('sceneCarousel');
+            const menuToggle = document.getElementById('menuToggle');
+            const leftSidebar = document.getElementById('leftSidebar');
 
             // Dummy data for scenes
             const scenes = [
@@ -525,6 +581,10 @@
                     sceneCard.innerHTML = `<div class="play-overlay"><i class="fa-solid fa-play"></i></div>`;
                     sceneCarousel.appendChild(sceneCard);
                 });
+            });
+
+            menuToggle.addEventListener('click', function() {
+                leftSidebar.classList.toggle('collapsed');
             });
         });
     </script>
