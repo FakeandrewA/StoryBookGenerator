@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&family=Caveat:wght@700&family=Kalam:wght@400&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
@@ -28,6 +29,17 @@
             --font-family: 'Poppins', sans-serif;
             --border-radius-md: 12px;
             --border-radius-lg: 16px;
+
+            /* Book specific vars */
+            --pageW: 420px;
+            --pageH: 600px;
+            --duration: 1.2s;
+            --book-page-bg: #eee8d5;
+            --book-border-color: #ddd;
+            --book-shadow-color: rgba(0, 0, 0, 0.15);
+            --book-warm-accent-1: #cb4b16;
+            --book-warm-accent-2: #b58900;
+            --book-primary-color: #073642;
         }
 
         * {
@@ -43,6 +55,7 @@
             display: flex;
             height: 100vh;
             overflow: hidden;
+            perspective: 2500px;
         }
 
         .app-container {
@@ -62,6 +75,7 @@
             border-right: 1px solid var(--glass-border);
             transition: width 0.3s ease-in-out;
             flex-shrink: 0;
+            z-index: 10;
         }
 
         .logo-header {
@@ -144,30 +158,18 @@
             margin-bottom: 0.25rem;
         }
 
-        /* Collapsed State */
-        .left-sidebar.collapsed {
-            width: 90px;
-        }
-
+        .left-sidebar.collapsed { width: 90px; }
         .left-sidebar.collapsed .sidebar-item span,
-        .left-sidebar.collapsed .chat-history {
-            display: none;
-        }
+        .left-sidebar.collapsed .chat-history { display: none; }
+        .left-sidebar.collapsed .sidebar-item { justify-content: center; }
+        .left-sidebar.collapsed .logo-header { justify-content: center; }
 
-        .left-sidebar.collapsed .sidebar-item {
-            justify-content: center;
-        }
-
-        .left-sidebar.collapsed .logo-header {
-            justify-content: center;
-        }
-
-        /* Main Content Wrapper */
         .main-content-wrapper {
             flex-grow: 1;
             display: flex;
             flex-direction: column;
             overflow: hidden;
+            position: relative;
         }
 
         .top-bar {
@@ -178,6 +180,7 @@
             border-bottom: 1px solid var(--glass-border);
             background: var(--glass-bg);
             backdrop-filter: blur(10px);
+            z-index: 5;
         }
 
         .page-title {
@@ -187,10 +190,7 @@
             font-size: 1.5rem;
             font-weight: 600;
         }
-
-        .page-title i {
-            color: var(--accent-purple);
-        }
+        .page-title i { color: var(--accent-purple); }
 
         .theme-switcher {
             font-size: 1.5rem;
@@ -198,10 +198,7 @@
             color: var(--text-muted);
             transition: color 0.3s ease;
         }
-        
-        .theme-switcher:hover {
-            color: var(--accent-blue);
-        }
+        .theme-switcher:hover { color: var(--accent-blue); }
 
         .main-content {
             flex-grow: 1;
@@ -228,10 +225,7 @@
             gap: 1rem;
         }
 
-        .prompt-card h1 {
-            font-size: 1.5rem;
-            font-weight: 600;
-        }
+        .prompt-card h1 { font-size: 1.5rem; font-weight: 600; }
 
         .prompt-input {
             width: 100%;
@@ -245,7 +239,6 @@
             font-size: 1rem;
             resize: none;
         }
-
         .prompt-input::placeholder { color: var(--text-muted); }
 
         .generate-btn {
@@ -263,7 +256,6 @@
             align-items: center;
             gap: 0.5rem;
         }
-
         .generate-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 5px 20px rgba(138, 66, 255, 0.4);
@@ -275,54 +267,7 @@
             gap: 1rem;
             flex-grow: 1;
         }
-        
-        .scene-preview-panel h3 {
-            font-size: 1.2rem;
-            font-weight: 600;
-        }
-
-        .scene-carousel {
-            display: flex;
-            gap: 1rem;
-            overflow-x: auto;
-            padding-bottom: 1rem;
-        }
-        
-        .scene-carousel::-webkit-scrollbar { height: 8px; }
-        .scene-carousel::-webkit-scrollbar-thumb { background: var(--accent-purple); border-radius: 4px; }
-        .scene-carousel::-webkit-scrollbar-track { background: var(--secondary-card-bg); }
-
-        .scene-card {
-            min-width: 220px;
-            aspect-ratio: 16 / 10;
-            background-size: cover;
-            background-position: center;
-            border-radius: var(--border-radius-md);
-            border: 2px solid transparent;
-            position: relative;
-            overflow: hidden;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .scene-card:hover {
-            border-color: var(--accent-blue);
-            transform: translateY(-5px);
-        }
-        
-        .scene-card .play-overlay {
-            position: absolute;
-            inset: 0;
-            background-color: rgba(0, 0, 0, 0.4);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 2.5rem;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .scene-card:hover .play-overlay { opacity: 1; }
+        .scene-preview-panel h3 { font-size: 1.2rem; font-weight: 600; }
 
         .enhancements-panel {
             width: 300px;
@@ -336,22 +281,9 @@
             gap: 1.5rem;
             align-self: flex-start;
         }
-
-        .enhancement-group {
-            display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
-        }
-        
-        .enhancement-group label {
-            font-weight: 500;
-            color: var(--text-muted);
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .custom-select, .toggle-switch, .sidebar-btn {
+        .enhancement-group { display: flex; flex-direction: column; gap: 0.75rem; }
+        .enhancement-group label { font-weight: 500; color: var(--text-muted); display: flex; align-items: center; gap: 0.5rem; }
+        .custom-select, .sidebar-btn {
             background-color: var(--bg-color);
             border: 1px solid var(--glass-border);
             border-radius: var(--border-radius-md);
@@ -359,74 +291,150 @@
             color: var(--text-color);
             width: 100%;
         }
+        .sidebar-btn { background-color: var(--secondary-card-bg); cursor: pointer; text-align: center; font-weight: 500; transition: all 0.2s ease; }
+        .sidebar-btn:hover { background-color: var(--accent-purple); color: white; }
         
-        .custom-select {
-            appearance: none;
-            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%238c899b' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
-            background-repeat: no-repeat;
-            background-position: right 1rem center;
-            background-size: 1em;
-        }
-        
-        .toggle-container {
+        /* Book Overlay */
+        #book-view-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0,0,0,0.7);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s, visibility 0.5s;
+        }
+        #book-view-overlay.visible {
+            opacity: 1;
+            visibility: visible;
         }
 
-        .toggle-switch {
+        /* --- Book Styles from old design --- */
+        .book-container {
             position: relative;
-            display: inline-block;
-            width: 50px;
-            height: 28px;
-            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 1s ease-in-out;
+            transform: scale(0.8);
+        }
+        #book-view-overlay.visible .book-container {
+            transform: scale(1);
+        }
+        .book-container.opened { transform: scale(1) translateX(calc(var(--pageW) / 4)); }
+
+        .book {
+            width: var(--pageW);
+            height: var(--pageH);
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            transform: rotateX(15deg) rotateY(-10deg);
+            margin: 0 80px;
+        }
+        .book:hover { transform: rotateX(10deg) rotateY(-5deg) scale(1.02); }
+
+        .binder {
+            position: absolute; width: 40px; height: 100%; top: 0; left: -20px;
+            z-index: 1000; transform-style: preserve-3d; transform: rotateY(-45deg);
+        }
+        .ring {
+            position: absolute; width: 40px; height: 40px; border-radius: 50%;
+            border: 5px solid var(--book-warm-accent-2);
+            background: linear-gradient(145deg, #fdf6e3, #eee8d5);
+            box-shadow: inset 3px -3px 5px rgba(0,0,0,0.2), 3px 3px 8px rgba(0,0,0,0.2);
+            left: 0;
+        }
+        .ring:nth-child(1) { top: 30px; } .ring:nth-child(2) { top: 100px; }
+        .ring:nth-child(3) { top: 170px; } .ring:nth-child(4) { top: 240px; }
+        .ring:nth-child(5) { top: 310px; } .ring:nth-child(6) { top: 380px; }
+        .ring:nth-child(7) { top: 450px; } .ring:nth-child(8) { top: 520px; }
+
+        .sheet {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            transform-origin: left center; transform-style: preserve-3d;
+            transition: transform var(--duration) ease-in-out;
+        }
+        .sheet.flipped { transform: rotateY(-180deg); }
+
+        .page, .cover-face, .back-cover {
+            position: absolute; width: 100%; height: 100%;
+            border-radius: 12px; box-shadow: 0 10px 30px var(--book-shadow-color);
+            overflow: hidden; backface-visibility: hidden;
+            border: 1px solid var(--book-border-color);
+        }
+        .page.back { transform: rotateY(180deg); }
+
+        .cover-face, .back-cover {
+            background: linear-gradient(145deg, #faf6e8, #f4ead8);
+            color: var(--book-primary-color);
+        }
+        .cover-face {
+            display: flex; flex-direction: column; align-items: center;
+            justify-content: center; text-align: center; padding: 20px;
+        }
+        .back-cover { transform: translateZ(-2px); }
+        .cover-face h1 {
+            font-family: 'Kalam', cursive; font-size: 3.5rem;
+            text-shadow: 0 0 5px var(--book-warm-accent-1); margin-bottom: 30px;
+        }
+        .cover-face img {
+            width: 180px; height: 180px; border-radius: 50%;
+            border: 4px solid var(--book-warm-accent-2);
+            box-shadow: 0 0 25px rgba(181, 137, 0, 0.3); object-fit: cover;
+        }
+        .cover-face small {
+            margin-top: 30px; font-style: italic; font-size: 0.9rem;
+            opacity: 0.7; letter-spacing: 1px;
         }
 
-        .toggle-switch input { opacity: 0; width: 0; height: 0; }
-        
-        .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background-color: var(--bg-color);
-            border: 1px solid var(--glass-border);
-            transition: .4s;
-            border-radius: 28px;
+        .page {
+            padding: 30px; display: flex; flex-direction: column;
+            align-items: center; background: var(--book-page-bg);
+            color: var(--book-primary-color);
         }
-        
-        .slider:before {
-            position: absolute;
-            content: "";
-            height: 20px; width: 20px;
-            left: 3px; bottom: 3px;
-            background-color: var(--text-muted);
-            transition: .4s;
-            border-radius: 50%;
+        .page img {
+            width: 100%; height: 250px; object-fit: cover;
+            border-radius: 8px; margin-bottom: 20px;
+            border: 1px solid var(--book-border-color);
+        }
+        .page p {
+            flex: 1; font-size: 1.1rem; line-height: 1.7;
+            overflow-y: auto; text-align: justify;
+            padding-right: 10px; width: 100%;
+        }
+        .page-num {
+            position: absolute; bottom: 15px; right: 20px;
+            font-size: 0.9rem; color: #93a1a1;
         }
 
-        input:checked + .slider { background: var(--accent-gradient); }
-        input:checked + .slider:before { transform: translateX(22px); background-color: white; }
+        .nav-btn {
+            position: absolute; top: 50%; transform: translateY(-50%);
+            background: rgba(255,255,255,0.2); color: var(--book-warm-accent-1);
+            border: 2px solid var(--book-warm-accent-2); width: 50px; height: 50px;
+            border-radius: 50%; font-size: 30px; cursor: pointer; z-index: 20;
+            transition: all 0.3s ease; text-shadow: 0 0 10px var(--book-warm-accent-1);
+            box-shadow: 0 3px 10px var(--book-shadow-color);
+        }
+        .nav-btn:hover {
+            background: var(--book-warm-accent-2); color: #fff;
+            box-shadow: 0 0 25px var(--book-warm-accent-2);
+            transform: translateY(-50%) scale(1.1);
+        }
+        #prev-page-btn { left: 0; }
+        #next-page-btn { right: 0; }
 
-        .sidebar-btn {
-            background-color: var(--secondary-card-bg);
-            cursor: pointer;
-            text-align: center;
-            font-weight: 500;
-            transition: all 0.2s ease;
-        }
-        
-        .sidebar-btn:hover {
-            background-color: var(--accent-purple);
-            color: white;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .fade-in {
-            animation: fadeIn 0.5s ease-in-out forwards;
+        #close-book-btn {
+            position: absolute; top: 3rem; right: 3rem;
+            font-size: 2rem; color: white; cursor: pointer;
+            z-index: 1001;
         }
     </style>
 </head>
@@ -436,46 +444,26 @@
         <aside class="left-sidebar" id="leftSidebar">
             <div class="sidebar-top">
                 <div class="logo-header">
-                    <div class="menu-toggle" id="menuToggle">
-                        <i class="fa-solid fa-bars"></i>
-                    </div>
+                    <div class="menu-toggle" id="menuToggle"><i class="fa-solid fa-bars"></i></div>
                 </div>
-                <a href="#" class="sidebar-item active">
-                    <i class="fa-solid fa-pen-to-square"></i>
-                    <span>New Story</span>
-                </a>
-                <a href="#" class="sidebar-item">
-                    <i class="fa-solid fa-search"></i>
-                    <span>Search</span>
-                </a>
+                <a href="#" class="sidebar-item active"><i class="fa-solid fa-pen-to-square"></i><span>New Story</span></a>
+                <a href="#" class="sidebar-item"><i class="fa-solid fa-search"></i><span>Search</span></a>
                 <div class="chat-history">
                     <h3>History</h3>
                     <a href="#" class="history-item">The Fox and The Forest</a>
                     <a href="#" class="history-item">A Spaceship's Grand Tour</a>
-                    <a href="#" class="history-item">Mystery of the Clock Tower</a>
                 </div>
             </div>
             <div class="sidebar-bottom">
-                <a href="#" class="sidebar-item">
-                    <i class="fa-solid fa-gear"></i>
-                    <span>Settings</span>
-                </a>
-                <a href="#" class="sidebar-item">
-                    <i class="fa-solid fa-user-circle"></i>
-                    <span>My Account</span>
-                </a>
+                <a href="#" class="sidebar-item"><i class="fa-solid fa-gear"></i><span>Settings</span></a>
+                <a href="#" class="sidebar-item"><i class="fa-solid fa-user-circle"></i><span>My Account</span></a>
             </div>
         </aside>
 
         <div class="main-content-wrapper">
             <header class="top-bar">
-                <div class="page-title">
-                    <i class="fa-solid fa-brain"></i>
-                    <span>StoryGen</span>
-                </div>
-                <div class="theme-switcher">
-                    <i class="fa-solid fa-sun"></i>
-                </div>
+                <div class="page-title"><i class="fa-solid fa-brain"></i><span>StoryGen</span></div>
+                <div class="theme-switcher"><i class="fa-solid fa-sun"></i></div>
             </header>
 
             <main class="main-content">
@@ -483,49 +471,21 @@
                     <div class="prompt-card">
                         <h1><i class="fa-solid fa-wand-magic-sparkles" style="color: var(--accent-purple);"></i> Start Your Story</h1>
                         <textarea class="prompt-input" placeholder="Once upon a time in a forest, a brave little fox..."></textarea>
-                        <button class="generate-btn" id="generateStoryBtn">
-                            <i class="fa-solid fa-bolt"></i> Generate Story
-                        </button>
+                        <button class="generate-btn" id="generateStoryBtn"><i class="fa-solid fa-bolt"></i> Generate Story</button>
                     </div>
-                    
                     <div class="scene-preview-panel" id="scenePreviewPanel">
-                        <h3>Scene Previews</h3>
-                        <div class="scene-carousel" id="sceneCarousel">
-                            <!-- Scenes will be dynamically added here -->
-                        </div>
+                        <h3>Story Ready!</h3>
+                        <button class="sidebar-btn" id="readStoryBtn" style="margin-top: 1rem;"><i class="fa-solid fa-book-open"></i> Read Your Story</button>
                     </div>
                 </section>
-
                 <aside class="enhancements-panel">
                     <div class="enhancement-group">
                         <label for="voice-style"><i class="fa-solid fa-microphone"></i> Voice Style</label>
-                        <select id="voice-style" class="custom-select">
-                            <option>Narrator</option>
-                            <option>Child</option>
-                            <option>Old Sage</option>
-                            <option>Heroine</option>
-                        </select>
+                        <select id="voice-style" class="custom-select"><option>Narrator</option></select>
                     </div>
                     <div class="enhancement-group">
                         <label for="language"><i class="fa-solid fa-globe"></i> Language</label>
-                        <select id="language" class="custom-select">
-                            <option>English</option>
-                            <option>Spanish</option>
-                            <option>French</option>
-                            <option>Japanese</option>
-                        </select>
-                    </div>
-                    <div class="enhancement-group">
-                        <div class="toggle-container">
-                            <label for="bg-music"><i class="fa-solid fa-music"></i> Background Music</label>
-                            <label class="toggle-switch">
-                                <input type="checkbox" id="bg-music" checked>
-                                <span class="slider"></span>
-                            </label>
-                        </div>
-                    </div>
-                    <div class="enhancement-group">
-                         <button class="sidebar-btn"><i class="fa-solid fa-arrows-rotate"></i> Regenerate Scene</button>
+                        <select id="language" class="custom-select"><option>English</option></select>
                     </div>
                     <div class="enhancement-group">
                         <button class="sidebar-btn" id="exportBtn"><i class="fa-solid fa-file-export"></i> Export Story</button>
@@ -535,46 +495,149 @@
         </div>
     </div>
 
+    <div id="book-view-overlay">
+        <div id="close-book-btn"><i class="fa-solid fa-times"></i></div>
+        <div class="book-container" id="bookContainer">
+            <button class="nav-btn" id="prev-page-btn">‹</button>
+            <div class="book" id="book">
+                <div class="back-cover"></div>
+            </div>
+            <button class="nav-btn" id="next-page-btn">›</button>
+        </div>
+    </div>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const generateBtn = document.getElementById('generateStoryBtn');
             const scenePreviewPanel = document.getElementById('scenePreviewPanel');
-            const sceneCarousel = document.getElementById('sceneCarousel');
             const menuToggle = document.getElementById('menuToggle');
             const leftSidebar = document.getElementById('leftSidebar');
-
+            const readStoryBtn = document.getElementById('readStoryBtn');
+            const bookOverlay = document.getElementById('book-view-overlay');
+            const closeBookBtn = document.getElementById('close-book-btn');
+            
             // Dummy data for scenes
             const scenes = [
-                { img: 'https://i.imgur.com/rM2D2fl.jpeg' },
-                { img: 'https://i.imgur.com/uEV9dSa.jpeg' },
-                { img: 'https://i.imgur.com/zW3xU3N.jpeg' },
-                { img: 'https://i.imgur.com/8aM0sC9.jpeg' },
-                { img: 'https://i.imgur.com/0zR2vHq.jpeg' }
+                { img: 'https://i.imgur.com/rM2D2fl.jpeg', text: 'Once upon a time, in a lush, green forest, lived a brave little fox named Finn.' },
+                { img: 'https://i.imgur.com/uEV9dSa.jpeg', text: 'Finn loved to explore. One day, he discovered a mysterious, glowing mushroom deep in the woods.' },
+                { img: 'https://i.imgur.com/zW3xU3N.jpeg', text: 'As he touched it, the world around him swirled into a magical wonderland.' },
+                { img: 'https://i.imgur.com/8aM0sC9.jpeg', text: 'He met friendly sprites who danced in the air and sang songs of the ancient trees.' },
+                { img: 'https://i.imgur.com/0zR2vHq.jpeg', text: 'Finn promised to keep their secret, and returned home with a heart full of wonder.' }
             ];
 
             generateBtn.addEventListener('click', function() {
-                // Show the scene preview panel
-                if (scenePreviewPanel.style.display !== 'flex') {
-                    scenePreviewPanel.style.display = 'flex';
-                    scenePreviewPanel.classList.add('fade-in');
+                scenePreviewPanel.style.display = 'flex';
+                scenePreviewPanel.classList.add('fade-in');
+            });
+
+            menuToggle.addEventListener('click', () => leftSidebar.classList.toggle('collapsed'));
+            
+            // --- Book Logic ---
+            const book = document.getElementById('book');
+            const bookContainer = document.getElementById('bookContainer');
+            const prevBtn = document.getElementById('prev-page-btn');
+            const nextBtn = document.getElementById('next-page-btn');
+            
+            let sheets = [];
+            let currentFlippedSheet = 0;
+            let zIndexCounter = 1;
+
+            function buildBook(storyScenes) {
+                book.innerHTML = '<div class="back-cover"></div>';
+                sheets = [];
+                const totalPages = storyScenes.length;
+
+                const binder = document.createElement('div');
+                binder.className = 'binder';
+                for(let i=0; i<8; i++) binder.innerHTML += '<div class="ring"></div>';
+                book.appendChild(binder);
+
+                // Create Cover
+                const sheet0 = document.createElement('div');
+                sheet0.className = 'sheet';
+                sheet0.style.zIndex = totalPages + 1;
+                sheet0.innerHTML = `
+                    <div class="cover-face">
+                        <h1>Your Story</h1>
+                        <img src="${storyScenes[0].img}" alt="cover">
+                        <small>Click › to open</small>
+                    </div>
+                    <div class="page back">
+                        <img src="${storyScenes[0].img}" alt="story image">
+                        <p>${storyScenes[0].text}</p>
+                        <div class="page-num">Page 1 / ${totalPages}</div>
+                    </div>`;
+                book.insertBefore(sheet0, book.lastElementChild);
+                sheets.push(sheet0);
+
+                // Create Pages
+                for (let i = 1; i < totalPages; i++) {
+                    const sheet = document.createElement('div');
+                    sheet.className = 'sheet';
+                    sheet.style.zIndex = totalPages - i;
+                    
+                    const frontImg = storyScenes[i] ? storyScenes[i].img : '';
+                    const frontText = storyScenes[i] ? storyScenes[i].text : '';
+                    const pageNum = i + 1;
+
+                    sheet.innerHTML = `
+                        <div class="page front">
+                            <img src="${frontImg}" alt="story image">
+                            <p>${frontText}</p>
+                            <div class="page-num">Page ${pageNum} / ${totalPages}</div>
+                        </div>
+                        <div class="page back"></div>`; // Back of this page is the front of the next
+                    
+                    if (i > 0) {
+                        const prevSheetBack = sheets[i-1].querySelector('.back');
+                        if(prevSheetBack) {
+                           prevSheetBack.innerHTML = sheet.querySelector('.front').innerHTML;
+                        }
+                    }
+
+                    book.insertBefore(sheet, book.lastElementChild);
+                    sheets.push(sheet);
                 }
+                
+                zIndexCounter = sheets.length + 1;
+                currentFlippedSheet = 0;
+                bookContainer.classList.remove('opened');
+                updateButtons();
+            }
 
-                // Clear existing scenes
-                sceneCarousel.innerHTML = '';
+            function updateButtons() {
+                prevBtn.style.display = currentFlippedSheet > 0 ? 'block' : 'none';
+                nextBtn.style.display = currentFlippedSheet < sheets.length ? 'block' : 'none';
+            }
+            
+            function turnPage(direction) {
+                if (direction === 'next' && currentFlippedSheet < sheets.length) {
+                    if (currentFlippedSheet === 0) bookContainer.classList.add('opened');
+                    const sheetToFlip = sheets[currentFlippedSheet];
+                    sheetToFlip.classList.add('flipped');
+                    sheetToFlip.style.zIndex = zIndexCounter++;
+                    currentFlippedSheet++;
+                } else if (direction === 'prev' && currentFlippedSheet > 0) {
+                    currentFlippedSheet--;
+                    const sheetToUnflip = sheets[currentFlippedSheet];
+                    sheetToUnflip.classList.remove('flipped');
+                    sheetToUnflip.style.zIndex = zIndexCounter++;
+                    if (currentFlippedSheet === 0) bookContainer.classList.remove('opened');
+                }
+                updateButtons();
+            }
 
-                // Add new scenes to the carousel
-                scenes.forEach(scene => {
-                    const sceneCard = document.createElement('div');
-                    sceneCard.className = 'scene-card';
-                    sceneCard.style.backgroundImage = `url('${scene.img}')`;
-                    sceneCard.innerHTML = `<div class="play-overlay"><i class="fa-solid fa-play"></i></div>`;
-                    sceneCarousel.appendChild(sceneCard);
-                });
+            readStoryBtn.addEventListener('click', () => {
+                buildBook(scenes);
+                bookOverlay.classList.add('visible');
             });
 
-            menuToggle.addEventListener('click', function() {
-                leftSidebar.classList.toggle('collapsed');
+            closeBookBtn.addEventListener('click', () => {
+                bookOverlay.classList.remove('visible');
             });
+
+            nextBtn.addEventListener('click', () => turnPage('next'));
+            prevBtn.addEventListener('click', () => turnPage('prev'));
         });
     </script>
 </body>
