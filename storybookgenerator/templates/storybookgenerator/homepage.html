@@ -56,6 +56,12 @@
             height: 100vh;
             overflow: hidden;
             perspective: 2500px;
+            opacity: 1;
+            transition: opacity 0.5s ease-out;
+        }
+
+        body.fade-out {
+            opacity: 0;
         }
 
         .app-container {
@@ -294,148 +300,6 @@
         .sidebar-btn { background-color: var(--secondary-card-bg); cursor: pointer; text-align: center; font-weight: 500; transition: all 0.2s ease; }
         .sidebar-btn:hover { background-color: var(--accent-purple); color: white; }
         
-        /* Book Overlay */
-        #book-view-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background-color: rgba(0,0,0,0.7);
-            backdrop-filter: blur(10px);
-            z-index: 1000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.5s, visibility 0.5s;
-        }
-        #book-view-overlay.visible {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        /* --- Book Styles from old design --- */
-        .book-container {
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: transform 1s ease-in-out;
-            transform: scale(0.8);
-        }
-        #book-view-overlay.visible .book-container {
-            transform: scale(1);
-        }
-        .book-container.opened { transform: scale(1) translateX(calc(var(--pageW) / 4)); }
-
-        .book {
-            width: var(--pageW);
-            height: var(--pageH);
-            position: relative;
-            transform-style: preserve-3d;
-            transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            transform: rotateX(15deg) rotateY(-10deg);
-            margin: 0 80px;
-        }
-        .book:hover { transform: rotateX(10deg) rotateY(-5deg) scale(1.02); }
-
-        .binder {
-            position: absolute; width: 40px; height: 100%; top: 0; left: -20px;
-            z-index: 1000; transform-style: preserve-3d; transform: rotateY(-45deg);
-        }
-        .ring {
-            position: absolute; width: 40px; height: 40px; border-radius: 50%;
-            border: 5px solid var(--book-warm-accent-2);
-            background: linear-gradient(145deg, #fdf6e3, #eee8d5);
-            box-shadow: inset 3px -3px 5px rgba(0,0,0,0.2), 3px 3px 8px rgba(0,0,0,0.2);
-            left: 0;
-        }
-        .ring:nth-child(1) { top: 30px; } .ring:nth-child(2) { top: 100px; }
-        .ring:nth-child(3) { top: 170px; } .ring:nth-child(4) { top: 240px; }
-        .ring:nth-child(5) { top: 310px; } .ring:nth-child(6) { top: 380px; }
-        .ring:nth-child(7) { top: 450px; } .ring:nth-child(8) { top: 520px; }
-
-        .sheet {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            transform-origin: left center; transform-style: preserve-3d;
-            transition: transform var(--duration) ease-in-out;
-        }
-        .sheet.flipped { transform: rotateY(-180deg); }
-
-        .page, .cover-face, .back-cover {
-            position: absolute; width: 100%; height: 100%;
-            border-radius: 12px; box-shadow: 0 10px 30px var(--book-shadow-color);
-            overflow: hidden; backface-visibility: hidden;
-            border: 1px solid var(--book-border-color);
-        }
-        .page.back { transform: rotateY(180deg); }
-
-        .cover-face, .back-cover {
-            background: linear-gradient(145deg, #faf6e8, #f4ead8);
-            color: var(--book-primary-color);
-        }
-        .cover-face {
-            display: flex; flex-direction: column; align-items: center;
-            justify-content: center; text-align: center; padding: 20px;
-        }
-        .back-cover { transform: translateZ(-2px); }
-        .cover-face h1 {
-            font-family: 'Kalam', cursive; font-size: 3.5rem;
-            text-shadow: 0 0 5px var(--book-warm-accent-1); margin-bottom: 30px;
-        }
-        .cover-face img {
-            width: 180px; height: 180px; border-radius: 50%;
-            border: 4px solid var(--book-warm-accent-2);
-            box-shadow: 0 0 25px rgba(181, 137, 0, 0.3); object-fit: cover;
-        }
-        .cover-face small {
-            margin-top: 30px; font-style: italic; font-size: 0.9rem;
-            opacity: 0.7; letter-spacing: 1px;
-        }
-
-        .page {
-            padding: 30px; display: flex; flex-direction: column;
-            align-items: center; background: var(--book-page-bg);
-            color: var(--book-primary-color);
-        }
-        .page img {
-            width: 100%; height: 250px; object-fit: cover;
-            border-radius: 8px; margin-bottom: 20px;
-            border: 1px solid var(--book-border-color);
-        }
-        .page p {
-            flex: 1; font-size: 1.1rem; line-height: 1.7;
-            overflow-y: auto; text-align: justify;
-            padding-right: 10px; width: 100%;
-        }
-        .page-num {
-            position: absolute; bottom: 15px; right: 20px;
-            font-size: 0.9rem; color: #93a1a1;
-        }
-
-        .nav-btn {
-            position: absolute; top: 50%; transform: translateY(-50%);
-            background: rgba(255,255,255,0.2); color: var(--book-warm-accent-1);
-            border: 2px solid var(--book-warm-accent-2); width: 50px; height: 50px;
-            border-radius: 50%; font-size: 30px; cursor: pointer; z-index: 20;
-            transition: all 0.3s ease; text-shadow: 0 0 10px var(--book-warm-accent-1);
-            box-shadow: 0 3px 10px var(--book-shadow-color);
-        }
-        .nav-btn:hover {
-            background: var(--book-warm-accent-2); color: #fff;
-            box-shadow: 0 0 25px var(--book-warm-accent-2);
-            transform: translateY(-50%) scale(1.1);
-        }
-        #prev-page-btn { left: 0; }
-        #next-page-btn { right: 0; }
-
-        #close-book-btn {
-            position: absolute; top: 3rem; right: 3rem;
-            font-size: 2rem; color: white; cursor: pointer;
-            z-index: 1001;
-        }
     </style>
 </head>
 <body>
@@ -475,7 +339,7 @@
                     </div>
                     <div class="scene-preview-panel" id="scenePreviewPanel">
                         <h3>Story Ready!</h3>
-                        <button class="sidebar-btn" id="readStoryBtn" style="margin-top: 1rem;"><i class="fa-solid fa-book-open"></i> Read Your Story</button>
+                        <a href="{% url 'storybookgenerator:book_view' %}" class="sidebar-btn transition-link" id="readStoryBtn" style="margin-top: 1rem;"><i class="fa-solid fa-book-open"></i> Read Your Story</a>
                     </div>
                 </section>
                 <aside class="enhancements-panel">
@@ -495,35 +359,12 @@
         </div>
     </div>
 
-    <div id="book-view-overlay">
-        <div id="close-book-btn"><i class="fa-solid fa-times"></i></div>
-        <div class="book-container" id="bookContainer">
-            <button class="nav-btn" id="prev-page-btn">‹</button>
-            <div class="book" id="book">
-                <div class="back-cover"></div>
-            </div>
-            <button class="nav-btn" id="next-page-btn">›</button>
-        </div>
-    </div>
-
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const generateBtn = document.getElementById('generateStoryBtn');
             const scenePreviewPanel = document.getElementById('scenePreviewPanel');
             const menuToggle = document.getElementById('menuToggle');
             const leftSidebar = document.getElementById('leftSidebar');
-            const readStoryBtn = document.getElementById('readStoryBtn');
-            const bookOverlay = document.getElementById('book-view-overlay');
-            const closeBookBtn = document.getElementById('close-book-btn');
-            
-            // Dummy data for scenes
-            const scenes = [
-                { img: 'https://i.imgur.com/rM2D2fl.jpeg', text: 'Once upon a time, in a lush, green forest, lived a brave little fox named Finn.' },
-                { img: 'https://i.imgur.com/uEV9dSa.jpeg', text: 'Finn loved to explore. One day, he discovered a mysterious, glowing mushroom deep in the woods.' },
-                { img: 'https://i.imgur.com/zW3xU3N.jpeg', text: 'As he touched it, the world around him swirled into a magical wonderland.' },
-                { img: 'https://i.imgur.com/8aM0sC9.jpeg', text: 'He met friendly sprites who danced in the air and sang songs of the ancient trees.' },
-                { img: 'https://i.imgur.com/0zR2vHq.jpeg', text: 'Finn promised to keep their secret, and returned home with a heart full of wonder.' }
-            ];
 
             generateBtn.addEventListener('click', function() {
                 scenePreviewPanel.style.display = 'flex';
@@ -531,113 +372,18 @@
             });
 
             menuToggle.addEventListener('click', () => leftSidebar.classList.toggle('collapsed'));
-            
-            // --- Book Logic ---
-            const book = document.getElementById('book');
-            const bookContainer = document.getElementById('bookContainer');
-            const prevBtn = document.getElementById('prev-page-btn');
-            const nextBtn = document.getElementById('next-page-btn');
-            
-            let sheets = [];
-            let currentFlippedSheet = 0;
-            let zIndexCounter = 1;
 
-            function buildBook(storyScenes) {
-                book.innerHTML = '<div class="back-cover"></div>';
-                sheets = [];
-                const totalPages = storyScenes.length;
-
-                const binder = document.createElement('div');
-                binder.className = 'binder';
-                for(let i=0; i<8; i++) binder.innerHTML += '<div class="ring"></div>';
-                book.appendChild(binder);
-
-                // Create Cover
-                const sheet0 = document.createElement('div');
-                sheet0.className = 'sheet';
-                sheet0.style.zIndex = totalPages + 1;
-                sheet0.innerHTML = `
-                    <div class="cover-face">
-                        <h1>Your Story</h1>
-                        <img src="${storyScenes[0].img}" alt="cover">
-                        <small>Click › to open</small>
-                    </div>
-                    <div class="page back">
-                        <img src="${storyScenes[0].img}" alt="story image">
-                        <p>${storyScenes[0].text}</p>
-                        <div class="page-num">Page 1 / ${totalPages}</div>
-                    </div>`;
-                book.insertBefore(sheet0, book.lastElementChild);
-                sheets.push(sheet0);
-
-                // Create Pages
-                for (let i = 1; i < totalPages; i++) {
-                    const sheet = document.createElement('div');
-                    sheet.className = 'sheet';
-                    sheet.style.zIndex = totalPages - i;
-                    
-                    const frontImg = storyScenes[i] ? storyScenes[i].img : '';
-                    const frontText = storyScenes[i] ? storyScenes[i].text : '';
-                    const pageNum = i + 1;
-
-                    sheet.innerHTML = `
-                        <div class="page front">
-                            <img src="${frontImg}" alt="story image">
-                            <p>${frontText}</p>
-                            <div class="page-num">Page ${pageNum} / ${totalPages}</div>
-                        </div>
-                        <div class="page back"></div>`; // Back of this page is the front of the next
-                    
-                    if (i > 0) {
-                        const prevSheetBack = sheets[i-1].querySelector('.back');
-                        if(prevSheetBack) {
-                           prevSheetBack.innerHTML = sheet.querySelector('.front').innerHTML;
-                        }
-                    }
-
-                    book.insertBefore(sheet, book.lastElementChild);
-                    sheets.push(sheet);
-                }
-                
-                zIndexCounter = sheets.length + 1;
-                currentFlippedSheet = 0;
-                bookContainer.classList.remove('opened');
-                updateButtons();
-            }
-
-            function updateButtons() {
-                prevBtn.style.display = currentFlippedSheet > 0 ? 'block' : 'none';
-                nextBtn.style.display = currentFlippedSheet < sheets.length ? 'block' : 'none';
-            }
-            
-            function turnPage(direction) {
-                if (direction === 'next' && currentFlippedSheet < sheets.length) {
-                    if (currentFlippedSheet === 0) bookContainer.classList.add('opened');
-                    const sheetToFlip = sheets[currentFlippedSheet];
-                    sheetToFlip.classList.add('flipped');
-                    sheetToFlip.style.zIndex = zIndexCounter++;
-                    currentFlippedSheet++;
-                } else if (direction === 'prev' && currentFlippedSheet > 0) {
-                    currentFlippedSheet--;
-                    const sheetToUnflip = sheets[currentFlippedSheet];
-                    sheetToUnflip.classList.remove('flipped');
-                    sheetToUnflip.style.zIndex = zIndexCounter++;
-                    if (currentFlippedSheet === 0) bookContainer.classList.remove('opened');
-                }
-                updateButtons();
-            }
-
-            readStoryBtn.addEventListener('click', () => {
-                buildBook(scenes);
-                bookOverlay.classList.add('visible');
+            // Page transition
+            document.querySelectorAll('.transition-link').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const destination = this.href;
+                    document.body.classList.add('fade-out');
+                    setTimeout(() => {
+                        window.location = destination;
+                    }, 500);
+                });
             });
-
-            closeBookBtn.addEventListener('click', () => {
-                bookOverlay.classList.remove('visible');
-            });
-
-            nextBtn.addEventListener('click', () => turnPage('next'));
-            prevBtn.addEventListener('click', () => turnPage('prev'));
         });
     </script>
 </body>
