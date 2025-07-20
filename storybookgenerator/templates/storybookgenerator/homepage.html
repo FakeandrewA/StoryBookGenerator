@@ -1,716 +1,524 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <title>Enchanted Story Creator</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StoryGen - AI Story Generator</title>
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&family=Caveat:wght@700&family=Kalam:wght@400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
     <style>
+        /* CSS Reset and Global Styles */
         :root {
-            --pageW: 420px;
-            --pageH: 600px;
-            --duration: 1.2s;
+            --bg-color: #0d0b1a;
+            --primary-card-bg: #1a162d;
+            --secondary-card-bg: rgba(38, 33, 62, 0.5);
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.15);
+            --text-color: #e0e0e0;
+            --text-muted: #8c899b;
+            --accent-purple: #8a42ff;
+            --accent-blue: #5c67ff;
+            --accent-gradient: linear-gradient(90deg, var(--accent-purple), var(--accent-blue));
+            --font-family: 'Poppins', sans-serif;
+            --border-radius-md: 12px;
+            --border-radius-lg: 16px;
         }
 
-        body[data-theme="light"] {
-            --bg-color: #fdf6e3;
-            --text-color: #586e75;
-            --primary-color: #073642;
-            --accent-color-1: #d33682;
-            --accent-color-2: #268bd2;
-            --warm-accent-1: #cb4b16;
-            --warm-accent-2: #b58900;
-            --sidebar-bg: rgba(238, 232, 213, 0.8);
-            --page-bg: #eee8d5;
-            --border-color: #ddd;
-            --shadow-color: rgba(0, 0, 0, 0.15);
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-
-        body[data-theme="dark"] {
-            --bg-color: #002b36;
-            --text-color: #839496;
-            --primary-color: #fdf6e3;
-            --accent-color-1: #d33682;
-            --accent-color-2: #268bd2;
-            --warm-accent-1: #cb4b16;
-            --warm-accent-2: #b58900;
-            --sidebar-bg: rgba(7, 54, 66, 0.8);
-            --page-bg: #073642;
-            --border-color: #586e75;
-            --shadow-color: rgba(255, 255, 255, 0.1);
-        }
-
-        body[data-theme="night"] {
-            --bg-color: #000000;
-            --text-color: #a9a9a9;
-            --primary-color: #ffffff;
-            --accent-color-1: #d33682;
-            --accent-color-2: #268bd2;
-            --warm-accent-1: #d33682;
-            --warm-accent-2: #268bd2;
-            --sidebar-bg: rgba(20, 20, 20, 0.8);
-            --page-bg: #1a1a1a;
-            --border-color: #444;
-            --shadow-color: rgba(255, 255, 255, 0.1);
-        }
-
-        body[data-theme="read"] {
-            --bg-color: #f4e8d5;
-            --text-color: #5b4636;
-            --primary-color: #3a2d23;
-            --accent-color-1: #9d4c2e;
-            --accent-color-2: #8c6f34;
-            --warm-accent-1: #9d4c2e;
-            --warm-accent-2: #8c6f34;
-            --sidebar-bg: rgba(239, 229, 209, 0.8);
-            --page-bg: #e9dec9;
-            --border-color: #d1cbbc;
-            --shadow-color: rgba(0, 0, 0, 0.15);
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            height: 100vh;
-            width: 100vw;
-            background: var(--bg-color);
-            font-family: 'Poppins', sans-serif;
-            perspective: 2500px;
-            overflow: hidden;
+            font-family: var(--font-family);
+            background-color: var(--bg-color);
             color: var(--text-color);
-            transition: background 0.5s, color 0.5s;
-        }
-
-        /* --- Constellation Intro --- */
-        #intro-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 100;
             display: flex;
             justify-content: center;
             align-items: center;
-            background: var(--bg-color);
+            min-height: 100vh;
+            padding: 2rem;
+            background-image: radial-gradient(circle at 10% 10%, rgba(92, 103, 255, 0.15), transparent 30%),
+                              radial-gradient(circle at 90% 80%, rgba(138, 66, 255, 0.15), transparent 30%);
         }
-        #constellation-canvas {
-            position: absolute;
-            top: 0;
-            left: 0;
+
+        /* Main App Container */
+        .app-container {
             width: 100%;
-            height: 100%;
-            z-index: 100;
-        }
-        .quote-container {
-            position: relative;
-            z-index: 101;
-            text-align: center;
-            max-width: 600px;
-            padding: 20px;
-            transition: opacity 0.5s;
-        }
-        #intro-container.animating .quote-container { opacity: 0; }
-
-        .quote {
-            font-family: 'Caveat', cursive;
-            font-size: 3rem;
-            font-weight: 700;
-            color: var(--primary-color);
-            text-shadow: 0 0 8px var(--warm-accent-1);
-        }
-        .author {
-            font-size: 1.5rem;
-            font-style: italic;
-            opacity: 0.8;
-            font-family: 'Caveat', cursive;
-            color: var(--text-color);
-        }
-        #rift-button {
-            margin-top: 40px;
-            padding: 15px 30px;
-            font-size: 1.5rem;
-            font-family: 'Kalam', cursive;
-            color: #fff;
-            background: linear-gradient(45deg, var(--warm-accent-1), var(--warm-accent-2));
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
-
-        /* --- Dashboard --- */
-        #dashboard {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            opacity: 0;
-            transition: opacity 1.5s 1s ease-in;
-        }
-        #dashboard.visible { opacity: 1; }
-
-        #sidebar {
-            width: 260px;
-            height: 100%;
-            background: var(--sidebar-bg);
-            backdrop-filter: blur(10px);
-            border-right: 1px solid var(--warm-accent-2);
-            padding: 20px;
+            max-width: 1400px;
+            height: 90vh;
+            max-height: 850px;
+            background-color: var(--primary-card-bg);
+            border-radius: 24px;
+            border: 1px solid var(--glass-border);
             display: flex;
             flex-direction: column;
-            box-shadow: 5px 0 25px rgba(181, 137, 0, 0.1);
-            transition: background 0.5s, border-color 0.5s;
+            overflow: hidden;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
         }
 
-        .user-profile { text-align: center; margin-bottom: 30px; }
-        .user-profile img {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            border: 3px solid var(--warm-accent-2);
-            margin-bottom: 10px;
+        /* Top Navigation Bar */
+        .top-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--glass-border);
         }
-        .user-profile h3 { font-size: 1.2rem; color: var(--primary-color); }
-        .user-profile p { font-size: 0.9rem; opacity: 0.7; }
 
-        .story-list { flex: 1; overflow-y: auto; }
-        .story-list h4 {
-            font-family: 'Kalam', cursive;
-            font-size: 1.8rem;
-            color: var(--warm-accent-1);
-            margin-bottom: 15px;
-            text-shadow: 0 0 3px rgba(203, 75, 22, 0.3);
-        }
-        .story-list ul { list-style: none; }
-        .story-list li {
-            padding: 12px;
-            margin-bottom: 8px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-        .story-list li:hover, .story-list .active { background: rgba(181, 137, 0, 0.2); }
-
-        .settings {
-            padding-top: 20px;
-            border-top: 1px solid rgba(88, 110, 117, 0.2);
-        }
-        .settings a {
-            display: block;
-            color: var(--text-color);
-            text-decoration: none;
-            padding: 10px;
-            border-radius: 8px;
-            transition: background 0.3s;
-        }
-        .settings a:hover { background: rgba(211, 54, 130, 0.15); }
-
-        /* --- Theme Selector --- */
-        .theme-selector { position: relative; margin-bottom: 10px; }
-        #theme-toggle-btn {
-            background: transparent;
-            border: none;
-            cursor: pointer;
-            padding: 10px;
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
             display: flex;
             align-items: center;
-            color: var(--text-color);
+            gap: 0.5rem;
         }
-        #theme-toggle-btn svg { width: 24px; height: 24px; fill: currentColor; }
-        #theme-popup {
-            position: absolute;
-            bottom: 100%;
-            left: 0;
-            background: var(--sidebar-bg);
-            border: 1px solid var(--warm-accent-2);
-            border-radius: 8px;
-            padding: 5px;
-            box-shadow: 0 -4px 15px rgba(0,0,0,0.1);
-            display: none;
+
+        .logo i {
+            color: var(--accent-purple);
         }
-        #theme-popup button {
-            display: block;
-            width: 100%;
-            background: none;
-            border: none;
-            color: var(--text-color);
-            padding: 8px 12px;
-            text-align: left;
+
+        .nav-items {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: var(--border-radius-md);
+            transition: all 0.3s ease;
+        }
+
+        .nav-item i {
+            font-size: 1.1rem;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            background: var(--accent-gradient);
+            color: white;
+            box-shadow: 0 0 15px rgba(138, 66, 255, 0.5);
+        }
+        
+        .user-profile {
+            font-size: 1.5rem;
             cursor: pointer;
+        }
+
+        /* Main Content Area */
+        .main-content {
+            flex-grow: 1;
+            display: flex;
+            padding: 2rem;
+            gap: 2rem;
+            overflow: hidden;
+        }
+
+        .story-creation-panel {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        
+        /* Prompt Input Card */
+        .prompt-card {
+            background: var(--secondary-card-bg);
+            padding: 1.5rem;
+            border-radius: var(--border-radius-lg);
+            border: 1px solid var(--glass-border);
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .prompt-card h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .prompt-input {
+            width: 100%;
+            height: 100px;
+            background-color: var(--bg-color);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--border-radius-md);
+            padding: 1rem;
+            color: var(--text-color);
+            font-family: var(--font-family);
+            font-size: 1rem;
+            resize: none;
+        }
+
+        .prompt-input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .generate-btn {
+            background: var(--accent-gradient);
+            color: white;
+            border: none;
+            padding: 1rem;
+            border-radius: var(--border-radius-md);
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .generate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(138, 66, 255, 0.4);
+        }
+        
+        /* Scene Preview Panel */
+        .scene-preview-panel {
+            display: none; /* Hidden by default, shown with JS */
+            flex-direction: column;
+            gap: 1rem;
+            flex-grow: 1;
+        }
+
+        .scene-carousel {
+            display: flex;
+            gap: 1rem;
+            overflow-x: auto;
+            padding-bottom: 1rem; /* for scrollbar */
+        }
+        
+        .scene-carousel::-webkit-scrollbar {
+            height: 8px;
+        }
+        .scene-carousel::-webkit-scrollbar-thumb {
+            background: var(--accent-purple);
             border-radius: 4px;
         }
-        #theme-popup button:hover { background: rgba(181, 137, 0, 0.2); }
-
-        #main-content {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .scene-carousel::-webkit-scrollbar-track {
+            background: var(--secondary-card-bg);
         }
 
-        /* --- Book Styles --- */
-        .book-container {
+        .scene-card {
+            min-width: 200px;
+            aspect-ratio: 4 / 3;
+            background-size: cover;
+            background-position: center;
+            border-radius: var(--border-radius-md);
+            border: 2px solid transparent;
             position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: transform 1s ease-in-out;
-        }
-        .book-container.opened {
-            transform: translateX(35%);
-        }
-
-        .book {
-            width: var(--pageW);
-            height: var(--pageH);
-            position: relative;
-            transform-style: preserve-3d;
-            transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            transform: rotateX(15deg) rotateY(-10deg);
-            margin: 0 80px;
-        }
-        .book:hover { transform: rotateX(10deg) rotateY(-5deg) scale(1.02); }
-
-        .binder {
-            position: absolute;
-            width: 40px;
-            height: 100%;
-            top: 0;
-            left: -20px;
-            z-index: 1000;
-            transform-style: preserve-3d;
-            transform: rotateY(-45deg);
-        }
-        .ring {
-            position: absolute;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            border: 5px solid var(--warm-accent-2);
-            background: linear-gradient(145deg, #fdf6e3, #eee8d5);
-            box-shadow: inset 3px -3px 5px rgba(0,0,0,0.2), 3px 3px 8px rgba(0,0,0,0.2);
-            left: 0;
-        }
-        .ring:nth-child(1) { top: 30px; } .ring:nth-child(2) { top: 100px; }
-        .ring:nth-child(3) { top: 170px; } .ring:nth-child(4) { top: 240px; }
-        .ring:nth-child(5) { top: 310px; } .ring:nth-child(6) { top: 380px; }
-        .ring:nth-child(7) { top: 450px; } .ring:nth-child(8) { top: 520px; }
-
-        .sheet {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            transform-origin: left center;
-            transform-style: preserve-3d;
-            transition: transform var(--duration) ease-in-out;
-        }
-        .sheet.flipped { transform: rotateY(-180deg); }
-
-        .page, .cover-face, .back-cover {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px var(--shadow-color);
             overflow: hidden;
-            backface-visibility: hidden;
-            border: 1px solid var(--border-color);
-            transition: background 0.5s, color 0.5s, border-color 0.5s;
-        }
-        .page.back { transform: rotateY(180deg); }
-
-        .cover-face {
-            background: linear-gradient(145deg, #faf6e8, #f4ead8);
-            color: var(--primary-color);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 20px;
-        }
-        .back-cover {
-            background: linear-gradient(145deg, #faf6e8, #f4ead8);
-            transform: translateZ(-2px);
-        }
-        .cover-face h1 {
-            font-family: 'Kalam', cursive;
-            font-size: 3.5rem;
-            text-shadow: 0 0 5px var(--warm-accent-1);
-            margin-bottom: 30px;
-        }
-        .cover-face img {
-            width: 180px;
-            height: 180px;
-            border-radius: 50%;
-            border: 4px solid var(--warm-accent-2);
-            box-shadow: 0 0 25px rgba(181, 137, 0, 0.3);
-            object-fit: cover;
-        }
-        .cover-face small {
-            margin-top: 30px;
-            font-style: italic;
-            font-size: 0.9rem;
-            opacity: 0.7;
-            letter-spacing: 1px;
-        }
-
-        .page {
-            padding: 30px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            background: var(--page-bg);
-            color: var(--primary-color);
-        }
-        .page img {
-            width: 100%;
-            height: 250px;
-            object-fit: cover;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            border: 1px solid var(--border-color);
-        }
-        .page p {
-            flex: 1;
-            font-size: 1.1rem;
-            line-height: 1.7;
-            overflow-y: auto;
-            text-align: justify;
-            padding-right: 10px;
-            width: 100%;
-        }
-        .page-num {
-            position: absolute;
-            bottom: 15px;
-            right: 20px;
-            font-size: 0.9rem;
-            color: #93a1a1;
-        }
-
-        .nav {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background: var(--sidebar-bg);
-            color: var(--warm-accent-1);
-            border: 2px solid var(--warm-accent-2);
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            font-size: 30px;
             cursor: pointer;
-            z-index: 20;
             transition: all 0.3s ease;
-            text-shadow: 0 0 10px var(--warm-accent-1);
-            box-shadow: 0 3px 10px var(--shadow-color);
         }
-        .nav:hover {
-            background: var(--warm-accent-2);
-            color: #fff;
-            box-shadow: 0 0 25px var(--warm-accent-2);
-            transform: translateY(-50%) scale(1.1);
+        
+        .scene-card:hover {
+            border-color: var(--accent-blue);
+            transform: translateY(-5px);
         }
-        .prev { left: 0; }
-        .next { right: 0; }
+        
+        .scene-card .play-overlay {
+            position: absolute;
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0.4);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
 
+        .scene-card:hover .play-overlay {
+            opacity: 1;
+        }
+
+        /* Right Sidebar */
+        .enhancements-panel {
+            width: 300px;
+            flex-shrink: 0;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border-radius: var(--border-radius-lg);
+            border: 1px solid var(--glass-border);
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .enhancement-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+        
+        .enhancement-group label {
+            font-weight: 500;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .custom-select, .toggle-switch, .sidebar-btn {
+            background-color: var(--bg-color);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--border-radius-md);
+            padding: 0.75rem 1rem;
+            color: var(--text-color);
+            width: 100%;
+        }
+        
+        .custom-select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%238c899b' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 1em;
+        }
+        
+        .toggle-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 28px;
+            padding: 0;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--bg-color);
+            border: 1px solid var(--glass-border);
+            transition: .4s;
+            border-radius: 28px;
+        }
+        
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 3px;
+            bottom: 3px;
+            background-color: var(--text-muted);
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background: var(--accent-gradient);
+        }
+        input:checked + .slider:before {
+            transform: translateX(22px);
+            background-color: white;
+        }
+
+        .sidebar-btn {
+            background-color: var(--secondary-card-bg);
+            cursor: pointer;
+            text-align: center;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+        
+        .sidebar-btn:hover {
+            background-color: var(--accent-purple);
+            color: white;
+        }
+        
+        /* Bottom Export Section */
+        .bottom-actions {
+            display: none; /* Hidden by default */
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 2rem;
+            border-top: 1px solid var(--glass-border);
+        }
+
+        .export-btn {
+            background-color: var(--secondary-card-bg);
+            color: var(--text-muted);
+            border: 1px solid var(--glass-border);
+            padding: 0.75rem 1.25rem;
+            border-radius: var(--border-radius-md);
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .export-btn:hover {
+            color: var(--text-color);
+            background-color: var(--accent-blue);
+        }
+
+        /* Simple fade-in animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out forwards;
+        }
+        
     </style>
 </head>
-<body data-theme="light">
+<body>
 
-    <div id="intro-container">
-        <canvas id="constellation-canvas"></canvas>
-        <div class="quote-container">
-            <p class="quote">"A book is a dream that you hold in your hand."</p>
-            <p class="author">- Neil Gaiman</p>
-            <button id="rift-button">Begin</button>
-        </div>
-    </div>
-
-    <div id="dashboard">
-        <aside id="sidebar">
-            <div class="user-profile">
-                <img src="https://i.pravatar.cc/150?u=a042581f4e29026704d" alt="User Avatar">
-                <h3>Story Weaver</h3>
-                <p>Level 42 Scribe</p>
+    <div class="app-container">
+        <header class="top-nav">
+            <div class="logo">
+                <i class="fa-solid fa-brain"></i>
+                <span>StoryGen</span>
             </div>
-            <nav class="story-list">
-                <h4>My Stories</h4>
-                <ul>
-                    <li class="active">The Sunken City</li>
-                    <li>Chronicles of the Meadow</li>
-                    <li>Echoes of a Gentle Giant</li>
-                    <li>The Last Alchemist's Journal</li>
-                </ul>
+            <nav class="nav-items">
+                <a href="#" class="nav-item active"><i class="fa-solid fa-pen-to-square"></i> Create Story</a>
+                <a href="#" class="nav-item"><i class="fa-solid fa-book-bookmark"></i> My Stories</a>
+                <a href="#" class="nav-item"><i class="fa-solid fa-images"></i> Gallery</a>
+                <a href="#" class="nav-item"><i class="fa-solid fa-gear"></i> Settings</a>
             </nav>
-            <div class="settings">
-                <div class="theme-selector">
-                    <button id="theme-toggle-btn" aria-label="Choose theme">
-                        <svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-5.4-5.4c0-1.56.67-2.96 1.7-3.95A8.994 8.994 0 0 0 12 3z"/></svg>
-                        <span>Themes</span>
+            <div class="user-profile">
+                <i class="fa-solid fa-user-circle"></i>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <section class="story-creation-panel">
+                <div class="prompt-card">
+                    <h1><i class="fa-solid fa-wand-magic-sparkles" style="color: var(--accent-purple);"></i> Start Your Story</h1>
+                    <textarea class="prompt-input" placeholder="Once upon a time in a forest, a brave little fox..."></textarea>
+                    <button class="generate-btn" id="generateStoryBtn">
+                        <i class="fa-solid fa-bolt"></i> Generate Story
                     </button>
-                    <div id="theme-popup">
-                        <button data-theme="light">Light</button>
-                        <button data-theme="dark">Dark</button>
-                        <button data-theme="night">Night</button>
-                        <button data-theme="read">Read</button>
+                </div>
+                
+                <div class="scene-preview-panel" id="scenePreviewPanel">
+                    <h3>Scene Previews</h3>
+                    <div class="scene-carousel">
+                        <div class="scene-card" style="background-image: url('https://i.imgur.com/rM2D2fl.jpeg');">
+                            <div class="play-overlay"><i class="fa-solid fa-play"></i></div>
+                        </div>
+                        <div class="scene-card" style="background-image: url('https://i.imgur.com/uEV9dSa.jpeg');">
+                             <div class="play-overlay"><i class="fa-solid fa-play"></i></div>
+                        </div>
+                        <div class="scene-card" style="background-image: url('https://i.imgur.com/zW3xU3N.jpeg');">
+                             <div class="play-overlay"><i class="fa-solid fa-play"></i></div>
+                        </div>
+                        <div class="scene-card" style="background-image: url('https://i.imgur.com/8aM0sC9.jpeg');">
+                             <div class="play-overlay"><i class="fa-solid fa-play"></i></div>
+                        </div>
+                        <div class="scene-card" style="background-image: url('https://i.imgur.com/0zR2vHq.jpeg');">
+                            <div class="play-overlay"><i class="fa-solid fa-play"></i></div>
+                        </div>
                     </div>
                 </div>
-                <a href="#">Account Settings</a>
-                <a href="#">Logout</a>
-            </div>
-        </aside>
 
-        <main id="main-content">
-            <div class="book-container">
-                <button class="nav prev" id="prevBtn">‹</button>
-                <div class="book" id="book">
-                    <div class="back-cover"></div>
+            </section>
+
+            <aside class="enhancements-panel">
+                <div class="enhancement-group">
+                    <label for="voice-style"><i class="fa-solid fa-microphone"></i> Voice Style</label>
+                    <select id="voice-style" class="custom-select">
+                        <option>Narrator</option>
+                        <option>Child</option>
+                        <option>Old Sage</option>
+                        <option>Heroine</option>
+                    </select>
                 </div>
-                <button class="nav next" id="nextBtn">›</button>
-            </div>
+                <div class="enhancement-group">
+                    <label for="language"><i class="fa-solid fa-globe"></i> Language</label>
+                    <select id="language" class="custom-select">
+                        <option>English</option>
+                        <option>Spanish</option>
+                        <option>French</option>
+                        <option>Japanese</option>
+                    </select>
+                </div>
+                <div class="enhancement-group">
+                    <div class="toggle-container">
+                        <label for="bg-music"><i class="fa-solid fa-music"></i> Background Music</label>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="bg-music" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+                <div class="enhancement-group">
+                     <button class="sidebar-btn"><i class="fa-solid fa-arrows-rotate"></i> Regenerate Scene</button>
+                </div>
+            </aside>
         </main>
+
+        <footer class="bottom-actions" id="bottomActions">
+            <button class="export-btn"><i class="fa-solid fa-file-video"></i> Download Video</button>
+            <button class="export-btn"><i class="fa-solid fa-file-image"></i> Download Images</button>
+            <button class="export-btn"><i class="fa-solid fa-file-audio"></i> Download Audio</button>
+            <button class="export-btn"><i class="fa-solid fa-share-nodes"></i> Share</button>
+        </footer>
     </div>
 
-    <audio id="audio" preload="auto"></audio>
-
     <script>
-        // --- Intro Animation ---
-        const riftButton = document.getElementById('rift-button');
-        const introContainer = document.getElementById('intro-container');
-        const dashboard = document.getElementById('dashboard');
-        const canvas = document.getElementById('constellation-canvas');
-        const ctx = canvas.getContext('2d');
+        // Simple JavaScript to show hidden elements on button click
 
-        function startExperience() {
-            introContainer.classList.add('animating');
-            
-            setTimeout(() => {
-                dashboard.style.display = 'flex';
-                dashboard.classList.add('visible');
-            }, 2500);
+        document.addEventListener('DOMContentLoaded', function() {
+            const generateBtn = document.getElementById('generateStoryBtn');
+            const scenePreviewPanel = document.getElementById('scenePreviewPanel');
+            const bottomActions = document.getElementById('bottomActions');
 
-            setTimeout(() => {
-                introContainer.style.display = 'none';
-            }, 4000);
-
-            runConstellationAnimation();
-        }
-        riftButton.addEventListener('click', startExperience);
-
-        function runConstellationAnimation() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-            const style = getComputedStyle(document.body);
-            const lineColor = style.getPropertyValue('--warm-accent-2');
-
-            const stars = [],
-                FPS = 60,
-                NUM_STARS = 500;
-
-            for (let i = 0; i < NUM_STARS; i++) {
-                stars.push({
-                    x: Math.random() * canvas.width,
-                    y: Math.random() * canvas.height,
-                    radius: Math.random() * 1 + 1,
-                    vx: Math.floor(Math.random() * 50) - 25,
-                    vy: Math.floor(Math.random() * 50) - 25
-                });
-            }
-
-            function draw() {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                ctx.globalCompositeOperation = "lighter";
-
-                for (let i = 0, x = stars.length; i < x; i++) {
-                    const s = stars[i];
-                    ctx.fillStyle = lineColor;
-                    ctx.beginPath();
-                    ctx.arc(s.x, s.y, s.radius, 0, 2 * Math.PI);
-                    ctx.fill();
-                    ctx.fillStyle = 'black';
-                    ctx.stroke();
+            generateBtn.addEventListener('click', function() {
+                // Show the scene preview panel
+                if (scenePreviewPanel.style.display !== 'flex') {
+                    scenePreviewPanel.style.display = 'flex';
+                    scenePreviewPanel.classList.add('fade-in');
                 }
 
-                ctx.beginPath();
-                for (let i = 0, x = stars.length; i < x; i++) {
-                    const starI = stars[i];
-                    ctx.moveTo(starI.x, starI.y);
-                    for (let j = i + 1, y = stars.length; j < y; j++) {
-                        const starJ = stars[j];
-                        const distance = Math.sqrt(Math.pow(starI.x - starJ.x, 2) + Math.pow(starI.y - starJ.y, 2));
-                        if (distance < 100) {
-                            ctx.lineTo(starJ.x, starJ.y);
-                        }
-                    }
+                // Show the bottom actions footer
+                if (bottomActions.style.display !== 'flex') {
+                    bottomActions.style.display = 'flex';
+                    bottomActions.classList.add('fade-in');
                 }
-                ctx.lineWidth = 0.05;
-                ctx.strokeStyle = lineColor;
-                ctx.stroke();
-            }
-
-            function update() {
-                for (let i = 0, x = stars.length; i < x; i++) {
-                    const s = stars[i];
-                    s.x += s.vx / FPS;
-                    s.y += s.vy / FPS;
-                    if (s.x < 0 || s.x > canvas.width) s.vx = -s.vx;
-                    if (s.y < 0 || s.y > canvas.height) s.vy = -s.vy;
-                }
-            }
-
-            function tick() {
-                draw();
-                update();
-                requestAnimationFrame(tick);
-            }
-            tick();
-        }
-
-        // --- Theme Selector ---
-        const themeToggleButton = document.getElementById('theme-toggle-btn');
-        const themePopup = document.getElementById('theme-popup');
-        
-        themeToggleButton.addEventListener('click', () => {
-            const isHidden = themePopup.style.display === 'none' || themePopup.style.display === '';
-            themePopup.style.display = isHidden ? 'block' : 'none';
+            });
         });
 
-        document.addEventListener('click', (e) => {
-            if (!themeToggleButton.contains(e.target) && !themePopup.contains(e.target)) {
-                themePopup.style.display = 'none';
-            }
-        });
-
-        themePopup.addEventListener('click', (e) => {
-            if (e.target.tagName === 'BUTTON') {
-                const theme = e.target.dataset.theme;
-                document.body.dataset.theme = theme;
-                localStorage.setItem('storyBookTheme', theme);
-                themePopup.style.display = 'none';
-            }
-        });
-
-        // --- Book Logic ---
-        const images = [
-            "https://picsum.photos/seed/cover/400/600", "https://picsum.photos/seed/pg1/400/600",
-            "https://picsum.photos/seed/pg2/400/600", "https://picsum.photos/seed/pg3/400/600",
-            "https://picsum.photos/seed/pg4/400/600", "https://picsum.photos/seed/pg5/400/600"
-        ];
-        const texts = [
-            "Cover: The enchanted book awaits your touch.",
-            "Page 1: A sparkling forest revealed itself under twin moons, where every leaf shimmered with captured starlight.",
-            "Page 2: Crystalline rivers sang ethereal lullabies to the wandering stars, their melodies echoing in the silent night.",
-            "Page 3: Ancient, moss-covered guardians, carved from living stone, tested the traveler's wisdom with riddles of the cosmos.",
-            "Page 4: A magnificent dragon, forged from swirling nebulae and cosmic dust, offered a thrilling ride across the star-strewn galaxies.",
-            "Page 5: With newfound magic pulsing at their fingertips, the reader gently closed the book—yet the enchanting story lived on within them."
-        ];
-        const audios = [
-            null, "https://www.soundjay.com/misc/sounds/magic-chime-01.mp3",
-            "https://www.soundjay.com/misc/sounds/magic-chime-02.mp3", "https://www.soundjay.com/misc/sounds/magic-chime-03.mp3",
-            "https://www.soundjay.com/misc/sounds/magic-chime-04.mp3", "https://www.soundjay.com/misc/sounds/magic-chime-05.mp3"
-        ];
-        
-        const book = document.getElementById('book');
-        const bookContainer = document.querySelector('.book-container');
-        const prevBtn = document.getElementById('prevBtn');
-        const nextBtn = document.getElementById('nextBtn');
-        const audio = document.getElementById('audio');
-        
-        let sheets = [];
-        let currentFlippedSheet = 0;
-        let zIndexCounter = 1;
-        const totalPages = texts.length - 1;
-
-        function buildBook() {
-            book.innerHTML = '<div class="back-cover"></div>';
-            sheets = [];
-            
-            const binder = document.createElement('div');
-            binder.className = 'binder';
-            for(let i=0; i<8; i++) binder.innerHTML += '<div class="ring"></div>';
-            book.appendChild(binder);
-
-            const sheet0 = document.createElement('div');
-            sheet0.className = 'sheet';
-            sheet0.style.zIndex = zIndexCounter;
-            sheet0.innerHTML = `
-                <div class="cover-face">
-                    <h1>Story Book</h1>
-                    <img id="coverImg" src="${images[0]}" alt="cover">
-                    <small>Click › to open</small>
-                </div>
-                <div class="page back">
-                    <img src="${images[1]}" alt="story image">
-                    <p>${texts[1]}</p>
-                    <div class="page-num">Page 1 / ${totalPages}</div>
-                </div>`;
-            book.insertBefore(sheet0, book.lastElementChild);
-            sheets.push(sheet0);
-
-            for (let i = 1; i <= totalPages / 2; i++) {
-                const sheet = document.createElement('div');
-                sheet.className = 'sheet';
-                sheet.style.zIndex = --zIndexCounter;
-                const pageFrontNum = i * 2, pageBackNum = i * 2 + 1;
-                const frontContent = texts[pageFrontNum] ? `<img src="${images[pageFrontNum]}" alt="story image"><p>${texts[pageFrontNum]}</p><div class="page-num">Page ${pageFrontNum} / ${totalPages}</div>` : '';
-                const backContent = texts[pageBackNum] ? `<img src="${images[pageBackNum]}" alt="story image"><p>${texts[pageBackNum]}</p><div class="page-num">Page ${pageBackNum} / ${totalPages}</div>` : '';
-                sheet.innerHTML = `<div class="page front">${frontContent}</div><div class="page back">${backContent}</div>`;
-                book.insertBefore(sheet, book.lastElementChild);
-                sheets.push(sheet);
-            }
-            zIndexCounter = sheets.length + 1;
-            updateButtons();
-        }
-
-        function updateButtons() {
-            prevBtn.style.display = currentFlippedSheet > 0 ? 'block' : 'none';
-            nextBtn.style.display = currentFlippedSheet < sheets.length ? 'block' : 'none';
-        }
-
-        function playSound(pageNumber) {
-            if (audios[pageNumber]) {
-                audio.src = audios[pageNumber];
-                audio.play().catch(e => console.log("Audio playback was interrupted."));
-            }
-        }
-        
-        function turnPage(direction) {
-            if (direction === 'next' && currentFlippedSheet < sheets.length) {
-                if (currentFlippedSheet === 0) bookContainer.classList.add('opened');
-                const sheetToFlip = sheets[currentFlippedSheet];
-                sheetToFlip.classList.add('flipped');
-                sheetToFlip.style.zIndex = zIndexCounter++;
-                currentFlippedSheet++;
-                playSound(currentFlippedSheet * 2 - 1);
-            } else if (direction === 'prev' && currentFlippedSheet > 0) {
-                if (currentFlippedSheet === 1) bookContainer.classList.remove('opened');
-                currentFlippedSheet--;
-                const sheetToUnflip = sheets[currentFlippedSheet];
-                sheetToUnflip.classList.remove('flipped');
-                sheetToUnflip.style.zIndex = zIndexCounter++;
-                playSound(currentFlippedSheet * 2);
-            }
-            updateButtons();
-        }
-
-        // Initial Load
-        document.addEventListener('DOMContentLoaded', () => {
-            const savedTheme = localStorage.getItem('storyBookTheme') || 'light';
-            document.body.dataset.theme = savedTheme;
-            buildBook();
-        });
-
-        nextBtn.addEventListener('click', () => turnPage('next'));
-        prevBtn.addEventListener('click', () => turnPage('prev'));
-        document.addEventListener('keydown', e => {
-            if (e.key === 'ArrowRight') turnPage('next');
-            if (e.key === 'ArrowLeft') turnPage('prev');
-        });
     </script>
 </body>
 </html>
