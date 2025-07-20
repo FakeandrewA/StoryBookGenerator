@@ -416,7 +416,7 @@
             </main>
         </div>
     </div>
-
+{% load static %}
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Sidebar toggle
@@ -427,13 +427,14 @@
             }
 
             // Carousel Logic
-            const scenes = [
-                { img: 'https://placehold.co/1024x768/8a42ff/white?text=Scene+1', text: 'Once upon a time, in a lush, green forest, lived a brave little fox named Finn.' },
-                { img: 'https://placehold.co/1024x768/5c67ff/white?text=Scene+2', text: 'Finn loved to explore. One day, he discovered a mysterious, glowing mushroom deep in the woods.' },
-                { img: 'https://placehold.co/1024x768/cb4b16/white?text=Scene+3', text: 'As he touched it, the world around him swirled into a magical wonderland.' },
-                { img: 'https://placehold.co/1024x768/b58900/white?text=Scene+4', text: 'He met friendly sprites who danced in the air and sang songs of the ancient trees.' },
-                { img: 'https://placehold.co/1024x768/073642/white?text=Scene+5', text: 'Finn promised to keep their secret, and returned home with a heart full of wonder.' }
-            ];
+const scenes = [
+        {% for scene in scenes %}
+        {
+            img: "{% static scene.img %}",
+            text: "{{ scene.text|escapejs }}"
+        }{% if not forloop.last %},{% endif %}
+        {% endfor %}
+    ];
             
             const slidesContainer = document.querySelector('.carousel-slides');
             const dotsContainer = document.querySelector('.carousel-dots');
