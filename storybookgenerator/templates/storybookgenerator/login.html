@@ -155,7 +155,8 @@
             <h1><i class="fa-solid fa-brain"></i> StoryGen</h1>
             <p>Welcome back! Please log in to your account.</p>
         </div>
-        <form class="auth-form">
+        <form  method="POST" action="{% url 'login' %}" class="auth-form">
+             {% csrf_token %}
             <div class="form-group">
                 <label for="email">Email Address</label>
                 <div class="input-wrapper">
@@ -172,6 +173,9 @@
             </div>
             <button type="submit" class="submit-btn">Login</button>
         </form>
+        {% for message in messages %}
+  <p style="color: red">{{ message }}</p>
+{% endfor %}
         <div class="auth-footer">
             <p>Don't have an account? <a href="{% url 'storybookgenerator:register' %}">Sign up</a></p>
         </div>
