@@ -3,44 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Story Magic - Create Your Own Adventure!</title>
+    <title>StoryTree - Grow Your Own Tale!</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&family=Caveat:wght@700&family=Kalam:wght@400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <style>
         :root {
-            --bg-color: #f0f8ff; /* Light Sky Blue */
-            --sidebar-bg: #ffffff;
-            --main-bg: #f0f8ff;
-            --primary-card-bg: rgba(255, 255, 255, 0.7);
-            --secondary-card-bg: rgba(0, 0, 0, 0.05);
-            --glass-bg: rgba(255, 255, 255, 0.6);
-            --glass-border: rgba(0, 0, 0, 0.1);
-            --text-color: #4a4a4a;
-            --text-muted: #888;
-            --accent-purple: #ff6b6b; /* Playful Red */
-            --accent-blue: #feca57; /* Sunny Yellow */
-            --accent-gradient: linear-gradient(90deg, var(--accent-purple), var(--accent-blue));
-            --font-family: 'Baloo 2', 'Poppins', sans-serif;
-            --border-radius-md: 20px;
+            --bg-color: #f0fff0; /* Honeydew */
+            --sidebar-bg: rgba(255, 255, 255, 0.6);
+            --primary-card-bg: rgba(255, 255, 255, 0.8);
+            --glass-border: rgba(46, 139, 87, 0.2);
+            --text-color: #2f4f4f; /* Dark Slate Gray */
+            --text-muted: #556b2f; /* Dark Olive Green */
+            --accent-green: #2e8b57; /* SeaGreen */
+            --accent-yellow: #ffc72c; /* Mango Tango */
+            --accent-gradient: linear-gradient(45deg, var(--accent-green), #3cb371);
+            --font-family-heading: 'Luckiest Guy', cursive;
+            --font-family-body: 'Nunito', sans-serif;
+            --border-radius-md: 18px;
             --border-radius-lg: 24px;
+            --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 8px rgba(0,0,0,0.1);
+        }
 
-            /* Book specific vars */
-            --pageW: 420px;
-            --pageH: 600px;
-            --duration: 1.2s;
-            --book-page-bg: #fdfcf7;
-            --book-border-color: #ddd;
-            --book-shadow-color: rgba(0, 0, 0, 0.15);
-            --book-warm-accent-1: #cb4b16;
-            --book-warm-accent-2: #b58900;
-            --book-primary-color: #5d5d5d;
+        body[data-theme="cosmic"] {
+            --bg-color: #0a0a23;
+            --sidebar-bg: rgba(20, 20, 50, 0.5);
+            --primary-card-bg: rgba(30, 30, 60, 0.6);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --text-color: #f0f0f0;
+            --text-muted: #a0a0c0;
+            --accent-green: #00ffff; /* Cyan */
+            --accent-yellow: #ff00ff; /* Magenta */
         }
 
         * {
@@ -50,15 +48,14 @@
         }
 
         body {
-            font-family: var(--font-family);
+            font-family: var(--font-family-body);
             background-color: var(--bg-color);
             color: var(--text-color);
             display: flex;
             height: 100vh;
             overflow: hidden;
-            perspective: 2500px;
             opacity: 1;
-            transition: opacity 0.5s ease-out;
+            transition: opacity 0.5s ease-out, background-color 0.5s ease;
         }
 
         body.fade-out {
@@ -69,76 +66,104 @@
             display: flex;
             width: 100%;
             height: 100%;
+            position: relative;
+        }
+
+        .background-decor {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .leaf {
+            position: absolute;
+            bottom: -100px;
+            font-size: 2rem;
+            color: var(--accent-green);
+            animation: float-up 15s linear infinite;
+        }
+        
+        body[data-theme="cosmic"] .leaf {
+            color: var(--accent-green);
+        }
+
+        @keyframes float-up {
+            to {
+                transform: translateY(-110vh) rotate(720deg);
+                opacity: 0;
+            }
         }
 
         /* Left Sidebar */
         .left-sidebar {
-            width: 220px;
+            width: 240px;
             background-color: var(--sidebar-bg);
             padding: 1.5rem;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
             border-right: 1px solid var(--glass-border);
-            transition: width 0.3s ease-in-out;
+            backdrop-filter: blur(10px);
+            transition: width 0.3s ease-in-out, background-color 0.5s ease;
             flex-shrink: 0;
             z-index: 10;
         }
-
-        .logo-header {
+        
+        .sidebar-header {
             display: flex;
             justify-content: flex-end;
             align-items: center;
-            margin-bottom: 2rem;
-            padding: 0 0.5rem;
+            margin-bottom: 1rem;
         }
 
         .menu-toggle {
             cursor: pointer;
             color: var(--text-muted);
-            font-size: 1.2rem;
+            font-size: 1.5rem;
             transition: color 0.3s ease;
         }
-
-        .menu-toggle:hover {
-            color: var(--text-color);
-        }
+        .menu-toggle:hover { color: var(--accent-green); }
 
         .sidebar-item {
             display: flex;
             align-items: center;
             gap: 1rem;
-            padding: 0.75rem 1rem;
+            padding: 0.85rem 1rem;
             border-radius: var(--border-radius-md);
             color: var(--text-muted);
             text-decoration: none;
-            font-weight: 500;
+            font-weight: 700;
             margin-bottom: 0.5rem;
             transition: all 0.3s ease;
             white-space: nowrap;
         }
 
         .sidebar-item i {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             flex-shrink: 0;
+            width: 25px;
+            text-align: center;
         }
 
         .sidebar-item:hover, .sidebar-item.active {
             background: var(--accent-gradient);
             color: white;
+            transform: translateX(5px);
+            box-shadow: var(--shadow-md);
         }
         
         .chat-history {
             margin-top: 1.5rem;
-            overflow: hidden;
-            transition: opacity 0.3s ease-in-out;
         }
-        
+
         .chat-history h3 {
+            font-family: var(--font-family-heading);
             color: var(--text-muted);
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            font-size: 1rem;
             padding: 0 1rem;
             margin-bottom: 0.5rem;
             white-space: nowrap;
@@ -154,22 +179,20 @@
             color: var(--text-muted);
             font-size: 0.9rem;
             text-decoration: none;
+            font-weight: 600;
         }
         
         .history-item:hover {
-            background-color: var(--secondary-card-bg);
+            background-color: rgba(46, 139, 87, 0.1);
             color: var(--text-color);
         }
 
-        .sidebar-bottom .sidebar-item {
-            margin-bottom: 0.25rem;
-        }
-
-        .left-sidebar.collapsed { width: 80px; }
+        .left-sidebar.collapsed { width: 90px; }
         .left-sidebar.collapsed .sidebar-item span,
-        .left-sidebar.collapsed .chat-history { display: none; }
-        .left-sidebar.collapsed .sidebar-item { justify-content: center; }
-        .left-sidebar.collapsed .logo-header { justify-content: center; }
+        .left-sidebar.collapsed .chat-history,
+        .left-sidebar.collapsed .sidebar-bottom span { display: none; }
+        .left-sidebar.collapsed .sidebar-item,
+        .left-sidebar.collapsed .sidebar-header { justify-content: center; }
 
         .main-content-wrapper {
             flex-grow: 1;
@@ -177,74 +200,38 @@
             flex-direction: column;
             overflow: hidden;
             position: relative;
-        }
-
-        .background-animations {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            z-index: 0;
-            pointer-events: none;
-        }
-
-        .background-animations .shape {
-            position: absolute;
-            list-style: none;
-            display: block;
-            background-color: rgba(255, 107, 107, 0.4);
-            bottom: -150px;
-            animation: float 25s linear infinite;
-            z-index: -1;
-            border-radius: 50%;
-        }
-
-        .background-animations .shape:nth-child(1) { left: 25%; width: 80px; height: 80px; animation-delay: 0s; }
-        .background-animations .shape:nth-child(2) { left: 10%; width: 20px; height: 20px; animation-duration: 12s; animation-delay: 2s; background-color: rgba(254, 202, 87, 0.4); }
-        .background-animations .shape:nth-child(3) { left: 70%; width: 20px; height: 20px; animation-duration: 18s; background-color: rgba(130, 204, 221, 0.4); }
-        .background-animations .shape:nth-child(4) { left: 40%; width: 60px; height: 60px; animation-duration: 15s; animation-delay: 0s; background-color: rgba(255, 107, 107, 0.4); }
-        .background-animations .shape:nth-child(5) { left: 65%; width: 20px; height: 20px; animation-duration: 11s; animation-delay: 0s; background-color: rgba(254, 202, 87, 0.4); }
-        .background-animations .shape:nth-child(6) { left: 85%; width: 120px; height: 120px; animation-duration: 20s; animation-delay: 3s; background-color: rgba(130, 204, 221, 0.4); }
-
-        @keyframes float {
-            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(-120vh) rotate(720deg); opacity: 0; }
+            z-index: 1;
         }
 
         .top-bar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 1rem 1.5rem;
-            border-bottom: 1px solid var(--glass-border);
-            background: var(--glass-bg);
-            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
             z-index: 5;
         }
 
         .page-title {
+            font-family: var(--font-family-heading);
+            font-size: 2rem;
+            color: var(--accent-green);
             display: flex;
             align-items: center;
             gap: 0.75rem;
-            font-size: 1.5rem;
-            font-weight: 600;
         }
-        .page-title i { color: var(--accent-purple); }
-
+        
         .theme-switcher {
-            font-size: 1.5rem;
             cursor: pointer;
+            font-size: 1.5rem;
             color: var(--text-muted);
             transition: color 0.3s ease;
         }
-        .theme-switcher:hover { color: var(--accent-blue); }
+        .theme-switcher:hover { color: var(--accent-yellow); }
 
         .main-content {
             flex-grow: 1;
             display: flex;
-            padding: 2rem;
+            padding: 1rem 2rem 2rem;
             gap: 2rem;
             overflow-y: auto;
         }
@@ -258,48 +245,81 @@
         
         .prompt-card {
             background: var(--primary-card-bg);
-            padding: 1.5rem;
+            padding: 2rem;
             border-radius: var(--border-radius-lg);
             border: 1px solid var(--glass-border);
+            backdrop-filter: blur(10px);
             display: flex;
             flex-direction: column;
-            gap: 1rem;
+            gap: 1.5rem;
+            box-shadow: var(--shadow-md);
+            transition: background-color 0.5s ease, border-color 0.5s ease;
         }
 
-        .prompt-card h1 { font-size: 1.5rem; font-weight: 600; }
+        .prompt-card h1 {
+            font-family: var(--font-family-heading);
+            font-size: 2.5rem;
+            color: var(--text-color);
+            text-align: center;
+        }
 
         .prompt-input {
             width: 100%;
-            height: 120px;
-            background-color: var(--bg-color);
-            border: 1px solid var(--glass-border);
+            height: 150px;
+            background-color: rgba(255,255,255,0.5);
+            border: 2px dashed var(--glass-border);
             border-radius: var(--border-radius-md);
             padding: 1rem;
             color: var(--text-color);
-            font-family: var(--font-family);
-            font-size: 1rem;
-            resize: none;
-        }
-        .prompt-input::placeholder { color: var(--text-muted); }
-
-        .generate-btn {
-            background: var(--accent-gradient);
-            color: white;
-            border: none;
-            padding: 1rem;
-            border-radius: var(--border-radius-md);
+            font-family: var(--font-family-body);
             font-size: 1.1rem;
             font-weight: 600;
+            resize: none;
+            transition: background-color 0.5s ease, border-color 0.5s ease;
+        }
+        .prompt-input::placeholder { color: var(--text-muted); font-weight: 400; }
+        .prompt-input:focus {
+            outline: none;
+            border-color: var(--accent-green);
+        }
+
+        .generate-btn {
+            background: var(--accent-yellow);
+            color: #4a3f00;
+            border: none;
+            padding: 1rem;
+            border-radius: 50px;
+            font-family: var(--font-family-heading);
+            font-size: 1.5rem;
             cursor: pointer;
             transition: all 0.3s ease;
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.75rem;
+            box-shadow: 0 4px 0 #b38b00;
+            margin-top: 1rem;
         }
+        
+        body[data-theme="cosmic"] .generate-btn {
+            box-shadow: 0 4px 0 #a300a3;
+            color: white;
+        }
+
         .generate-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(138, 66, 255, 0.4);
+            box-shadow: 0 6px 0 #b38b00;
+        }
+        body[data-theme="cosmic"] .generate-btn:hover {
+            box-shadow: 0 6px 0 #a300a3;
+        }
+
+        .generate-btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 #b38b00;
+        }
+        body[data-theme="cosmic"] .generate-btn:active {
+            box-shadow: 0 2px 0 #a300a3;
         }
         
         .scene-preview-panel {
@@ -307,8 +327,31 @@
             flex-direction: column;
             gap: 1rem;
             flex-grow: 1;
+            align-items: center;
+            text-align: center;
         }
-        .scene-preview-panel h3 { font-size: 1.2rem; font-weight: 600; }
+        .scene-preview-panel h3 {
+            font-family: var(--font-family-heading);
+            font-size: 2rem;
+            color: var(--accent-green);
+        }
+        .read-story-btn {
+            background: var(--accent-gradient);
+            color: white;
+            text-decoration: none;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-family: var(--font-family-heading);
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: var(--shadow-md);
+        }
+        .read-story-btn:hover {
+            transform: scale(1.05);
+        }
 
         .enhancements-panel {
             width: 300px;
@@ -316,82 +359,100 @@
             background: var(--primary-card-bg);
             border-radius: var(--border-radius-lg);
             border: 1px solid var(--glass-border);
+            backdrop-filter: blur(10px);
             padding: 1.5rem;
             display: flex;
             flex-direction: column;
             gap: 1.5rem;
             align-self: flex-start;
+            box-shadow: var(--shadow-md);
+            transition: background-color 0.5s ease, border-color 0.5s ease;
         }
-        .enhancement-group { display: flex; flex-direction: column; gap: 0.75rem; }
-        .enhancement-group label { font-weight: 500; color: var(--text-muted); display: flex; align-items: center; gap: 0.5rem; }
+        .enhancement-group label {
+            font-family: var(--font-family-heading);
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
         .custom-select, .sidebar-btn {
-            background-color: var(--bg-color);
+            background-color: rgba(255,255,255,0.5);
             border: 1px solid var(--glass-border);
             border-radius: var(--border-radius-md);
             padding: 0.75rem 1rem;
             color: var(--text-color);
             width: 100%;
+            font-family: var(--font-family-body);
+            font-weight: 600;
+            transition: background-color 0.5s ease, border-color 0.5s ease;
         }
-        .sidebar-btn { background-color: var(--secondary-card-bg); cursor: pointer; text-align: center; font-weight: 500; transition: all 0.2s ease; }
-        .sidebar-btn:hover { background-color: var(--accent-purple); color: white; }
+        .sidebar-btn {
+            background-color: var(--accent-green);
+            color: white;
+            cursor: pointer;
+            text-align: center;
+            font-weight: 700;
+            transition: all 0.2s ease;
+        }
+        .sidebar-btn:hover {
+            background-color: #3cb371;
+        }
         
     </style>
 </head>
 <body>
 
     <div class="app-container">
+        <div class="background-decor" id="leaf-container"></div>
         <aside class="left-sidebar" id="leftSidebar">
+            <div class="sidebar-header">
+                <div class="menu-toggle" id="menuToggle"><i class="fa-solid fa-bars"></i></div>
+            </div>
             <div class="sidebar-top">
-                <div class="logo-header">
-                    <div class="menu-toggle" id="menuToggle"><i class="fa-solid fa-bars"></i></div>
-                </div>
-                <a href="#" class="sidebar-item active"><i class="fa-solid fa-pen-to-square"></i><span>New Story</span></a>
-                <a href="#" class="sidebar-item"><i class="fa-solid fa-search"></i><span>Search</span></a>
+                <a href="#" class="sidebar-item active"><i class="fa-solid fa-feather-pointed"></i><span>New Tale</span></a>
+                <a href="#" class="sidebar-item"><i class="fa-solid fa-book-bookmark"></i><span>My Library</span></a>
                 <div class="chat-history">
-                    <h3>History</h3>
+                    <h3>Recent Tales</h3>
                     <a href="#" class="history-item">The Fox and The Forest</a>
                     <a href="#" class="history-item">A Spaceship's Grand Tour</a>
                 </div>
             </div>
             <div class="sidebar-bottom">
-                <a href="#" class="sidebar-item"><i class="fa-solid fa-gear"></i><span>Settings</span></a>
-                <a href="#" class="sidebar-item"><i class="fa-solid fa-user-circle"></i><span>My Account</span></a>
+                <a href="#" class="sidebar-item"><i class="fa-solid fa-cogs"></i><span>Settings</span></a>
+                <a href="#" class="sidebar-item"><i class="fa-solid fa-user-astronaut"></i><span>My Account</span></a>
             </div>
         </aside>
 
         <div class="main-content-wrapper">
-            <div class="background-animations">
-                <div class="shape"></div><div class="shape"></div><div class="shape"></div>
-                <div class="shape"></div><div class="shape"></div><div class="shape"></div>
-            </div>
             <header class="top-bar">
-                <div class="page-title"><i class="fa-solid fa-wand-magic-sparkles"></i><span>Story Magic</span></div>
-                <div class="theme-switcher"><i class="fa-solid fa-sun"></i></div>
+                <div class="page-title"><i class="fa-solid fa-tree"></i><span>StoryTree</span></div>
+                <div class="theme-switcher" id="themeSwitcher" title="Change Theme"><i class="fa-solid fa-palette"></i></div>
             </header>
 
             <main class="main-content">
                 <section class="story-creation-panel">
                     <div class="prompt-card">
-                        <h1><i class="fa-solid fa-hat-wizard" style="color: var(--accent-purple);"></i> Let's Make a Story!</h1>
-                        <textarea class="prompt-input" placeholder="Once upon a time in a land of candy, a friendly dragon..."></textarea>
-                        <button class="generate-btn" id="generateStoryBtn"><i class="fa-solid fa-bolt"></i> Create My Story!</button>
+                        <h1>Let's Grow a Story!</h1>
+                        <textarea class="prompt-input" placeholder="Plant a story seed... like 'A grumpy gnome who loved to bake lemon cakes...'"></textarea>
+                        <button class="generate-btn" id="generateStoryBtn"><i class="fa-solid fa-wand-magic-sparkles"></i> Make Magic!</button>
                     </div>
                     <div class="scene-preview-panel" id="scenePreviewPanel">
-                        <h3>Story Ready!</h3>
-                        <a href="{% url 'storybookgenerator:book_view' %}" class="sidebar-btn transition-link" id="readStoryBtn" style="margin-top: 1rem;"><i class="fa-solid fa-book-open"></i> Read Your Story</a>
+                        <h3>Your tale has sprouted!</h3>
+                        <a href="{% url 'storybookgenerator:book_view' %}" class="read-story-btn transition-link" id="readStoryBtn"><i class="fa-solid fa-book-open"></i> Read Your Story</a>
                     </div>
                 </section>
                 <aside class="enhancements-panel">
                     <div class="enhancement-group">
-                        <label for="voice-style"><i class="fa-solid fa-microphone"></i> Voice Style</label>
-                        <select id="voice-style" class="custom-select"><option>Narrator</option></select>
+                        <label for="voice-style"><i class="fa-solid fa-comment-dots"></i> Voice Style</label>
+                        <select id="voice-style" class="custom-select"><option>Friendly Narrator</option></select>
                     </div>
                     <div class="enhancement-group">
-                        <label for="language"><i class="fa-solid fa-globe"></i> Language</label>
+                        <label for="language"><i class="fa-solid fa-language"></i> Language</label>
                         <select id="language" class="custom-select"><option>English</option></select>
                     </div>
                     <div class="enhancement-group">
-                        <button class="sidebar-btn" id="exportBtn"><i class="fa-solid fa-file-export"></i> Export Story</button>
+                        <button class="sidebar-btn" id="exportBtn"><i class="fa-solid fa-download"></i> Save Story PDF</button>
                    </div>
                 </aside>
             </main>
@@ -404,15 +465,38 @@
             const scenePreviewPanel = document.getElementById('scenePreviewPanel');
             const menuToggle = document.getElementById('menuToggle');
             const leftSidebar = document.getElementById('leftSidebar');
+            const themeSwitcher = document.getElementById('themeSwitcher');
+            
+            if (generateBtn) {
+                generateBtn.addEventListener('click', function() {
+                    if (scenePreviewPanel) {
+                        scenePreviewPanel.style.display = 'flex';
+                        scenePreviewPanel.classList.add('fade-in');
+                    }
+                });
+            }
 
-            generateBtn.addEventListener('click', function() {
-                scenePreviewPanel.style.display = 'flex';
-                scenePreviewPanel.classList.add('fade-in');
-            });
+            if (menuToggle && leftSidebar) {
+                menuToggle.addEventListener('click', () => {
+                    leftSidebar.classList.toggle('collapsed');
+                });
+            }
 
-            menuToggle.addEventListener('click', () => leftSidebar.classList.toggle('collapsed'));
+            if (themeSwitcher) {
+                const themes = ['serene', 'cosmic'];
+                let currentTheme = localStorage.getItem('storybook_theme') || 'serene';
+                document.body.setAttribute('data-theme', currentTheme);
 
-            // Page transition
+                themeSwitcher.addEventListener('click', () => {
+                    const currentThemeIndex = themes.indexOf(currentTheme);
+                    const nextThemeIndex = (currentThemeIndex + 1) % themes.length;
+                    currentTheme = themes[nextThemeIndex];
+                    
+                    document.body.setAttribute('data-theme', currentTheme);
+                    localStorage.setItem('storybook_theme', currentTheme);
+                });
+            }
+
             document.querySelectorAll('.transition-link').forEach(link => {
                 link.addEventListener('click', function(e) {
                     e.preventDefault();
@@ -423,6 +507,36 @@
                     }, 500);
                 });
             });
+
+            // Leaf background
+            const leafContainer = document.getElementById('leaf-container');
+            const leafIcons = ['<i class="fa-solid fa-leaf"></i>', '<i class="fa-solid fa-seedling"></i>', '<i class="fa-regular fa-lemon"></i>'];
+            const cosmicIcons = ['<i class="fa-solid fa-star"></i>', '<i class="fa-solid fa-meteor"></i>', '<i class="fa-solid fa-rocket"></i>'];
+            
+            function createParticles() {
+                if(!leafContainer) return;
+                leafContainer.innerHTML = '';
+                const currentTheme = document.body.getAttribute('data-theme') || 'serene';
+                const icons = currentTheme === 'cosmic' ? cosmicIcons : leafIcons;
+
+                for (let i = 0; i < 20; i++) {
+                    const particle = document.createElement('div');
+                    particle.className = 'leaf';
+                    particle.innerHTML = icons[Math.floor(Math.random() * icons.length)];
+                    particle.style.left = `${Math.random() * 100}vw`;
+                    particle.style.animationDuration = `${Math.random() * 10 + 10}s`;
+                    particle.style.animationDelay = `${Math.random() * 5}s`;
+                    particle.style.opacity = Math.random() * 0.7 + 0.2;
+                    particle.style.fontSize = `${Math.random() * 1.5 + 0.8}rem`;
+                    leafContainer.appendChild(particle);
+                }
+            }
+
+            createParticles();
+
+            if (themeSwitcher) {
+                new MutationObserver(createParticles).observe(document.body, { attributes: true, attributeFilter: ['data-theme'] });
+            }
         });
     </script>
 </body>
