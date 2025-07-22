@@ -1,5 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .storybookagent.graph import bookGenerator
+from django.contrib.auth.models import User
 
 ## DO THIS
 # go to api.together.xyz and create a api key and copy paste it in the .env.example
@@ -38,3 +39,19 @@ def homepage(request):
 
 def book_view(request):
     return render(request, "storybookgenerator/book_view.html")
+
+def register(request):
+    if request.method == "POST":
+        username = request.POST.get("username")
+        email = request.POST.get("email")
+        password = request.POST.get("password")
+
+        new_user = User.objects.create_user(
+            username=username,
+            email=email,
+            
+        )
+        new_user.set_password(password)
+        new_user.save()
+        return redirect("storybookgenerator:homepage")
+    return render(request, "storybookgenerator/register.html")
