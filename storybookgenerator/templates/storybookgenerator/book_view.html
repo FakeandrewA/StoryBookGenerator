@@ -30,15 +30,15 @@
             --shadow-md: 0 4px 8px rgba(0,0,0,0.1);
         }
 
-        body[data-theme="cosmic"] {
-            --bg-color: #0a0a23;
-            --sidebar-bg: rgba(20, 20, 50, 0.5);
-            --primary-card-bg: rgba(30, 30, 60, 0.6);
-            --glass-border: rgba(255, 255, 255, 0.2);
-            --text-color: #f0f0f0;
-            --text-muted: #a0a0c0;
-            --accent-green: #00ffff; /* Cyan */
-            --accent-yellow: #ff00ff; /* Magenta */
+        body[data-theme="retro"] {
+            --bg-color: #fdf3e0;
+            --sidebar-bg: rgba(218, 165, 32, 0.5);
+            --primary-card-bg: rgba(244, 164, 96, 0.6);
+            --glass-border: rgba(139, 69, 19, 0.3);
+            --text-color: #4a2c2a;
+            --text-muted: #8b4513;
+            --accent-green: #e67e22;
+            --accent-yellow: #1abc9c;
         }
 
         * {
@@ -75,16 +75,12 @@
             pointer-events: none;
         }
 
-        .leaf {
+        .particle {
             position: absolute;
             bottom: -100px;
             font-size: 2rem;
             color: var(--accent-green);
             animation: float-up 15s linear infinite;
-        }
-
-        body[data-theme="cosmic"] .leaf {
-            color: var(--accent-green);
         }
 
         @keyframes float-up {
@@ -101,6 +97,7 @@
             padding: 1.5rem;
             display: flex;
             flex-direction: column;
+            justify-content: space-between;
             border-right: 1px solid var(--glass-border);
             backdrop-filter: blur(10px);
             transition: width 0.3s ease-in-out, background-color 0.5s ease;
@@ -337,24 +334,24 @@
             box-shadow: 0 4px 0 #b38b00;
         }
         
-        body[data-theme="cosmic"] .playback-btn,
-        body[data-theme="cosmic"] .generate-btn {
-            box-shadow: 0 4px 0 #a300a3;
+        body[data-theme="retro"] .playback-btn,
+        body[data-theme="retro"] .generate-btn {
+            box-shadow: 0 4px 0 #007a63;
             color: white;
         }
 
         .playback-btn:hover, .generate-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 0 #b38b00; }
         
-        body[data-theme="cosmic"] .playback-btn:hover,
-        body[data-theme="cosmic"] .generate-btn:hover {
-            box-shadow: 0 6px 0 #a300a3;
+        body[data-theme="retro"] .playback-btn:hover,
+        body[data-theme="retro"] .generate-btn:hover {
+            box-shadow: 0 6px 0 #007a63;
         }
 
         .playback-btn:active, .generate-btn:active { transform: translateY(2px); box-shadow: 0 2px 0 #b38b00; }
 
-        body[data-theme="cosmic"] .playback-btn:active,
-        body[data-theme="cosmic"] .generate-btn:active {
-            box-shadow: 0 2px 0 #a300a3;
+        body[data-theme="retro"] .playback-btn:active,
+        body[data-theme="retro"] .generate-btn:active {
+            box-shadow: 0 2px 0 #007a63;
         }
 
         .generate-btn { font-size: 1.2rem; padding: 0.8rem 1.5rem; }
@@ -364,18 +361,20 @@
 </head>
 <body>
     <div class="app-container">
-        <div class="background-decor" id="leaf-container"></div>
+        <div class="background-decor" id="particle-container"></div>
         <aside class="left-sidebar" id="leftSidebar">
-            <div class="sidebar-header">
-                <div class="menu-toggle" id="menuToggle"><i class="fa-solid fa-bars"></i></div>
-            </div>
-            <div class="sidebar-top">
-                <a href="{% url 'storybookgenerator:homepage' %}" class="sidebar-item"><i class="fa-solid fa-feather-pointed"></i><span>New Tale</span></a>
-                <a href="#" class="sidebar-item active"><i class="fa-solid fa-book-bookmark"></i><span>My Library</span></a>
-                <div class="chat-history">
-                    <h3>Recent Tales</h3>
-                    <a href="#" class="history-item">The Fox and The Forest</a>
-                    <a href="#" class="history-item">A Spaceship's Grand Tour</a>
+            <div>
+                <div class="sidebar-header">
+                    <div class="menu-toggle" id="menuToggle"><i class="fa-solid fa-bars"></i></div>
+                </div>
+                <div class="sidebar-top">
+                    <a href="{% url 'storybookgenerator:homepage' %}" class="sidebar-item"><i class="fa-solid fa-feather-pointed"></i><span>New Tale</span></a>
+                    <a href="#" class="sidebar-item active"><i class="fa-solid fa-book-bookmark"></i><span>My Library</span></a>
+                    <div class="chat-history">
+                        <h3>Recent Tales</h3>
+                        <a href="#" class="history-item">The Fox and The Forest</a>
+                        <a href="#" class="history-item">A Spaceship's Grand Tour</a>
+                    </div>
                 </div>
             </div>
             <div class="sidebar-bottom">
@@ -423,7 +422,7 @@
             }
 
             if (themeSwitcher) {
-                const themes = ['serene', 'cosmic'];
+                const themes = ['serene', 'retro'];
                 let currentTheme = localStorage.getItem('storybook_theme') || 'serene';
                 document.body.setAttribute('data-theme', currentTheme);
 
@@ -513,27 +512,27 @@
             if(prevBtn) prevBtn.addEventListener('click', () => { stopAutoplay(); showSlide(currentIndex - 1); });
             if(nextBtn) nextBtn.addEventListener('click', () => { stopAutoplay(); showSlide(currentIndex + 1); });
 
-            // Leaf background
-            const leafContainer = document.getElementById('leaf-container');
-            const leafIcons = ['<i class="fa-solid fa-leaf"></i>', '<i class="fa-solid fa-seedling"></i>', '<i class="fa-regular fa-lemon"></i>'];
-            const cosmicIcons = ['<i class="fa-solid fa-star"></i>', '<i class="fa-solid fa-meteor"></i>', '<i class="fa-solid fa-rocket"></i>'];
+            // Particle background
+            const particleContainer = document.getElementById('particle-container');
+            const sereneIcons = ['<i class="fa-solid fa-leaf"></i>', '<i class="fa-solid fa-seedling"></i>', '<i class="fa-regular fa-lemon"></i>'];
+            const retroIcons = ['<i class="fa-solid fa-ghost"></i>', '<i class="fa-solid fa-circle"></i>', '<i class="fa-solid fa-square"></i>'];
             
             function createParticles() {
-                if(!leafContainer) return;
-                leafContainer.innerHTML = '';
+                if(!particleContainer) return;
+                particleContainer.innerHTML = '';
                 const currentTheme = document.body.getAttribute('data-theme') || 'serene';
-                const icons = currentTheme === 'cosmic' ? cosmicIcons : leafIcons;
+                const icons = currentTheme === 'retro' ? retroIcons : sereneIcons;
 
                 for (let i = 0; i < 20; i++) {
                     const particle = document.createElement('div');
-                    particle.className = 'leaf';
+                    particle.className = 'particle';
                     particle.innerHTML = icons[Math.floor(Math.random() * icons.length)];
                     particle.style.left = `${Math.random() * 100}vw`;
                     particle.style.animationDuration = `${Math.random() * 10 + 10}s`;
                     particle.style.animationDelay = `${Math.random() * 5}s`;
                     particle.style.opacity = Math.random() * 0.7 + 0.2;
                     particle.style.fontSize = `${Math.random() * 1.5 + 0.8}rem`;
-                    leafContainer.appendChild(particle);
+                    particleContainer.appendChild(particle);
                 }
             }
 
@@ -546,4 +545,3 @@
     </script>
 </body>
 </html>
-
