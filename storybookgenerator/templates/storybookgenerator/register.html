@@ -3,39 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Join the Story Adventure - StoryGen</title>
+    <title>Join StoryTree - Create Your Account</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <style>
         :root {
-            --bg-primary: linear-gradient(135deg, #0f0c29 0%, #24243e 50%, #302b63 100%);
-            --bg-secondary: #1a1625;
-            --bg-card: rgba(26, 22, 37, 0.95);
-            --bg-input: #252138;
-            --border-color: #3a3654;
-            --border-glow: rgba(138, 66, 255, 0.3);
-            --text-primary: #ffffff;
-            --text-secondary: #e2e8f0;
-            --text-muted: #a0a0a8;
-            --accent-primary: #ff6b9d;
-            --accent-secondary: #4ecdc4;
-            --accent-yellow: #ffd93d;
-            --accent-purple: #a78bfa;
-            --accent-pink: #f093fb;
-            --accent-gradient: linear-gradient(45deg, #ff6b9d, #4ecdc4, #ffd93d);
-            --rainbow-gradient: linear-gradient(45deg, #ff6b9d, #4ecdc4, #ffd93d, #a78bfa, #f093fb);
-            --neon-glow: 0 0 20px rgba(255, 107, 157, 0.4);
-            --shadow-fun: 0 10px 30px rgba(0, 0, 0, 0.5);
-            --shadow-hover: 0 15px 40px rgba(138, 66, 255, 0.4);
-            --font-primary: 'Fredoka', cursive;
-            --font-secondary: 'Comic Neue', cursive;
-            --border-radius: 20px;
-            --border-radius-lg: 25px;
+            --bg-primary: linear-gradient(135deg, #FFF8E7 0%, #FFE5B4 50%, #FFDAB9 100%);
+            --bg-sidebar: #8B4513;
+            --bg-card: rgba(255, 255, 255, 0.95);
+            --bg-input: #FFFFFF;
+            --bg-button: #4ECDC4;
+            --bg-button-hover: #45B7B8;
+            --bg-secondary-card: #F4A460;
+            --border-color: #DEB887;
+            --text-primary: #8B4513;
+            --text-secondary: #A0522D;
+            --text-white: #FFFFFF;
+            --accent-orange: #FF8C42;
+            --accent-green: #4ECDC4;
+            --shadow-light: 0 2px 10px rgba(139, 69, 19, 0.1);
+            --shadow-medium: 0 4px 20px rgba(139, 69, 19, 0.15);
+            --border-radius: 12px;
+            --border-radius-lg: 16px;
+            --font-primary: 'Nunito', sans-serif;
+            --font-secondary: 'Inter', sans-serif;
         }
 
         * {
@@ -57,83 +53,181 @@
             overflow-x: hidden;
         }
 
-        /* Animated starfield background */
-        .starfield {
+        /* Moving trees background */
+        .floating-trees {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: -1;
+            pointer-events: none;
+            z-index: 1;
         }
 
-        .star {
-            position: absolute;
-            width: 2px;
-            height: 2px;
-            background: white;
-            border-radius: 50%;
-            animation: twinkle 3s infinite;
-        }
-
-        @keyframes twinkle {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 1; }
-        }
-
-        /* Fun floating elements */
-        .floating-element {
+        .tree {
             position: absolute;
             font-size: 2rem;
-            opacity: 0.8;
-            animation: float 6s ease-in-out infinite;
-            z-index: 0;
-            filter: drop-shadow(0 0 10px currentColor);
+            opacity: 0.4;
+            animation: sway 6s ease-in-out infinite;
         }
 
-        .star1 { top: 10%; left: 10%; color: #ffd93d; animation-delay: 0s; }
-        .star2 { top: 20%; right: 15%; color: #ff6b9d; animation-delay: 2s; }
-        .star3 { bottom: 20%; left: 20%; color: #4ecdc4; animation-delay: 4s; }
-        .rocket { top: 15%; right: 25%; color: #a78bfa; animation-delay: 1s; }
-        .magic { bottom: 15%; right: 10%; color: #f093fb; animation-delay: 3s; }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            33% { transform: translateY(-20px) rotate(5deg); }
-            66% { transform: translateY(-10px) rotate(-3deg); }
+        .tree1 { 
+            top: 10%; 
+            left: 5%; 
+            color: #228B22; 
+            font-size: 2.5rem; 
+            animation-delay: 0s;
+            animation-duration: 8s;
+        }
+        
+        .tree2 { 
+            top: 70%; 
+            left: 10%; 
+            color: #32CD32; 
+            font-size: 2rem; 
+            animation-delay: 1s;
+            animation-duration: 7s;
+        }
+        
+        .tree3 { 
+            top: 20%; 
+            right: 15%; 
+            color: #6B8E23; 
+            font-size: 3rem; 
+            animation-delay: 2s;
+            animation-duration: 9s;
         }
 
+        .tree4 { 
+            bottom: 15%; 
+            right: 8%; 
+            color: #8FBC8F; 
+            font-size: 2.2rem; 
+            animation-delay: 3s;
+            animation-duration: 6s;
+        }
+
+        .tree5 { 
+            top: 45%; 
+            left: 2%; 
+            color: #9ACD32; 
+            font-size: 1.8rem; 
+            animation-delay: 4s;
+            animation-duration: 8s;
+        }
+
+        .tree6 { 
+            top: 60%; 
+            right: 25%; 
+            color: #7CFC00; 
+            font-size: 2.8rem; 
+            animation-delay: 5s;
+            animation-duration: 7s;
+        }
+
+        .tree7 { 
+            bottom: 40%; 
+            left: 20%; 
+            color: #ADFF2F; 
+            font-size: 2rem; 
+            animation-delay: 6s;
+            animation-duration: 8s;
+        }
+
+        .tree8 { 
+            top: 30%; 
+            right: 40%; 
+            color: #98FB98; 
+            font-size: 1.5rem; 
+            animation-delay: 2.5s;
+            animation-duration: 9s;
+        }
+
+        @keyframes sway {
+            0%, 100% { 
+                transform: translateX(0) rotate(0deg) scale(1); 
+                opacity: 0.4; 
+            }
+            25% { 
+                transform: translateX(-8px) rotate(-2deg) scale(1.1); 
+                opacity: 0.6; 
+            }
+            50% { 
+                transform: translateX(5px) rotate(1deg) scale(0.9); 
+                opacity: 0.5; 
+            }
+            75% { 
+                transform: translateX(-3px) rotate(-1deg) scale(1.05); 
+                opacity: 0.7; 
+            }
+        }
+
+        /* Add some floating leaves */
+        .leaf {
+            position: absolute;
+            font-size: 1rem;
+            opacity: 0.3;
+            animation: leafFall 12s linear infinite;
+        }
+
+        .leaf1 { 
+            top: -5%; 
+            left: 15%; 
+            color: #DAA520; 
+            animation-delay: 0s; 
+        }
+        
+        .leaf2 { 
+            top: -5%; 
+            left: 60%; 
+            color: #CD853F; 
+            animation-delay: 3s; 
+        }
+        
+        .leaf3 { 
+            top: -5%; 
+            left: 80%; 
+            color: #D2691E; 
+            animation-delay: 6s; 
+        }
+
+        .leaf4 { 
+            top: -5%; 
+            left: 30%; 
+            color: #B8860B; 
+            animation-delay: 9s; 
+        }
+
+        @keyframes leafFall {
+            0% { 
+                transform: translateY(-20px) translateX(0) rotate(0deg); 
+                opacity: 0; 
+            }
+            10% { 
+                opacity: 0.6; 
+            }
+            90% { 
+                opacity: 0.3; 
+            }
+            100% { 
+                transform: translateY(100vh) translateX(50px) rotate(360deg); 
+                opacity: 0; 
+            }
+        }
+
+        /* Registration container */
         .auth-container {
             width: 100%;
-            max-width: 450px;
+            max-width: 480px;
             padding: 2.5rem;
             background: var(--bg-card);
-            border: 2px solid var(--border-color);
             border-radius: var(--border-radius-lg);
-            box-shadow: var(--shadow-fun);
+            box-shadow: var(--shadow-medium);
             animation: bounceIn 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
             position: relative;
             z-index: 10;
             backdrop-filter: blur(15px);
-        }
-
-        .auth-container::before {
-            content: '';
-            position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
-            background: var(--rainbow-gradient);
-            border-radius: var(--border-radius-lg);
-            z-index: -1;
-            opacity: 0.3;
-            animation: borderGlow 3s ease-in-out infinite alternate;
-        }
-
-        @keyframes borderGlow {
-            0% { opacity: 0.3; }
-            100% { opacity: 0.6; }
+            border: 1px solid var(--border-color);
         }
 
         @keyframes bounceIn {
@@ -154,6 +248,7 @@
             }
         }
 
+        /* Header section */
         .auth-header {
             text-align: center;
             margin-bottom: 2rem;
@@ -164,13 +259,13 @@
             justify-content: center;
             align-items: center;
             gap: 1rem;
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
         }
 
         .logo-icon {
             width: 50px;
             height: 50px;
-            background: var(--rainbow-gradient);
+            background: var(--accent-orange);
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -178,53 +273,42 @@
             color: white;
             font-size: 1.5rem;
             animation: pulse 2s infinite;
-            box-shadow: var(--neon-glow);
+            box-shadow: 0 4px 15px rgba(255, 140, 66, 0.3);
         }
 
         @keyframes pulse {
-            0% { transform: scale(1); box-shadow: var(--neon-glow); }
-            50% { transform: scale(1.1); box-shadow: 0 0 25px rgba(255, 107, 157, 0.6); }
-            100% { transform: scale(1); box-shadow: var(--neon-glow); }
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
         }
 
-        .auth-header h1 {
+        .logo-text {
             font-size: 2.2rem;
-            font-weight: 700;
-            background: var(--rainbow-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin: 0;
-            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+            font-weight: 800;
+            color: var(--accent-orange);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
         }
 
         .auth-header p {
             color: var(--text-secondary);
             font-size: 1.1rem;
-            margin-top: 0.5rem;
+            margin-bottom: 1rem;
             font-family: var(--font-secondary);
-            font-weight: 400;
+            font-weight: 500;
         }
 
         .fun-subtitle {
             display: inline-block;
             padding: 0.5rem 1rem;
-            background: linear-gradient(45deg, #ff6b9d, #a78bfa);
-            color: white;
+            background: var(--bg-secondary-card);
+            color: var(--text-primary);
             border-radius: 15px;
             font-size: 0.9rem;
-            font-weight: 600;
-            margin-top: 1rem;
-            animation: wiggle 3s ease-in-out infinite;
-            box-shadow: 0 4px 15px rgba(255, 107, 157, 0.3);
+            font-weight: 700;
+            box-shadow: var(--shadow-light);
         }
 
-        @keyframes wiggle {
-            0%, 100% { transform: rotate(0deg); }
-            25% { transform: rotate(2deg); }
-            75% { transform: rotate(-2deg); }
-        }
-
+        /* Form styling */
         .auth-form .form-group {
             margin-bottom: 1.5rem;
         }
@@ -232,15 +316,14 @@
         .auth-form label {
             display: block;
             margin-bottom: 0.75rem;
-            font-weight: 600;
+            font-weight: 700;
             color: var(--text-primary);
             font-size: 1rem;
-            font-family: var(--font-secondary);
+            font-family: var(--font-primary);
         }
 
         .input-wrapper {
             position: relative;
-            transform-origin: center;
             transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
@@ -258,9 +341,9 @@
             transition: all 0.3s ease;
         }
 
-        .input-icon.user { color: #ff6b9d; }
-        .input-icon.email { color: #4ecdc4; }
-        .input-icon.password { color: #a78bfa; }
+        .input-icon.user { color: #FF8C42; }
+        .input-icon.email { color: #4ECDC4; }
+        .input-icon.password { color: #F4A460; }
 
         .auth-form input {
             width: 100%;
@@ -272,19 +355,19 @@
             font-family: var(--font-primary);
             font-size: 1rem;
             font-weight: 500;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.3s ease;
             outline: none;
         }
 
         .auth-form input::placeholder {
-            color: var(--text-muted);
+            color: var(--text-secondary);
+            opacity: 0.7;
             font-weight: 400;
         }
 
         .auth-form input:focus {
-            border-color: var(--accent-primary);
-            box-shadow: 0 0 0 4px rgba(255, 107, 157, 0.2), 0 0 20px rgba(255, 107, 157, 0.1);
-            background: #2d2642;
+            border-color: var(--accent-green);
+            box-shadow: 0 0 0 4px rgba(78, 205, 196, 0.2);
             transform: translateY(-2px);
         }
 
@@ -293,8 +376,9 @@
             filter: drop-shadow(0 0 8px currentColor);
         }
 
+        /* Submit button */
         .submit-btn {
-            background: var(--accent-gradient);
+            background: var(--bg-button);
             color: white;
             border: none;
             padding: 1.2rem 2rem;
@@ -304,22 +388,22 @@
             font-weight: 700;
             font-family: var(--font-primary);
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
             text-transform: uppercase;
             letter-spacing: 1px;
-            box-shadow: 0 8px 25px rgba(255, 107, 157, 0.4);
+            box-shadow: 0 4px 15px rgba(78, 205, 196, 0.3);
         }
 
         .submit-btn:hover {
-            transform: translateY(-3px) scale(1.02);
-            box-shadow: var(--shadow-hover);
-            background: linear-gradient(45deg, #ff5eb3, #26a69a, #ffeb3b);
+            background: var(--bg-button-hover);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(78, 205, 196, 0.4);
         }
 
         .submit-btn:active {
-            transform: translateY(-1px) scale(0.98);
+            transform: translateY(-1px);
         }
 
         .submit-btn::before {
@@ -337,6 +421,7 @@
             left: 100%;
         }
 
+        /* Footer */
         .auth-footer {
             text-align: center;
             margin-top: 2rem;
@@ -348,11 +433,11 @@
             color: var(--text-secondary);
             font-size: 1rem;
             font-family: var(--font-secondary);
-            font-weight: 400;
+            font-weight: 500;
         }
 
         .auth-footer a {
-            color: var(--accent-primary);
+            color: var(--accent-green);
             text-decoration: none;
             font-weight: 700;
             transition: all 0.3s ease;
@@ -360,24 +445,23 @@
         }
 
         .auth-footer a:hover {
-            color: var(--accent-secondary);
-            text-shadow: 0 0 10px currentColor;
+            color: var(--accent-orange);
             transform: translateY(-1px);
             display: inline-block;
         }
 
-        /* Success message styling */
+        /* Success message */
         .success-message {
-            background: linear-gradient(45deg, #4ecdc4, #44a08d);
+            background: var(--bg-button);
             color: white;
             padding: 1rem;
             border-radius: var(--border-radius);
             margin-bottom: 1rem;
             text-align: center;
-            font-weight: 600;
+            font-weight: 700;
             display: none;
             animation: slideDown 0.5s ease-out;
-            box-shadow: 0 4px 20px rgba(78, 205, 196, 0.3);
+            box-shadow: 0 4px 15px rgba(78, 205, 196, 0.3);
         }
 
         @keyframes slideDown {
@@ -390,60 +474,114 @@
             .auth-container {
                 padding: 2rem 1.5rem;
                 margin: 1rem;
+                max-width: 400px;
             }
             
-            .auth-header h1 {
+            .logo-text {
                 font-size: 1.8rem;
             }
             
-            .floating-element {
+            .auth-form input {
+                padding: 1rem 1rem 1rem 3rem;
+            }
+            
+            .input-icon {
+                left: 1rem;
+            }
+
+            .tree {
                 font-size: 1.5rem;
+            }
+
+            .tree1, .tree3, .tree6 {
+                font-size: 2rem;
             }
         }
 
-        /* Accessibility improvements */
+        /* Accessibility */
         .submit-btn:focus-visible {
-            outline: 3px solid var(--accent-yellow);
+            outline: 3px solid var(--accent-orange);
             outline-offset: 2px;
         }
 
         input:focus-visible {
             outline: none;
         }
+
+        /* Custom notification styles */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 1rem 1.5rem;
+            border-radius: var(--border-radius);
+            font-weight: 700;
+            box-shadow: var(--shadow-medium);
+            z-index: 1000;
+            animation: slideInRight 0.3s ease-out;
+            max-width: 300px;
+        }
+
+        .notification.success {
+            background: var(--bg-button);
+            color: white;
+        }
+
+        .notification.error {
+            background: #E74C3C;
+            color: white;
+        }
+
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(100%); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes slideOutRight {
+            from { opacity: 1; transform: translateX(0); }
+            to { opacity: 0; transform: translateX(100%); }
+        }
     </style>
 </head>
 <body>
-    <!-- Animated starfield -->
-    <div class="starfield" id="starfield"></div>
-
-    <!-- Fun floating elements -->
-    <div class="floating-element star1">⭐</div>
-    <div class="floating-element star2">🌟</div>
-    <div class="floating-element star3">✨</div>
-    <div class="floating-element rocket">🚀</div>
-    <div class="floating-element magic">🪄</div>
+    <!-- Moving trees background -->
+    <div class="floating-trees">
+        <div class="tree tree1">🌲</div>
+        <div class="tree tree2">🌳</div>
+        <div class="tree tree3">🎄</div>
+        <div class="tree tree4">🌲</div>
+        <div class="tree tree5">🌳</div>
+        <div class="tree tree6">🎄</div>
+        <div class="tree tree7">🌲</div>
+        <div class="tree tree8">🌳</div>
+        
+        <!-- Falling leaves -->
+        <div class="leaf leaf1">🍃</div>
+        <div class="leaf leaf2">🍂</div>
+        <div class="leaf leaf3">🍃</div>
+        <div class="leaf leaf4">🍂</div>
+    </div>
 
     <div class="auth-container">
         <div class="auth-header">
             <div class="logo-section">
                 <div class="logo-icon">
-                    <i class="fa-solid fa-brain"></i>
+                    <i class="fa-solid fa-tree"></i>
                 </div>
-                <h1>StoryGen</h1>
+                <div class="logo-text">STORYTREE</div>
             </div>
             <p>Let's create amazing stories together!</p>
             <div class="fun-subtitle">🎨 Join the Adventure! 📚</div>
         </div>
         
         <div class="success-message" id="successMessage">
-            🎉 Welcome to the story world! 🎉
+            🎉 Welcome to StoryTree! Your account has been created! 🎉
         </div>
         
         <form class="auth-form" onsubmit="handleSubmit(event)">
             <div class="form-group">
                 <label for="username">🦄 Pick Your Story Name</label>
                 <div class="input-wrapper">
-                    <i class="fa-solid fa-user input-icon user"></i>
                     <input 
                         type="text" 
                         id="username" 
@@ -452,13 +590,13 @@
                         required
                         autocomplete="username"
                     >
+                    <i class="fa-solid fa-user input-icon user"></i>
                 </div>
             </div>
             
             <div class="form-group">
                 <label for="email">📧 Your Magic Email</label>
                 <div class="input-wrapper">
-                    <i class="fa-solid fa-envelope input-icon email"></i>
                     <input 
                         type="email" 
                         id="email" 
@@ -467,13 +605,13 @@
                         required
                         autocomplete="email"
                     >
+                    <i class="fa-solid fa-envelope input-icon email"></i>
                 </div>
             </div>
             
             <div class="form-group">
                 <label for="password">🔐 Secret Story Password</label>
                 <div class="input-wrapper">
-                    <i class="fa-solid fa-lock input-icon password"></i>
                     <input 
                         type="password" 
                         id="password" 
@@ -483,6 +621,7 @@
                         autocomplete="new-password"
                         minlength="8"
                     >
+                    <i class="fa-solid fa-lock input-icon password"></i>
                 </div>
             </div>
             
@@ -492,27 +631,11 @@
         </form>
         
         <div class="auth-footer">
-            <p>Already have an account? <a href="#">Jump back in! 🎯</a></p>
+            <p>Already have an account? <a href="#" onclick="showLoginMessage()">Jump back in! 🎯</a></p>
         </div>
     </div>
 
     <script>
-        // Create animated starfield
-        function createStarfield() {
-            const starfield = document.getElementById('starfield');
-            const numStars = 50;
-            
-            for (let i = 0; i < numStars; i++) {
-                const star = document.createElement('div');
-                star.className = 'star';
-                star.style.left = Math.random() * 100 + '%';
-                star.style.top = Math.random() * 100 + '%';
-                star.style.animationDelay = Math.random() * 3 + 's';
-                star.style.animationDuration = (Math.random() * 2 + 2) + 's';
-                starfield.appendChild(star);
-            }
-        }
-
         function handleSubmit(event) {
             event.preventDefault();
             
@@ -521,31 +644,43 @@
             const email = formData.get('email');
             const password = formData.get('password');
             
-            // Basic validation with fun messages
+            // Basic validation
             if (!username || !email || !password) {
-                showFunAlert('Oops! Please fill in all the magical fields! ✨');
+                showNotification('Oops! Please fill in all the magical fields! ✨', 'error');
                 return;
             }
             
             if (password.length < 8) {
-                showFunAlert('Your secret password needs to be at least 8 characters long! 🔐');
+                showNotification('Your secret password needs to be at least 8 characters long! 🔐', 'error');
                 return;
             }
             
-            // Simulate form submission with fun animation
+            // Email validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                showNotification('Please enter a valid email address! 📧', 'error');
+                return;
+            }
+            
+            // Simulate account creation
             const submitBtn = event.target.querySelector('.submit-btn');
             const originalText = submitBtn.innerHTML;
             
             submitBtn.innerHTML = '🌟 Creating Your Account... 🌟';
             submitBtn.disabled = true;
-            submitBtn.style.background = 'linear-gradient(45deg, #a78bfa, #f093fb)';
+            submitBtn.style.background = '#F4A460';
             
-            // Show success message
+            // Show success after delay
             setTimeout(() => {
                 const successMessage = document.getElementById('successMessage');
                 successMessage.style.display = 'block';
                 
-                // Reset button after showing success
+                showNotification('Account created successfully! Welcome to StoryTree! 🌳', 'success');
+                
+                // Reset form
+                event.target.reset();
+                
+                // Reset button
                 setTimeout(() => {
                     submitBtn.innerHTML = originalText;
                     submitBtn.disabled = false;
@@ -555,36 +690,23 @@
             }, 2000);
         }
         
-        function showFunAlert(message) {
-            // Create a fun custom alert
-            const alertDiv = document.createElement('div');
-            alertDiv.style.cssText = `
-                position: fixed;
-                top: 20px;
-                left: 50%;
-                transform: translateX(-50%);
-                background: linear-gradient(45deg, #ff6b9d, #a78bfa);
-                color: white;
-                padding: 1rem 2rem;
-                border-radius: 25px;
-                font-family: var(--font-primary);
-                font-weight: 600;
-                font-size: 1rem;
-                box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-                z-index: 1000;
-                animation: bounceIn 0.5s ease-out;
-                border: 1px solid rgba(255, 255, 255, 0.2);
-            `;
-            alertDiv.textContent = message;
-            document.body.appendChild(alertDiv);
+        function showNotification(message, type = 'success') {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.textContent = message;
+            document.body.appendChild(notification);
             
             setTimeout(() => {
-                alertDiv.style.animation = 'fadeOut 0.5s ease-out forwards';
-                setTimeout(() => alertDiv.remove(), 500);
-            }, 3000);
+                notification.style.animation = 'slideOutRight 0.3s ease-in forwards';
+                setTimeout(() => notification.remove(), 300);
+            }, 4000);
         }
         
-        // Add fun hover effects to inputs
+        function showLoginMessage() {
+            showNotification('Login feature coming soon! For now, create your account! 🎨', 'success');
+        }
+        
+        // Add focus effects to inputs
         document.querySelectorAll('input').forEach(input => {
             input.addEventListener('focus', function() {
                 this.parentElement.style.transform = 'scale(1.02)';
@@ -599,18 +721,22 @@
             });
         });
 
-        // Add CSS for fadeOut animation
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes fadeOut {
-                from { opacity: 1; transform: translateX(-50%) translateY(0); }
-                to { opacity: 0; transform: translateX(-50%) translateY(-20px); }
+        // Username suggestions
+        document.getElementById('username').addEventListener('focus', function() {
+            if (!this.value) {
+                const suggestions = ['StoryWeaver', 'TaleSpinner', 'WordMagic', 'DreamCrafter', 'PageTurner'];
+                const randomSuggestion = suggestions[Math.floor(Math.random() * suggestions.length)];
+                setTimeout(() => {
+                    if (!this.value) {
+                        this.placeholder = `Try "${randomSuggestion}" or be creative!`;
+                    }
+                }, 1000);
             }
-        `;
-        document.head.appendChild(style);
+        });
 
-        // Initialize starfield when page loads
-        createStarfield();
+        document.getElementById('username').addEventListener('blur', function() {
+            this.placeholder = "What should we call you?";
+        });
     </script>
 </body>
 </html>

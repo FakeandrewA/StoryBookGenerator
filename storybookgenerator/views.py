@@ -53,5 +53,5 @@ def register(request):
         )
         new_user.set_password(password)
         new_user.save()
-        return redirect("storybookgenerator:homepage")
+        
     return render(request, "storybookgenerator/register.html")
