@@ -155,7 +155,7 @@
             <h1><i class="fa-solid fa-brain"></i> StoryGen</h1>
             <p>Welcome back! Please log in to your account.</p>
         </div>
-        <form  method="POST" action="{% url 'login' %}" class="auth-form">
+        <form  method="POST" action="{% url 'storybookgenerator:login' %}" class="auth-form">
              {% csrf_token %}
             <div class="form-group">
                 <label for="email">Email Address</label>

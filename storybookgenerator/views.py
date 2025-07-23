@@ -1,6 +1,7 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth import authenticate, login
-from django.contrib import messages, redirect
+from django.contrib import messages
+from django.shortcuts import redirect
 from .storybookagent.graph import loadBookGenerator
 from django.conf import settings
 import os
@@ -99,5 +100,5 @@ def login_view(request):
         else:
             messages.error(request, "Invalid username or password.")
     
-    return render(request, 'login.html')
+    return render(request, 'storybookgenerator/login.html')
 
