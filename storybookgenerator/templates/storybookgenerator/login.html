@@ -3,28 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - StoryGen</title>
+    <title>Login - StoryTree</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <style>
         :root {
-            --bg-color: #0d0b1a;
-            --primary-card-bg: #1a162d;
-            --glass-bg: rgba(255, 255, 255, 0.05);
-            --glass-border: rgba(255, 255, 255, 0.15);
-            --text-color: #e0e0e0;
-            --text-muted: #8c899b;
-            --accent-purple: #8a42ff;
-            --accent-blue: #5c67ff;
-            --accent-gradient: linear-gradient(90deg, var(--accent-purple), var(--accent-blue));
-            --font-family: 'Poppins', sans-serif;
-            --border-radius-md: 12px;
-            --border-radius-lg: 16px;
+            --bg-color: #f0fff0;
+            --primary-card-bg: rgba(255, 255, 255, 0.8);
+            --glass-border: rgba(46, 139, 87, 0.2);
+            --text-color: #2f4f4f;
+            --text-muted: #556b2f;
+            --accent-green: #2e8b57;
+            --accent-yellow: #ffc72c;
+            --font-family-heading: 'Luckiest Guy', cursive;
+            --font-family-body: 'Nunito', sans-serif;
+            --border-radius-md: 18px;
+            --border-radius-lg: 24px;
+            --shadow-md: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        body[data-theme="retro"] {
+            --bg-color: #fdf3e0;
+            --primary-card-bg: rgba(244, 164, 96, 0.6);
+            --glass-border: rgba(139, 69, 19, 0.3);
+            --text-color: #4a2c2a;
+            --text-muted: #8b4513;
+            --accent-green: #e67e22;
+            --accent-yellow: #1abc9c;
         }
 
         * {
@@ -34,147 +44,467 @@
         }
 
         body {
-            font-family: var(--font-family);
+            font-family: var(--font-family-body);
             background-color: var(--bg-color);
             color: var(--text-color);
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
+            position: relative;
             overflow: hidden;
+            transition: background-color 0.5s ease;
         }
 
-        .auth-container {
+        .background-decor {
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
-            max-width: 420px;
-            padding: 2rem;
-            background: var(--primary-card-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: var(--border-radius-lg);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            animation: fade-in 0.8s ease-out forwards;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
+            pointer-events: none;
         }
 
-        @keyframes fade-in {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .auth-header {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-
-        .auth-header h1 {
+        .particle {
+            position: absolute;
+            bottom: -100px;
             font-size: 2rem;
-            font-weight: 600;
+            color: var(--accent-green);
+            animation: float-up 15s linear infinite;
+        }
+
+        @keyframes float-up {
+            to {
+                transform: translateY(-110vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+        
+        .theme-switcher {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: var(--text-muted);
+            transition: color 0.3s ease;
+            z-index: 20;
+        }
+        .theme-switcher:hover { color: var(--accent-yellow); }
+
+        .page-container {
+            display: flex;
+            width: 100%;
+            height: 100vh;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .auth-column {
+            flex: 1;
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 0.75rem;
-        }
-        .auth-header h1 i {
-            color: var(--accent-purple);
-        }
-        .auth-header p {
-            color: var(--text-muted);
-            margin-top: 0.5rem;
+            max-width: 450px;
+            margin: 0 auto;
         }
 
-        .auth-form .form-group {
+        .about-column {
+            flex: 1.5;
+            padding-left: 4rem;
+            height: 80vh;
+            overflow-y: auto;
+            color: var(--text-muted);
+        }
+
+        .about-column h2 {
+            font-family: var(--font-family-heading);
+            color: var(--accent-green);
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .about-column p {
+            font-size: 1.1rem;
+            line-height: 1.6;
             margin-bottom: 1.5rem;
         }
 
-        .auth-form label {
+        .laptop-mockup {
+            background: #333;
+            border: 16px solid #333;
+            border-top-width: 20px;
+            border-bottom-width: 50px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            margin-top: 2rem;
+            position: relative;
+        }
+        .laptop-mockup::after {
+            content: '';
+            position: absolute;
+            bottom: -35px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 10px;
+            background: #222;
+            border-radius: 0 0 5px 5px;
+        }
+
+        .laptop-screen {
+            background: var(--bg-color);
+            padding: 1rem;
+            height: 400px;
+            overflow: hidden;
+            border-radius: 5px;
+            font-size: 0.6rem; /* Scale down content */
+        }
+        
+        .mock-homepage-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            border-bottom: 1px solid var(--glass-border);
+        }
+        .mock-title { font-family: var(--font-family-heading); color: var(--accent-green); font-size: 1.5rem; }
+        .mock-palette { font-size: 1.5rem; color: var(--text-muted); }
+
+        .mock-homepage-content {
+            padding: 1rem;
+            display: flex;
+            gap: 1rem;
+        }
+        .mock-prompt-card {
+            flex: 2;
+            background: var(--primary-card-bg);
+            border-radius: var(--border-radius-lg);
+            padding: 1rem;
+            border: 1px solid var(--glass-border);
+        }
+        .mock-prompt-card h1 { font-family: var(--font-family-heading); font-size: 1.8rem; text-align: center; color: var(--text-color); }
+        .mock-textarea {
+            width: 100%;
+            height: 80px;
+            background: rgba(255,255,255,0.5);
+            border: 2px dashed var(--glass-border);
+            border-radius: var(--border-radius-md);
+            margin: 1rem 0;
+        }
+        .mock-button {
+            background: var(--accent-yellow);
+            color: #4a3f00;
+            border: none;
+            padding: 0.8rem;
+            width: 100%;
+            border-radius: 50px;
+            font-family: var(--font-family-heading);
+            font-size: 1.2rem;
+        }
+        .mock-enhancements {
+            flex: 1;
+            background: var(--primary-card-bg);
+            border-radius: var(--border-radius-lg);
+            padding: 1rem;
+            border: 1px solid var(--glass-border);
+        }
+        .mock-enhancements h3 { font-family: var(--font-family-heading); font-size: 1rem; color: var(--text-muted); margin-bottom: 0.5rem; }
+        .mock-select { width: 100%; height: 25px; background: rgba(255,255,255,0.5); border: 1px solid var(--glass-border); border-radius: var(--border-radius-md); margin-bottom: 0.5rem; }
+
+
+        .auth-container {
+            width: 100%;
+            padding: 2.5rem;
+            background: var(--primary-card-bg);
+            border-radius: var(--border-radius-lg);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow-md);
+            z-index: 5;
+            text-align: center;
+            transition: background-color 0.5s ease, border-color 0.5s ease;
+        }
+
+        .auth-header h1 {
+            font-family: var(--font-family-heading);
+            font-size: 2.5rem;
+            color: var(--accent-green);
+            margin-bottom: 0.5rem;
+        }
+
+        .auth-header p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+
+        .form-group label {
             display: block;
             margin-bottom: 0.5rem;
-            font-weight: 500;
+            font-weight: 700;
             color: var(--text-muted);
         }
 
-        .auth-form .input-wrapper {
+        .input-wrapper {
             position: relative;
         }
 
-        .auth-form i {
+        .input-icon {
             position: absolute;
             left: 1rem;
             top: 50%;
             transform: translateY(-50%);
             color: var(--text-muted);
+            opacity: 0.6;
         }
 
         .auth-form input {
             width: 100%;
-            padding: 1rem 1rem 1rem 3rem;
-            background-color: var(--bg-color);
+            padding: 0.9rem 1rem 0.9rem 2.5rem;
+            background-color: rgba(255,255,255,0.5);
             border: 1px solid var(--glass-border);
             border-radius: var(--border-radius-md);
             color: var(--text-color);
-            font-family: var(--font-family);
+            font-family: var(--font-family-body);
             font-size: 1rem;
-            transition: border-color 0.3s ease;
+            font-weight: 600;
+            transition: all 0.3s ease;
         }
+        .auth-form input::placeholder { color: var(--text-muted); font-weight: 400; opacity: 0.7; }
         .auth-form input:focus {
             outline: none;
-            border-color: var(--accent-purple);
+            border-color: var(--accent-green);
+            background-color: rgba(255,255,255,0.8);
         }
 
         .submit-btn {
-            background: var(--accent-gradient);
-            color: white;
+            background: var(--accent-yellow);
+            color: #4a3f00;
             border: none;
-            padding: 1rem;
+            padding: 0.9rem 2rem;
             width: 100%;
-            border-radius: var(--border-radius-md);
-            font-size: 1.1rem;
-            font-weight: 600;
+            border-radius: 50px;
+            font-family: var(--font-family-heading);
+            font-size: 1.3rem;
             cursor: pointer;
             transition: all 0.3s ease;
+            box-shadow: 0 4px 0 #b38b00;
         }
+        
+        body[data-theme="retro"] .submit-btn {
+            box-shadow: 0 4px 0 #007a63;
+            color: white;
+        }
+
         .submit-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(138, 66, 255, 0.4);
+            box-shadow: 0 6px 0 #b38b00;
+        }
+        body[data-theme="retro"] .submit-btn:hover {
+            box-shadow: 0 6px 0 #007a63;
+        }
+
+        .submit-btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 #b38b00;
+        }
+        body[data-theme="retro"] .submit-btn:active {
+            box-shadow: 0 2px 0 #007a63;
         }
 
         .auth-footer {
-            text-align: center;
-            margin-top: 2rem;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--glass-border);
             color: var(--text-muted);
         }
+
         .auth-footer a {
-            color: var(--accent-blue);
+            color: var(--accent-green);
+            font-weight: 700;
             text-decoration: none;
-            font-weight: 600;
         }
+        .auth-footer a:hover {
+            text-decoration: underline;
+        }
+        
+        .error-message {
+            background-color: rgba(255, 100, 100, 0.2);
+            color: #930000;
+            padding: 0.8rem;
+            border-radius: var(--border-radius-md);
+            border: 1px solid rgba(255, 0, 0, 0.3);
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        @media (max-width: 1024px) {
+            .page-container {
+                flex-direction: column;
+                height: auto;
+                padding: 1rem;
+            }
+            .about-column {
+                display: none; /* Hide about section on smaller screens */
+            }
+            .auth-column {
+                max-width: 450px;
+                margin: 2rem auto;
+            }
+        }
+
     </style>
 </head>
 <body>
-    <div class="auth-container">
-        <div class="auth-header">
-            <h1><i class="fa-solid fa-brain"></i> StoryGen</h1>
-            <p>Welcome back! Please log in to your account.</p>
+    <div class="background-decor" id="particle-container"></div>
+    <div class="theme-switcher" id="themeSwitcher" title="Change Theme"><i class="fa-solid fa-palette"></i></div>
+
+    <div class="page-container">
+        <div class="auth-column">
+            <div class="auth-container">
+                <div class="auth-header">
+                    <h1>Welcome Back!</h1>
+                    <p>Log in to continue your story.</p>
+                </div>
+                
+                {% for message in messages %}
+                    <div class="error-message">{{ message }}</div>
+                {% endfor %}
+
+                <form class="auth-form" method="post" action="{% url 'storybookgenerator:login' %}">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <div class="input-wrapper">
+                            <i class="fa-solid fa-user input-icon"></i>
+                            <input 
+                                type="text" 
+                                id="username" 
+                                name="username"
+                                placeholder="Your username" 
+                                required
+                                autocomplete="username"
+                            >
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <div class="input-wrapper">
+                            <i class="fa-solid fa-lock input-icon"></i>
+                            <input 
+                                type="password" 
+                                id="password" 
+                                name="password"
+                                placeholder="Your password" 
+                                required
+                                autocomplete="current-password"
+                            >
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn">
+                        Log In
+                    </button>
+                </form>
+
+                <div class="auth-footer">
+                    <span>
+                        Don't have an account? 
+                        <a href="{% url 'storybookgenerator:register' %}">
+                            Sign Up
+                        </a>
+                    </span>
+                </div>
+            </div>
         </div>
-        <form class="auth-form">
-            <div class="form-group">
-                <label for="email">Email Address</label>
-                <div class="input-wrapper">
-                    <i class="fa-solid fa-envelope"></i>
-                    <input type="email" id="email" placeholder="you@example.com" required>
+
+        <div class="about-column">
+            <h2>Welcome to StoryTree!</h2>
+            <p>Unlock a world where your imagination takes root and blossoms into beautiful, illustrated storybooks. Just plant a simple idea, and watch as our magical AI brings it to life with enchanting text and captivating images.</p>
+            <p>Whether you're a parent creating a bedtime story, a teacher inspiring a classroom, or just a dreamer with a tale to tell, StoryTree is your creative partner.</p>
+            
+            <div class="laptop-mockup">
+                <div class="laptop-screen">
+                    <div class="mock-homepage-header">
+                        <div class="mock-title"><i class="fa-solid fa-tree"></i> StoryTree</div>
+                        <div class="mock-palette"><i class="fa-solid fa-palette"></i></div>
+                    </div>
+                    <div class="mock-homepage-content">
+                        <div class="mock-prompt-card">
+                            <h1>Let's Grow a Story!</h1>
+                            <div class="mock-textarea"></div>
+                            <div class="mock-button"><i class="fa-solid fa-wand-magic-sparkles"></i> Make Magic!</div>
+                        </div>
+                        <div class="mock-enhancements">
+                            <h3><i class="fa-solid fa-comment-dots"></i> Voice Style</h3>
+                            <div class="mock-select"></div>
+                            <h3><i class="fa-solid fa-language"></i> Language</h3>
+                            <div class="mock-select"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="form-group">
-                <label for="password">Password</label>
-                <div class="input-wrapper">
-                    <i class="fa-solid fa-lock"></i>
-                    <input type="password" id="password" placeholder="••••••••" required>
-                </div>
-            </div>
-            <button type="submit" class="submit-btn">Login</button>
-        </form>
-        <div class="auth-footer">
-            <p>Don't have an account? <a href="{% url 'storybookgenerator:register' %}">Sign up</a></p>
         </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const themeSwitcher = document.getElementById('themeSwitcher');
+
+            if (themeSwitcher) {
+                const themes = ['serene', 'retro'];
+                let currentTheme = localStorage.getItem('storybook_theme') || 'serene';
+                document.body.setAttribute('data-theme', currentTheme);
+
+                themeSwitcher.addEventListener('click', () => {
+                    const currentThemeIndex = themes.indexOf(currentTheme);
+                    const nextThemeIndex = (currentThemeIndex + 1) % themes.length;
+                    currentTheme = themes[nextThemeIndex];
+                    
+                    document.body.setAttribute('data-theme', currentTheme);
+                    localStorage.setItem('storybook_theme', currentTheme);
+                });
+            }
+
+            const particleContainer = document.getElementById('particle-container');
+            const sereneIcons = ['<i class="fa-solid fa-leaf"></i>', '<i class="fa-solid fa-seedling"></i>', '<i class="fa-regular fa-lemon"></i>'];
+            const retroIcons = ['<i class="fa-solid fa-ghost"></i>', '<i class="fa-solid fa-circle"></i>', '<i class="fa-solid fa-square"></i>'];
+            
+            function createParticles() {
+                if(!particleContainer) return;
+                particleContainer.innerHTML = '';
+                const currentTheme = document.body.getAttribute('data-theme') || 'serene';
+                const icons = currentTheme === 'retro' ? retroIcons : sereneIcons;
+
+                for (let i = 0; i < 20; i++) {
+                    const particle = document.createElement('div');
+                    particle.className = 'particle';
+                    particle.innerHTML = icons[Math.floor(Math.random() * icons.length)];
+                    particle.style.left = `${Math.random() * 100}vw`;
+                    particle.style.animationDuration = `${Math.random() * 10 + 10}s`;
+                    particle.style.animationDelay = `${Math.random() * 5}s`;
+                    particle.style.opacity = Math.random() * 0.7 + 0.2;
+                    particle.style.fontSize = `${Math.random() * 1.5 + 0.8}rem`;
+                    particleContainer.appendChild(particle);
+                }
+            }
+
+            createParticles();
+
+            if (themeSwitcher) {
+                new MutationObserver(createParticles).observe(document.body, { attributes: true, attributeFilter: ['data-theme'] });
+            }
+        });
+    </script>
 </body>
 </html>

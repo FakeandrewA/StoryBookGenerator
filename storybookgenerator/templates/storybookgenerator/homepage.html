@@ -395,6 +395,60 @@
         .sidebar-btn:hover {
             background-color: #3cb371;
         }
+
+        .account-menu-container {
+            position: relative;
+        }
+
+        .sidebar-item-content {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            width: 100%;
+            cursor: pointer;
+        }
+
+        .account-popup {
+            display: none;
+            position: absolute;
+            bottom: 100%;
+            left: 0;
+            width: calc(100% - 2rem);
+            margin: 0 1rem 0.5rem 1rem;
+            background-color: var(--primary-card-bg);
+            border-radius: var(--border-radius-md);
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--glass-border);
+            z-index: 100;
+            padding: 0.5rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .account-popup.show {
+            display: block;
+        }
+
+        .popup-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 600;
+            border-radius: var(--border-radius-md);
+            transition: all 0.2s ease;
+        }
+
+        .popup-item:hover {
+            background-color: rgba(46, 139, 87, 0.1);
+            color: var(--text-color);
+        }
+
+        .popup-item i {
+            width: 20px;
+            text-align: center;
+        }
         
     </style>
 </head>
@@ -419,7 +473,16 @@
             </div>
             <div class="sidebar-bottom">
                 <a href="#" class="sidebar-item"><i class="fa-solid fa-cogs"></i><span>Settings</span></a>
-                <a href="#" class="sidebar-item"><i class="fa-solid fa-user-astronaut"></i><span>My Account</span></a>
+                <div class="sidebar-item account-menu-container">
+                    <div class="sidebar-item-content" id="accountMenuToggle">
+                        <i class="fa-solid fa-user-astronaut"></i><span>My Account</span>
+                    </div>
+                    <div class="account-popup" id="accountPopup">
+                        <a href="{% url 'storybookgenerator:logout' %}" class="popup-item">
+                            <i class="fa-solid fa-right-from-bracket"></i> Logout
+                        </a>
+                    </div>
+                </div>
             </div>
         </aside>
 
@@ -465,6 +528,8 @@
             const menuToggle = document.getElementById('menuToggle');
             const leftSidebar = document.getElementById('leftSidebar');
             const themeSwitcher = document.getElementById('themeSwitcher');
+            const accountMenuToggle = document.getElementById('accountMenuToggle');
+            const accountPopup = document.getElementById('accountPopup');
             
             if (generateBtn) {
                 generateBtn.addEventListener('click', function() {
@@ -493,6 +558,19 @@
                     
                     document.body.setAttribute('data-theme', currentTheme);
                     localStorage.setItem('storybook_theme', currentTheme);
+                });
+            }
+
+            if (accountMenuToggle && accountPopup) {
+                accountMenuToggle.addEventListener('click', (event) => {
+                    event.stopPropagation();
+                    accountPopup.classList.toggle('show');
+                });
+
+                document.addEventListener('click', (event) => {
+                    if (!accountMenuToggle.contains(event.target) && !accountPopup.contains(event.target)) {
+                        accountPopup.classList.remove('show');
+                    }
                 });
             }
 
