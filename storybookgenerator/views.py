@@ -41,6 +41,10 @@ def book_view(request):
     return render(request, "storybookgenerator/book_view.html")
 
 def register(request):
+    if request.method == "GET":
+        if request.user.is_authenticated:
+            return redirect("storybookgenerator:homepage")
+        return render(request, "storybookgenerator/register.html")
     if request.method == "POST":
         username = request.POST.get("username")
         email = request.POST.get("email")
@@ -49,9 +53,9 @@ def register(request):
         new_user = User.objects.create_user(
             username=username,
             email=email,
-            
         )
         new_user.set_password(password)
         new_user.save()
+        return redirect("storybookgenerator:login")
         
-    return render(request, "storybookgenerator/register.html")
+
