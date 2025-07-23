@@ -27,9 +27,48 @@ class BookState(TypedDict):
 
 
 
-def loadBookGenerator(dir:str,debug=False,timeout_seconds:int=30,max_tries_for_connection_retry:int=3,max_tries_for_graph_retry:int=2):
+def loadBookGenerator(dir:str,debug=False,timeout_seconds:int=25,max_tries_for_connection_retry:int=3,max_tries_for_graph_retry:int=2):
     """
-    
+    Initializes and compiles a LangGraph pipeline (StateGraph) for generating an illustrated storybook 
+    based on a user's prompt. This includes prompt validation, story creation, scene generation, 
+    and image generation for both the title and scenes.
+
+    Args:
+        dir (str): 
+            Directory path where generated images will be saved. Each user's images are stored in 
+            a subdirectory named by their user ID.
+        
+        debug (bool, optional): 
+            If True, prints intermediate debugging information such as prompts, story details, and scene outputs. 
+            Default is False.
+        
+        timeout_seconds (int, optional): 
+            Timeout for each image generation operation. Default is 25 seconds.
+
+        max_tries_for_connection_retry (int, optional): 
+            Maximum number of retries for function/tool call failures like LLM API calls. 
+            Used in prompt grading, story creation, and scene generation. Default is 3.
+
+        max_tries_for_graph_retry (int, optional): 
+            Maximum number of retries within the LangGraph for critical nodes like image generation. 
+            Default is 2.
+
+    Returns:
+        bookGenerator (Runnable): 
+            A compiled LangGraph object that can be run with a valid `BookState` input to generate 
+            a complete storybook pipeline including:
+                - Prompt validation
+                - Story generation
+                - Scene script generation
+                - Title image creation with retry logic
+                - Scene image generation with retry + garbage collection for failed scenes
+
+    Raises:
+        OutputParserException: 
+            Raised if the language model fails to return valid output even after retries.
+
+        Exception: 
+            For other unexpected errors such as API connection errors or formatting issues.
     """
     ## Nodes
     def usersPrompt(state:BookState) -> BookState:
@@ -100,7 +139,6 @@ def loadBookGenerator(dir:str,debug=False,timeout_seconds:int=30,max_tries_for_c
             print("*"*20)
 
         state["story"] = story
-        # state["userId"] = 1 ## edit this for request.user.id
         return state
 
     def scenesCreator(state:BookState) -> BookState:
@@ -153,9 +191,7 @@ def loadBookGenerator(dir:str,debug=False,timeout_seconds:int=30,max_tries_for_c
             state["isTitleImageGenerated"] = IsTitleImageGenerated()
             
         if "title.png" in os.listdir(f"{dir}/{state['userId']}"):
-            state["isTitleImageGenerated"].isTitleImageGenerated = IsTitleImageGenerated(isTitleImageGenerated=True)
-        else:
-            state["isTitleImageGenerated"].isTitleImageGenerated = IsTitleImageGenerated()
+            state["isTitleImageGenerated"].isTitleImageGenerated = True
 
 
         return state
@@ -182,7 +218,7 @@ def loadBookGenerator(dir:str,debug=False,timeout_seconds:int=30,max_tries_for_c
             prompt = sceneImageGenerationTemplate.format(**kwargs)
             print(prompt)
             generateImage(timeout_seconds=timeout_seconds,prompt=prompt,filepath=f"{dir}/{state['userId']}",filename=f"scene{i+1}.png")
-            if f"scene{i+1}" not in os.listdir(f"{dir}/{state['userId']}"):
+            if f"scene{i+1}.png" not in os.listdir(f"{dir}/{state['userId']}"):
                 state["garbage"].append(i)
                 print(f"Couldn't create Scene{i+1} image !!!")
             else:
@@ -193,7 +229,13 @@ def loadBookGenerator(dir:str,debug=False,timeout_seconds:int=30,max_tries_for_c
     def scenesImageGarbageCollector(state:BookState):
         tries = 0
         story = state["story"]
-
+        print("Entering Scenes Image Garbage Collector Node...")
+        if not state["garbage"]:
+            print("No Garbage Found, Returning...")
+            return state
+        print("Garbage Found, Collecting...")
+        print(f"Garbage: {state['garbage']}")
+        print(f"Number of Garbage: {len(state['garbage'])}")
         while state["garbage"] and tries!=max_tries_for_graph_retry:
             i = state["garbage"][-1]
             print(f"Creating Scene{i+1} Image again......")
@@ -202,7 +244,7 @@ def loadBookGenerator(dir:str,debug=False,timeout_seconds:int=30,max_tries_for_c
             prompt = sceneImageGenerationTemplate.format(**kwargs)
             print(prompt)
             generateImage(timeout_seconds=timeout_seconds,prompt=prompt,filepath=f"{dir}/{state["userId"]}",filename=f"scene{i+1}.png",max_retries=1)
-            if f"scene{i+1}" not in os.listdir("{dir}/{state['userId']}"):
+            if f"scene{i+1}.png" not in os.listdir(f"{dir}/{state['userId']}"):
                 tries+=1
                 print(f"Couldn't create Scene{i+1} image !!!,Trying Again")
             else:
@@ -210,7 +252,6 @@ def loadBookGenerator(dir:str,debug=False,timeout_seconds:int=30,max_tries_for_c
                 print(f"created Scene{i+1} image+++")
         
         return state
-
 
 
     graph = StateGraph(BookState)
