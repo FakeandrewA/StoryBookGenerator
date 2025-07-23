@@ -424,7 +424,7 @@ document.addEventListener('DOMContentLoaded', function () {
         .catch(err => {
             loadingOverlay.style.display = 'none';
             console.error(err);
-            
+            alert("Server error. Please try again.");
         });
 
         function getCSRFToken() {

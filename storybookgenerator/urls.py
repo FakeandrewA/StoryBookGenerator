@@ -8,3 +8,7 @@ urlpatterns = [
     path("book/", book_view, name="book_view"),
     path("generate-story/", generate_story, name="generate_story"),  # ✅ Add this line
 ]
+
+from django.db import models
+
+# Create your models here.

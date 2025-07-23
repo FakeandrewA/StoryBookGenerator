@@ -4,29 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Story Viewer - Editor</title>
-
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <style>
-
-            body { font-family: 'Poppins', sans-serif; background: #0d0b1a; color: #fff; padding: 2rem; }
-            .story-box { max-width: 700px; margin: auto; background: #1a162d; padding: 2rem; border-radius: 12px; }
-            .story-box h1 { color: #8a42ff; }
-            .story-text { margin: 1rem 0; font-size: 1.1rem; line-height: 1.6; }
-            .image-gallery img { max-width: 100%; border-radius: 10px; margin-top: 1rem; box-shadow: 0 0 10px rgba(138, 66, 255, 0.4); }
-            .controls { display: flex; justify-content: space-between; margin-top: 2rem; }
-            .btn { background: linear-gradient(90deg, #8a42ff, #5c67ff); color: white; border: none; padding: 0.8rem 1.5rem; border-radius: 8px; font-size: 1rem; cursor: pointer; }
-            .btn:hover { background: #5c67ff; }
-            .scene-list { margin-top: 2rem; }
-            .scene-item { background: #2a223f; padding: 1rem; border-radius: 8px; margin-bottom: 1rem; }
-            .scene-item textarea { width: 100%; background: #1a162d; color: white; border: none; resize: none; padding: 0.5rem; border-radius: 6px; font-family: 'Poppins', sans-serif; }
-            .scene-actions { margin-top: 0.5rem; display: flex; gap: 0.5rem; }
-            .scene-actions button { flex: 1; }
-            :root {
-                --bg-color: #0d0b1a;
+        :root {
+            --bg-color: #0d0b1a;
             --sidebar-bg: #1a162d;
             --main-bg: #0d0b1a;
             --primary-card-bg: #1a162d;
@@ -406,6 +393,27 @@
                 <div class="page-title"><i class="fa-solid fa-brain"></i><span>StoryGen</span></div>
                 <div class="theme-switcher"><i class="fa-solid fa-sun"></i></div>
             </header>
+
+            <main class="main-content">
+                <div class="story-viewer-container">
+                    <div class="carousel-container">
+                        <div class="carousel-slides"></div>
+                        <button class="carousel-nav prev"><i class="fa-solid fa-chevron-left"></i></button>
+                        <button class="carousel-nav next"><i class="fa-solid fa-chevron-right"></i></button>
+                        <div class="carousel-dots"></div>
+                    </div>
+                    <div class="editor-and-controls">
+                        <aside class="editor-panel">
+                            <h2><i class="fa-solid fa-pen-ruler"></i> Scene Editor</h2>
+                            <div class="scene-editor">
+                                <textarea id="sceneText" placeholder="Edit the scene text here..."></textarea>
+                            </div>
+                            <button class="generate-btn"><i class="fa-solid fa-save"></i> Save Changes</button>
+                        </aside>
+                        <button id="playPauseBtn" class="playback-btn"><i class="fa-solid fa-play"></i></button>
+                    </div>
+                </div>
+            </main>
         </div>
     </div>
 
@@ -443,7 +451,7 @@
                 scenes.forEach((scene, index) => {
                     const slide = document.createElement('div');
                     slide.className = 'carousel-slide';
-                    slide.innerHTML = `<img src="${scene.img}" alt="Scene ${index + 1}">`;
+                    slide.innerHTML = <img src="${scene.img}" alt="Scene ${index + 1}">;
                     slidesContainer.appendChild(slide);
 
                     const dot = document.createElement('div');
@@ -462,7 +470,7 @@
                 if (index < 0) index = scenes.length - 1;
                 
                 currentIndex = index;
-                slidesContainer.style.transform = `translateX(-${currentIndex * 100}%)`;
+                slidesContainer.style.transform = translateX(-${currentIndex * 100}%);
                 sceneTextArea.value = scenes[currentIndex].text;
 
                 const dots = dotsContainer.querySelectorAll('.dot');
@@ -514,4 +522,3 @@
     </script>
 </body>
 </html>
-
