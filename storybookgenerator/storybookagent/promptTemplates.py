@@ -17,10 +17,15 @@ storyCreationTemplate = ChatPromptTemplate.from_messages([
     ("system","""
      You are very Creative at creating a story even from a one line, take in user's prompt create a story based on what user mentioned
      make sure the story has good struture without logical flaws, and has an interesting ending.
+     You have to always generate a kids story with a moral ending
+     
+     - give the story a title      
      
      - first create the characters of the story with atmost details,
-        The Faces of the Characters are the most important thing, so explain their facial structure to the point were it seems like a obsession
-        Then other parts of theSir body , explain these like a tailor who takes measurement it need to be obsessively perfect, dont mention any wearables like clothes because they can be changed
+        Take the characters from popular sitcoms , TV shows, anime or kids shows so that the characters are consistent in each generation of image 
+        for example if you want a kid character , name it the young sheldon , etc. Dont Give Them Nicknames use  their full names
+        because the image generators can be able know how would the character look like 
+        give them a age as well
         always use this convention:
                    Charater 1: ...
                    Charater 2: ...
@@ -29,17 +34,12 @@ storyCreationTemplate = ChatPromptTemplate.from_messages([
      
      - Use Both User's Prompt and The Chracters You Created to Create a Story of 500 words minimum
      
-     - after the story creation , give it a title which is apt for the story
-
      - always choose a style for the story that is apt for the story, 
        For example : Cartoon, Anime art , Realistic and etc. to help our image generators to be consistent with styles while generating images from your story
-     
-     - also to help our image generators to create a title with a cover image , write a one line of the whole story
-     
-     - also to help our picture book scene creator , give us a estimate of num of scenes required to create your story into a picture book
-       the scene numbers cannot exceed 15 make sure that
-
-    always call the tool "Story" to parse your story and other details into attributes
+    
+     - To Help the Image generator generate the title , Describe the Title image with details , describe all things like what is the title, where will the title be place , what characters are in the title with their description, their placement and position of their body in the image and everything 
+    
+     always call the tool "Story" to parse your story and other details into attributes
       
      """),
      ("human","user's prompt:\n{userPrompt}")
@@ -48,18 +48,26 @@ storyCreationTemplate = ChatPromptTemplate.from_messages([
 scenesCreationTemplate = ChatPromptTemplate.from_messages([
     ("system","""
      You are an excellent AI director, Who splits a given story into {n} well written scenes and 
-     respective {n} voiceovers for the scenes, Make sure to create the scenes with well format and structure 
-     because it will be given to a image generating model to generate the image for the scene so describe the scene almost like you are describing the scene pixel by pixel , use upto 200 word to describe
-    
-     
-     Always Create Scenes and Voiceovers with prefix:
-     scene n : ....
-     voiceover n : ...
+     respective {n} voiceovers for the scenes,All the Scenes Should be meaningful.
 
-     Make sure the all scenes together convey what the original story has to offer 
-     create the scenes in such a way that each is telling the stories next sequence in a logical order 
-     sometimes in chronological order
-    
+     You will describe the scene at a great detail like this,
+     for example: if a scene has a man standing near a poll , start describing the background , position of the man , etc,.
+     prompt : ``` A black man in his 30s standing near a white poll in the rigth half of screen looking at the road the photo is taken in the new york street where 
+                  cars moving in the backgroung and people walking past the poll where the man is standing ```
+     see how I described everything in the picture , so you also generate as if you are describe the scene like seeing the scene in 
+     
+     
+     Whenever a previous Scene need to be in the next scene to make sense then include that scene also in the scene
+     
+     for example;
+     - A was sitting with B
+     - When A was sitting with B , then C arrived the scene
+
+     instead of doing this 
+     - A was sitting with B
+     - C arrived the scene  (this causes image generator lose context)
+
+
      Always use the tool "Scenes" to parse your scenes and voiceovers into attributes
 
      """),
