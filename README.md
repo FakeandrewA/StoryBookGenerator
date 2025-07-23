@@ -1,48 +1,148 @@
-# To Get Started
-## Clone the repo
-> Go into anyfolder open a cmd/shell/git bash (I recommend using git bash)
+
+# 📚 StoryBook Generator
+
+Turn user prompts into illustrated storybooks — complete with structured scenes, voiceovers, and AI-generated images.
+
+---
+
+## 🚀 Getting Started
+
+### 1. Clone the Repository
+
+Open your terminal (Git Bash is recommended) and run:
 
 ```bash
 git clone https://github.com/FakeandrewA/StoryBookGenerator.git
-```
-```bash
 cd StoryBookGenerator
 ```
 
-## Creating Your feature branch to write your features
-> first pull any latest changes(standard procedure to makesure you have the proper baseline)
+---
+
+### 2. Set Up Your Feature Branch
+
+Always start from the latest `main` branch:
 
 ```bash
 git checkout main
-```
-```bash
 git pull origin main
 ```
-> then, to create your feature branch
+
+Create a new feature branch:
 
 ```bash
-git checkout -b feature/some-task-name
+git checkout -b feature/your-feature-name
 ```
-(follow this naming convention)
 
-> now your are working on our branch any changes made will be saved to this branch
-  this will make sure that our main branch is safe
-  after some changes or even without changes
+>  **Convention:** Use `feature/your-feature-name` format for branch names.
+
+After making your changes:
 
 ```bash
 git add --all
+git commit -m "Describe your changes"
+git push origin feature/your-feature-name
 ```
+
+You’ll now see your feature branch in the repository.
+
+---
+
+### 3. Opening a Pull Request
+
+* Open a PR targeting the `test-main` branch.
+* After integration testing, a maintainer will merge into `main` to version the project safely.
+
+---
+
+## 🔐 Environment Setup
+
+### 1. Get API Keys
+
+* 🧠 Create a Together API key from [api.together.xyz](https://api.together.xyz)
+* 🔑 Create a Groq API key from [groq.com](https://groq.com)
+
+Paste both keys into `.env.example` like so:
+
+```env
+TOGETHER_API_KEY=your_together_api_key
+GROQ_API_KEY=your_groq_api_key
+```
+
+Then rename the file:
+
 ```bash
-git commit -m "your message"
+mv .env.example .env
 ```
+
+---
+
+### 2. Create and Activate Virtual Environment
+
+**On Windows:**
+
 ```bash
-git push origin feature/some-task-name
+python -m venv venv
+venv\Scripts\activate
 ```
-#(note: this should be your branch name)
 
-> now you can see your feature branch in the main repo
+**On macOS/Linux:**
 
-## Opening a pull Request
-> we will pull and merge the code to test-main branch then do a integration test
-  then do a final pull request to main branch , successfuly versioning our project to its next level
+```bash
+python3 -m venv venv
+source venv/bin/activate
+```
 
+---
+
+### 3. Install Dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+✅ Your environment is now ready.
+
+---
+
+## 🧠 Using the `bookGenerator`
+
+```python
+from storybookagent.graph import bookGenerator
+
+book = bookGenerator.invoke({
+    "userPrompt": "<your prompt here>",
+    "userId": request.user.id
+})
+```
+
+---
+
+## 📦 Output Structure
+
+The `book` returned is a dictionary with the following structure:
+
+```python
+book = {
+    "userPrompt": str,                 # The original user input
+    "grade": str,                      # Prompt grade: "yes" or "no"
+    "userId": int,                     # The user ID
+    "story": Story(
+        title: str,
+        titleImagePrompt: str,
+        characterDescription: str,
+        story: str,
+        style: str,
+        numOfScenes: int
+    ),
+    "scenes": Scenes(
+        scenes: List[str],             # Detailed prompts for each scene
+        voiceovers: List[str]          # Matching narration for each scene
+    )
+}
+```
+
+---
+
+### 📄 For More Info
+
+Explore schema definitions in [`storybookagent/schemas.py`](storybookagent/schemas.py) for complete details on the `Story` and `Scenes` objects.
