@@ -3,184 +3,422 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register - StoryGen</title>
+    <title>Join StoryTree - Create Your Account</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <style>
+        /* ...[All your CSS remains unchanged, copy from your original code]... */
         :root {
-            --bg-color: #0d0b1a;
-            --primary-card-bg: #1a162d;
-            --glass-bg: rgba(255, 255, 255, 0.05);
-            --glass-border: rgba(255, 255, 255, 0.15);
-            --text-color: #e0e0e0;
-            --text-muted: #8c899b;
-            --accent-purple: #8a42ff;
-            --accent-blue: #5c67ff;
-            --accent-gradient: linear-gradient(90deg, var(--accent-purple), var(--accent-blue));
-            --font-family: 'Poppins', sans-serif;
-            --border-radius-md: 12px;
+            --bg-primary: linear-gradient(135deg, #FFF8E7 0%, #FFE5B4 50%, #FFDAB9 100%);
+            --bg-sidebar: #8B4513;
+            --bg-card: rgba(255, 255, 255, 0.95);
+            --bg-input: #FFFFFF;
+            --bg-button: #4ECDC4;
+            --bg-button-hover: #45B7B8;
+            --bg-secondary-card: #F4A460;
+            --border-color: #DEB887;
+            --text-primary: #8B4513;
+            --text-secondary: #A0522D;
+            --text-white: #FFFFFF;
+            --accent-orange: #FF8C42;
+            --accent-green: #4ECDC4;
+            --shadow-light: 0 2px 10px rgba(139, 69, 19, 0.1);
+            --shadow-medium: 0 4px 20px rgba(139, 69, 19, 0.15);
+            --border-radius: 12px;
             --border-radius-lg: 16px;
+            --font-primary: 'Nunito', sans-serif;
+            --font-secondary: 'Inter', sans-serif;
         }
-
+        /* ...[rest of your CSS as in your original code]... */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-
         body {
-            font-family: var(--font-family);
-            background-color: var(--bg-color);
-            color: var(--text-color);
+            font-family: var(--font-primary);
+            background: var(--bg-primary);
+            color: var(--text-primary);
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            overflow: hidden;
+            min-height: 100vh;
+            padding: 1rem;
+            position: relative;
+            overflow-x: hidden;
         }
-
+        .floating-trees {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        .tree {
+            position: absolute;
+            font-size: 2rem;
+            opacity: 0.4;
+            animation: sway 6s ease-in-out infinite;
+        }
+        .tree1 { top: 10%; left: 5%; color: #228B22; font-size: 2.5rem; animation-delay: 0s; animation-duration: 8s;}
+        .tree2 { top: 70%; left: 10%; color: #32CD32; font-size: 2rem; animation-delay: 1s; animation-duration: 7s;}
+        .tree3 { top: 20%; right: 15%; color: #6B8E23; font-size: 3rem; animation-delay: 2s; animation-duration: 9s;}
+        .tree4 { bottom: 15%; right: 8%; color: #8FBC8F; font-size: 2.2rem; animation-delay: 3s; animation-duration: 6s;}
+        .tree5 { top: 45%; left: 2%; color: #9ACD32; font-size: 1.8rem; animation-delay: 4s; animation-duration: 8s;}
+        .tree6 { top: 60%; right: 25%; color: #7CFC00; font-size: 2.8rem; animation-delay: 5s; animation-duration: 7s;}
+        .tree7 { bottom: 40%; left: 20%; color: #ADFF2F; font-size: 2rem; animation-delay: 6s; animation-duration: 8s;}
+        .tree8 { top: 30%; right: 40%; color: #98FB98; font-size: 1.5rem; animation-delay: 2.5s; animation-duration: 9s;}
+        @keyframes sway {
+            0%, 100% { transform: translateX(0) rotate(0deg) scale(1); opacity: 0.4; }
+            25% { transform: translateX(-8px) rotate(-2deg) scale(1.1); opacity: 0.6; }
+            50% { transform: translateX(5px) rotate(1deg) scale(0.9); opacity: 0.5; }
+            75% { transform: translateX(-3px) rotate(-1deg) scale(1.05); opacity: 0.7; }
+        }
+        .leaf {
+            position: absolute;
+            font-size: 1rem;
+            opacity: 0.3;
+            animation: leafFall 12s linear infinite;
+        }
+        .leaf1 { top: -5%; left: 15%; color: #DAA520; animation-delay: 0s; }
+        .leaf2 { top: -5%; left: 60%; color: #CD853F; animation-delay: 3s; }
+        .leaf3 { top: -5%; left: 80%; color: #D2691E; animation-delay: 6s; }
+        .leaf4 { top: -5%; left: 30%; color: #B8860B; animation-delay: 9s; }
+        @keyframes leafFall {
+            0% { transform: translateY(-20px) translateX(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.6; }
+            90% { opacity: 0.3; }
+            100% { transform: translateY(100vh) translateX(50px) rotate(360deg); opacity: 0; }
+        }
         .auth-container {
             width: 100%;
-            max-width: 420px;
-            padding: 2rem;
-            background: var(--primary-card-bg);
-            border: 1px solid var(--glass-border);
+            max-width: 480px;
+            padding: 2.5rem;
+            background: var(--bg-card);
             border-radius: var(--border-radius-lg);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            animation: fade-in 0.8s ease-out forwards;
+            box-shadow: var(--shadow-medium);
+            animation: bounceIn 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            position: relative;
+            z-index: 10;
+            backdrop-filter: blur(15px);
+            border: 1px solid var(--border-color);
         }
-
-        @keyframes fade-in {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        @keyframes bounceIn {
+            0% { opacity: 0; transform: scale(0.3) translateY(50px);}
+            50% { opacity: 0.8; transform: scale(1.05);}
+            70% { transform: scale(0.95);}
+            100% { opacity: 1; transform: scale(1) translateY(0);}
         }
-
         .auth-header {
             text-align: center;
             margin-bottom: 2rem;
         }
-
-        .auth-header h1 {
-            font-size: 2rem;
-            font-weight: 600;
+        .logo-section {
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 0.75rem;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
         }
-        .auth-header h1 i {
-            color: var(--accent-purple);
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--accent-orange);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            animation: pulse 2s infinite;
+            box-shadow: 0 4px 15px rgba(255, 140, 66, 0.3);
+        }
+        @keyframes pulse {
+            0% { transform: scale(1);}
+            50% { transform: scale(1.1);}
+            100% { transform: scale(1);}
+        }
+        .logo-text {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: var(--accent-orange);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
         }
         .auth-header p {
-            color: var(--text-muted);
-            margin-top: 0.5rem;
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            font-family: var(--font-secondary);
+            font-weight: 500;
         }
-
+        .fun-subtitle {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: var(--bg-secondary-card);
+            color: var(--text-primary);
+            border-radius: 15px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            box-shadow: var(--shadow-light);
+        }
         .auth-form .form-group {
             margin-bottom: 1.5rem;
         }
-
         .auth-form label {
             display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-            color: var(--text-muted);
+            margin-bottom: 0.75rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            font-size: 1rem;
+            font-family: var(--font-primary);
         }
-
-        .auth-form .input-wrapper {
+        .input-wrapper {
             position: relative;
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
-
-        .auth-form i {
+        .input-wrapper:focus-within {
+            transform: scale(1.02);
+        }
+        .input-icon {
             position: absolute;
-            left: 1rem;
+            left: 1.2rem;
             top: 50%;
             transform: translateY(-50%);
-            color: var(--text-muted);
-        }
-
-        .auth-form input {
-            width: 100%;
-            padding: 1rem 1rem 1rem 3rem;
-            background-color: var(--bg-color);
-            border: 1px solid var(--glass-border);
-            border-radius: var(--border-radius-md);
-            color: var(--text-color);
-            font-family: var(--font-family);
-            font-size: 1rem;
-            transition: border-color 0.3s ease;
-        }
-        .auth-form input:focus {
-            outline: none;
-            border-color: var(--accent-purple);
-        }
-
-        .submit-btn {
-            background: var(--accent-gradient);
-            color: white;
-            border: none;
-            padding: 1rem;
-            width: 100%;
-            border-radius: var(--border-radius-md);
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
+            font-size: 1.2rem;
+            z-index: 1;
             transition: all 0.3s ease;
         }
-        .submit-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(138, 66, 255, 0.4);
+        .input-icon.user { color: #FF8C42; }
+        .input-icon.email { color: #4ECDC4; }
+        .input-icon.password { color: #F4A460; }
+        .auth-form input {
+            width: 100%;
+            padding: 1.2rem 1.2rem 1.2rem 3.5rem;
+            background: var(--bg-input);
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius);
+            color: var(--text-primary);
+            font-family: var(--font-primary);
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            outline: none;
         }
-
+        .auth-form input::placeholder {
+            color: var(--text-secondary);
+            opacity: 0.7;
+            font-weight: 400;
+        }
+        .auth-form input:focus {
+            border-color: var(--accent-green);
+            box-shadow: 0 0 0 4px rgba(78, 205, 196, 0.2);
+            transform: translateY(-2px);
+        }
+        .auth-form input:focus + .input-icon {
+            transform: translateY(-50%) scale(1.2);
+            filter: drop-shadow(0 0 8px currentColor);
+        }
+        .submit-btn {
+            background: var(--bg-button);
+            color: white;
+            border: none;
+            padding: 1.2rem 2rem;
+            width: 100%;
+            border-radius: var(--border-radius);
+            font-size: 1.2rem;
+            font-weight: 700;
+            font-family: var(--font-primary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(78, 205, 196, 0.3);
+        }
+        .submit-btn:hover {
+            background: var(--bg-button-hover);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(78, 205, 196, 0.4);
+        }
+        .submit-btn:active {
+            transform: translateY(-1px);
+        }
+        .submit-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+        .submit-btn:hover::before {
+            left: 100%;
+        }
         .auth-footer {
             text-align: center;
             margin-top: 2rem;
-            color: var(--text-muted);
+            padding-top: 1.5rem;
+            border-top: 2px dashed var(--border-color);
+        }
+        .auth-footer p {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            font-family: var(--font-secondary);
+            font-weight: 500;
         }
         .auth-footer a {
-            color: var(--accent-blue);
+            color: var(--accent-green);
             text-decoration: none;
-            font-weight: 600;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        .auth-footer a:hover {
+            color: var(--accent-orange);
+            transform: translateY(-1px);
+            display: inline-block;
+        }
+        .success-message {
+            background: var(--bg-button);
+            color: white;
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 1rem;
+            text-align: center;
+            font-weight: 700;
+            display: none;
+            animation: slideDown 0.5s ease-out;
+            box-shadow: 0 4px 15px rgba(78, 205, 196, 0.3);
+        }
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-20px);}
+            to { opacity: 1; transform: translateY(0);}
+        }
+        @media (max-width: 480px) {
+            .auth-container {
+                padding: 2rem 1.5rem;
+                margin: 1rem;
+                max-width: 400px;
+            }
+            .logo-text {
+                font-size: 1.8rem;
+            }
+            .auth-form input {
+                padding: 1rem 1rem 1rem 3rem;
+            }
+            .input-icon {
+                left: 1rem;
+            }
+            .tree {
+                font-size: 1.5rem;
+            }
+            .tree1, .tree3, .tree6 {
+                font-size: 2rem;
+            }
+        }
+        .submit-btn:focus-visible {
+            outline: 3px solid var(--accent-orange);
+            outline-offset: 2px;
+        }
+        input:focus-visible {
+            outline: none;
         }
     </style>
 </head>
 <body>
+    <!-- Moving trees background -->
+    <div class="floating-trees">
+        <div class="tree tree1">🌲</div>
+        <div class="tree tree2">🌳</div>
+        <div class="tree tree3">🎄</div>
+        <div class="tree tree4">🌲</div>
+        <div class="tree tree5">🌳</div>
+        <div class="tree tree6">🎄</div>
+        <div class="tree tree7">🌲</div>
+        <div class="tree tree8">🌳</div>
+        <!-- Falling leaves -->
+        <div class="leaf leaf1">🍃</div>
+        <div class="leaf leaf2">🍂</div>
+        <div class="leaf leaf3">🍃</div>
+        <div class="leaf leaf4">🍂</div>
+    </div>
+
     <div class="auth-container">
         <div class="auth-header">
-            <h1><i class="fa-solid fa-brain"></i> StoryGen</h1>
-            <p>Create your account to start generating stories.</p>
+            <div class="logo-section">
+                <div class="logo-icon">
+                    <i class="fa-solid fa-tree"></i>
+                </div>
+                <div class="logo-text">STORYTREE</div>
+            </div>
+            <p>Let's create amazing stories together!</p>
+            <div class="fun-subtitle">🎨 Join the Adventure! 📚</div>
         </div>
-        <form class="auth-form">
+        
+        <form class="auth-form" method="post" action="{% url 'storybookgenerator:register' %}">
+            {% csrf_token %}
             <div class="form-group">
-                <label for="username">Username</label>
+                <label for="username">🦄 Pick Your Story Name</label>
                 <div class="input-wrapper">
-                    <i class="fa-solid fa-user"></i>
-                    <input type="text" id="username" placeholder="yourusername" required>
+                    <input 
+                        type="text" 
+                        id="username" 
+                        name="username"
+                        placeholder="What should we call you?" 
+                        required
+                        autocomplete="username"
+                    >
+                    <i class="fa-solid fa-user input-icon user"></i>
                 </div>
             </div>
+            
             <div class="form-group">
-                <label for="email">Email Address</label>
+                <label for="email">📧 Your Magic Email</label>
                 <div class="input-wrapper">
-                    <i class="fa-solid fa-envelope"></i>
-                    <input type="email" id="email" placeholder="you@example.com" required>
+                    <input 
+                        type="email" 
+                        id="email" 
+                        name="email"
+                        placeholder="your.email@example.com" 
+                        required
+                        autocomplete="email"
+                    >
+                    <i class="fa-solid fa-envelope input-icon email"></i>
                 </div>
             </div>
+            
             <div class="form-group">
-                <label for="password">Password</label>
+                <label for="password">🔐 Secret Story Password</label>
                 <div class="input-wrapper">
-                    <i class="fa-solid fa-lock"></i>
-                    <input type="password" id="password" placeholder="••••••••" required>
+                    <input 
+                        type="password" 
+                        id="password" 
+                        name="password"
+                        placeholder="Make it super secret!" 
+                        required
+                        autocomplete="new-password"
+                        minlength="8"
+                    >
+                    <i class="fa-solid fa-lock input-icon password"></i>
                 </div>
             </div>
-            <button type="submit" class="submit-btn">Create Account</button>
+            
+            <button type="submit" class="submit-btn">
+                🚀 Start My Story Adventure! 📖
+            </button>
         </form>
+        
         <div class="auth-footer">
-            <p>Already have an account? <a href="{% url 'storybookgenerator:login' %}">Log in</a></p>
+            <p>Already have an account? <a href="#">Jump back in! 🎯</a></p>
         </div>
     </div>
 </body>
