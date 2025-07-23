@@ -10,8 +10,9 @@ class GradeUserPrompt(BaseModel):
 class Story(BaseModel):
     """A Story Parser Tool used for parsing the story's title , the characters, the story, the style, the oneline and 
     the number of scenes to change the story into picturebook"""
-
-    title:str = Field(description="title image description at a great Detail")
+    
+    title:str = Field(description="the Title of the Story")
+    titleImagePrompt:str = Field(description="title image description at a great Detail")
     characterDescription:str = Field(description="A detailed description of characters from the story you are about to create.")
     story:str = Field(description="A story of 500 words with the characters you created.")
     style:str = Field(description="The Whole Style of the story's setting")

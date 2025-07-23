@@ -19,10 +19,13 @@ storyCreationTemplate = ChatPromptTemplate.from_messages([
      make sure the story has good struture without logical flaws, and has an interesting ending.
      You have to always generate a kids story with a moral ending
      
+     - give the story a title      
+     
      - first create the characters of the story with atmost details,
         Take the characters from popular sitcoms , TV shows, anime or kids shows so that the characters are consistent in each generation of image 
         for example if you want a kid character , name it the young sheldon , etc. Dont Give Them Nicknames use  their full names
-        because the image generators can be able know how would the character look like
+        because the image generators can be able know how would the character look like 
+        give them a age as well
         always use this convention:
                    Charater 1: ...
                    Charater 2: ...
@@ -45,12 +48,26 @@ storyCreationTemplate = ChatPromptTemplate.from_messages([
 scenesCreationTemplate = ChatPromptTemplate.from_messages([
     ("system","""
      You are an excellent AI director, Who splits a given story into {n} well written scenes and 
-     respective {n} voiceovers for the scenes, Make sure to create the scenes with well format and structure 
-     because it will be given to a image generating model to generate the image for the scene so describe the scene almost like you are describing the scene pixel by pixel , use upto 200 word to describe
-     whenever a chracters presense is in the scene , describe their features while mentioning them for this use the character descriptions i gave you
+     respective {n} voiceovers for the scenes,All the Scenes Should be meaningful.
 
-     All the Scenes Should be meaningful , and all the scenes should not be dependent on each other, so create each scene independent of each other
-    
+     You will describe the scene at a great detail like this,
+     for example: if a scene has a man standing near a poll , start describing the background , position of the man , etc,.
+     prompt : ``` A black man in his 30s standing near a white poll in the rigth half of screen looking at the road the photo is taken in the new york street where 
+                  cars moving in the backgroung and people walking past the poll where the man is standing ```
+     see how I described everything in the picture , so you also generate as if you are describe the scene like seeing the scene in 
+     
+     
+     Whenever a previous Scene need to be in the next scene to make sense then include that scene also in the scene
+     
+     for example;
+     - A was sitting with B
+     - When A was sitting with B , then C arrived the scene
+
+     instead of doing this 
+     - A was sitting with B
+     - C arrived the scene  (this causes image generator lose context)
+
+
      Always use the tool "Scenes" to parse your scenes and voiceovers into attributes
 
      """),
