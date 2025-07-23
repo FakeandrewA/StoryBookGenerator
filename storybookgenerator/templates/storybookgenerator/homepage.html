@@ -13,6 +13,20 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <style>
+        #loading {
+            display: none;
+            position: fixed;
+            z-index: 100;
+            background-color: rgba(0, 0, 0, 0.6);
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            color: white;
+            font-size: 2rem;
+            text-align: center;
+            padding-top: 20%;
+        }
         :root {
             --bg-color: #0d0b1a;
             --sidebar-bg: #1a162d;
@@ -304,6 +318,11 @@
 </head>
 <body>
 
+    <div id="loading">
+    <i class="fa-solid fa-spinner fa-spin"></i><br />
+    Generating your magical story... Please wait
+    </div>
+
     <div class="app-container">
         <aside class="left-sidebar" id="leftSidebar">
             <div class="sidebar-top">
@@ -360,31 +379,78 @@
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const generateBtn = document.getElementById('generateStoryBtn');
-            const scenePreviewPanel = document.getElementById('scenePreviewPanel');
-            const menuToggle = document.getElementById('menuToggle');
-            const leftSidebar = document.getElementById('leftSidebar');
+document.addEventListener('DOMContentLoaded', function () {
+    const generateBtn = document.getElementById('generateStoryBtn');
+    const scenePreviewPanel = document.getElementById('scenePreviewPanel');
+    const promptInput = document.querySelector(".prompt-input");
+    const loadingOverlay = document.getElementById("loading");
+    const menuToggle = document.getElementById('menuToggle');
+    const leftSidebar = document.getElementById('leftSidebar');
 
-            generateBtn.addEventListener('click', function() {
+    generateBtn.addEventListener('click', function () {
+        const prompt = promptInput.value.trim();
+        if (!prompt) {
+            alert("Please enter your story prompt.");
+            return;
+        }
+
+        loadingOverlay.style.display = 'block';
+
+        fetch("/generate-story/", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": getCSRFToken()
+            },
+            body: JSON.stringify({ prompt: prompt })
+        })
+        .then(res => res.json())
+        .then(data => {
+            loadingOverlay.style.display = 'none';
+            if (data.success) {
                 scenePreviewPanel.style.display = 'flex';
-                scenePreviewPanel.classList.add('fade-in');
-            });
 
-            menuToggle.addEventListener('click', () => leftSidebar.classList.toggle('collapsed'));
-
-            // Page transition
-            document.querySelectorAll('.transition-link').forEach(link => {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const destination = this.href;
-                    document.body.classList.add('fade-out');
-                    setTimeout(() => {
-                        window.location = destination;
-                    }, 500);
-                });
-            });
+                // ✅ Add prompt to sidebar history
+                const historyList = document.querySelector(".chat-history");
+                const newItem = document.createElement("a");
+                newItem.href = "#";
+                newItem.className = "history-item";
+                newItem.textContent = prompt;
+                historyList.appendChild(newItem);
+            } else {
+                alert("Something went wrong while generating the story.");
+            }
+        })
+        .catch(err => {
+            loadingOverlay.style.display = 'none';
+            console.error(err);
+            
         });
-    </script>
+
+        function getCSRFToken() {
+            const match = document.cookie.match(/csrftoken=([^;]+)/);
+            return match ? match[1] : "";
+        }
+    });
+
+    menuToggle.addEventListener('click', () => {
+        leftSidebar.classList.toggle('collapsed');
+    });
+
+    document.querySelectorAll('.transition-link').forEach(link => {
+        link.addEventListener('click', function (e) {
+            e.preventDefault();
+            const destination = this.href;
+            document.body.classList.add('fade-out');
+            setTimeout(() => {
+                window.location = destination;
+            }, 500);
+        });
+    });
+});
+</script>
+
+
+
 </body>
 </html>
